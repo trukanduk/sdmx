@@ -158,9 +158,11 @@
 				}
 				$arr->Next();
 				$arr->SkipCdata();
-
-				return $this;
 			}
+
+			$arr->Skip('HEADER', 'close');
+
+			return $this;
 		}
 
 		/**
