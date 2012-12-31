@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<checkstyle version="1.3.0">
+  <file name="SdmxData.php">
+    <error line="0" severity="error" message="No page-level DocBlock was found in file SdmxData.php" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="23" severity="error" message="No DocBlock was found for \SdmxData" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="25" severity="error" message="No DocBlock was found for property $header" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="80" severity="error" message="No DocBlock was found for property $codelists" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="118" severity="error" message="No DocBlock was found for property $description" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="131" severity="error" message="No DocBlock was found for property $dimensions" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="214" severity="error" message="No DocBlock was found for property $data" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="27" severity="error" message="No DocBlock was found for method GetHeaderAttr()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="33" severity="error" message="No DocBlock was found for method SetHeaderAttr()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="38" severity="error" message="No DocBlock was found for method GetHeaderIterator()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="42" severity="error" message="No DocBlock was found for method ParseHeader()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="81" severity="error" message="No DocBlock was found for method GetCodeList()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="87" severity="error" message="No DocBlock was found for method GetCodeListsIterator()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="90" severity="error" message="No DocBlock was found for method SetCodeList()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="96" severity="error" message="No DocBlock was found for method ParseCodeLists()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="119" severity="error" message="No DocBlock was found for method GetDescriptionAttr()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="125" severity="error" message="No DocBlock was found for method GetDescriptionIterator()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="126" severity="error" message="No DocBlock was found for method SetDescriptionAttr()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="132" severity="error" message="No DocBlock was found for method GetDimension()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="138" severity="error" message="No DocBlock was found for method GetDimensionsIterator()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="139" severity="error" message="No DocBlock was found for method AddDimension()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="143" severity="error" message="No DocBlock was found for method ParseDescription()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="215" severity="error" message="No DocBlock was found for method GetDataPoint()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="221" severity="error" message="No DocBlock was found for method GetDataPointsIterator()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="222" severity="error" message="No DocBlock was found for method AddDataPoint()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="227" severity="error" message="No DocBlock was found for method ParseData()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="241" severity="error" message="No DocBlock was found for method __construct()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="252" severity="error" message="No DocBlock was found for method _DebugPrintHeader()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="261" severity="error" message="No DocBlock was found for method _DebugPrintCodelists()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="269" severity="error" message="No DocBlock was found for method _DebugPrintDescription()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="278" severity="error" message="No DocBlock was found for method _DebugPrintDimensions()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="287" severity="error" message="No DocBlock was found for method _DebugPrintData()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="295" severity="error" message="No DocBlock was found for method _DebugPrintAll()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+  </file>
+  <file name="SdmxPeriodicity.php">
+    <error line="0" severity="error" message="No page-level DocBlock was found in file SdmxPeriodicity.php" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="10" severity="error" message="No DocBlock was found for \SdmxPeriodicity" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="12" severity="error" message="No DocBlock was found for property $period" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="20" severity="error" message="No DocBlock was found for property $releases" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="28" severity="error" message="No DocBlock was found for property $nextRelease" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="36" severity="error" message="No DocBlock was found for property $dataRange" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="54" severity="error" message="No DocBlock was found for property $lastUpdate" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="13" severity="error" message="No DocBlock was found for method GetPeriod()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="14" severity="error" message="No DocBlock was found for method SetPeriod()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="21" severity="error" message="No DocBlock was found for method GetReleases()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="22" severity="error" message="No DocBlock was found for method SetReleases()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="29" severity="error" message="No DocBlock was found for method GetNextRelease()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="30" severity="error" message="No DocBlock was found for method SetNextRelease()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="37" severity="error" message="No DocBlock was found for method GetDataRange()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="38" severity="error" message="No DocBlock was found for method GetDataRangeBegin()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="39" severity="error" message="No DocBlock was found for method GetDataRangeEnd()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="40" severity="error" message="No DocBlock was found for method SetDataRange()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="44" severity="error" message="No DocBlock was found for method SetDataRangeBegin()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="48" severity="error" message="No DocBlock was found for method SetDataRangeEnd()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="55" severity="error" message="No DocBlock was found for method GetLastUpdate()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="56" severity="error" message="No DocBlock was found for method SetLastUpdate()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="61" severity="error" message="No DocBlock was found for method __construct()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+  </file>
+  <file name="Test.php">
+    <error line="2" severity="critical" message="No short description for file Test.php" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+    <error line="10" severity="error" message="No short description for method Foo()" source="phpDocumentor.phpDocumentor.phpDocumentor"/>
+  </file>
+</checkstyle>

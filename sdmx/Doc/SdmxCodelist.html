@@ -1,0 +1,1105 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>SdmxParser</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><link rel="stylesheet" href="css/black-tie/jquery-ui-1.8.2.custom.css" type="text/css"></link><link rel="stylesheet" href="css/jquery.treeview.css" type="text/css"></link><link rel="stylesheet" href="css/default.css" type="text/css"></link><script type="text/javascript" src="js/jquery-1.4.2.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script><script type="text/javascript" src="js/jquery.cookie.js"></script><script type="text/javascript" src="js/jquery.treeview.js"></script></head><body><script type="text/javascript">
+          $(document).ready(function()
+          {
+            $(".filetree").treeview({
+              animated: "fast",
+              collapsed: true,
+              persist: "cookie"
+            });
+          });
+
+          function jq_escape(myid)
+          {
+            return '#' + myid.replace(/(#|\$|:|\.|\(|\))/g, '\\$1');
+          }
+
+          function applySearchHash()
+          {
+            hashes = document.location.hash.substr(1, document.location.hash.length);
+            if (hashes != "")
+            {
+              hashes = hashes.split('/');
+              $.each(hashes, function(index, hash)
+              {
+                node = $(jq_escape(hash));
+                switch (node[0].nodeName)
+                {
+                  case 'DIV':
+                    tabs = node.parents('.tabs');
+                    $(tabs[0]).tabs('select', '#' + hash)
+                    break;
+                  case 'A':
+                    window.scrollTo(0, node.offset().top);
+                    break;
+                }
+              });
+            }
+          }
+
+          jQuery(function()
+          {
+            jQuery(".tabs").tabs();
+            applySearchHash();
+          });
+        </script><div id="maincontainer"><div id="header"><h1>SdmxParser<img src="images/top-stopper.png"></img></h1></div><ul xmlns="" id="menu">
+<li><a href="graph.html">Class diagram</a></li>
+<li><a href="markers.html">TODO / Markers</a></li>
+<li><a href="parse_markers.html">Errors</a></li>
+</ul>
+<div id="content_container"><div xmlns="" id="content">
+<h1>SdmxCodelist.php</h1>
+<div class="file_menu">
+<a href="#includes">Includes</a> |<a href="#classes">Classes</a> |</div>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">author</label><div class="property-value"></div>
+<label class="property-key">package</label><div class="property-value"></div>
+<label class="property-key">version</label><div class="property-value"></div>
+</div>
+<h2>Description</h2>Описание <var>Codelist</var>'ов и сопутствующего<br><br><a name="includes"></a><h2>Includes</h2>XmlParseUtils.php <span class="nb-faded-text">(Require Once)</span><br><a name="classes"></a><h2>Classes</h2>
+<div id="SdmxCodelistInstance" class="class">
+<h3>SdmxCodelistInstance</h3>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">Extends</label><div class="property-value">
+         </div>
+<label class="property-key">Implements</label><div class="property-value"> 
+      </div>
+<label class="property-key">package</label><div class="property-value">
+<a title="">sdmx</a>
+             
+        </div>
+<label class="property-key">Abstract</label><div class="property-value">No 
+      </div>
+<label class="property-key">Final</label><div class="property-value">No 
+      </div>
+</div>
+<h4>Description</h4>
+<em>Элемент <var>Codelist</var>'а</em><br><p>Один элемент из <var>Codelist</var>'а, содержит в себе имя (идентификатор) и описание на человеческом языке
+По сути соответствует коду:</p>
+
+<pre><code>&lt;structure:Code value="NAME">
+    &lt;structure:Description>DESCRIPTION&lt;/structure:Description>
+&lt;/structure:Code>
+</code></pre>
+
+<p>Стоит отметить, что объекты являются константными, то есть после создания их нельзя изменить, а значит, нет смысла в копировании при передаче их куда-либо</p><br><div id="methods_SdmxCodelistInstance">
+<h4>Methods</h4>
+<a style="font-style: italic;" href="#SdmxCodelistInstance::GetDescription()">GetDescription</a>,
+      <a style="font-style: italic;" href="#SdmxCodelistInstance::GetName()">GetName</a>,
+      <a style="font-style: italic;" href="#SdmxCodelistInstance::Parse()">Parse</a>,
+      <a style="font-style: italic;" href="#SdmxCodelistInstance::SetDescription()">SetDescription</a>,
+      <a style="font-style: italic;" href="#SdmxCodelistInstance::SetName()">SetName</a>,
+      <a style="font-style: italic;" href="#SdmxCodelistInstance::__construct()">__construct</a>,
+      <div class="method">
+<a id="SdmxCodelistInstance::GetDescription()"></a><h3>GetDescription<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение описания</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>описание элемента</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelistInstance::GetName()"></a><h3>GetName<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение имени</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>имя константы</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelistInstance::Parse()"></a><h3>Parse<span class="nb-faded-text">(
+          <a href="XmlParseUtils.html#%5CXmlDataArray">\XmlDataArray</a>
+             
+            $arr,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelistInstance</span>
+</h3>
+<h4>Description</h4>
+<em>Создание элемента из <var>XmlDataArray</var></em><br><small><p>"Достаёт" элемент из объекта <var>XmlDataArray</var> и перемещает его внутренний указатель.</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$arr</td>
+<td style="white-space: normal;"><a href="XmlParseUtils.html#%5CXmlDataArray">\XmlDataArray</a></td>
+<td><p>объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelistInstance</td>
+<td>новый экземпляк класса</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelistInstance::SetDescription()"></a><h3>SetDescription<span class="nb-faded-text">(
+          string
+             
+            $description,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelistInstance</span>
+</h3>
+<h4>Description</h4>
+<em>Установка описания</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$description</td>
+<td style="white-space: normal;">string</td>
+<td><p>новое описание</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelistInstance</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelistInstance::SetName()"></a><h3>SetName<span class="nb-faded-text">(
+          string
+             
+            $name,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelistInstance</span>
+</h3>
+<h4>Description</h4>
+<em>Установка имени</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>новое имя</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelistInstance</td>
+<td>возвращает сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelistInstance::__construct()"></a><h3>__construct<span class="nb-faded-text">(
+          string
+             
+            $name,
+          string
+             
+            $description,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Description</h4>
+<em>Конструктор</em><br><small><p>Создаёт новый элемент. Нельзя изменять поля после создания, а потому создавать надо сразу со всеми параметрами</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя элемента</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$description</td>
+<td style="white-space: normal;">string</td>
+<td><p>описание элемента</p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<div id="properties_SdmxCodelistInstance">
+<h4>Properties</h4>
+<a href="#SdmxCodelistInstance::%24description">$description</a>,
+      <a href="#SdmxCodelistInstance::%24name">$name</a>,
+      <div class="method">
+<a id="SdmxCodelistInstance::$description"></a><h3>
+<span class="nb-faded-text">string 
+          protected 
+          </span>$description
+          =
+          ''</h3>
+<em>Описание элемента</em><br><small>&lt;p&gt;Нельзя изменить вне класса&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxCodelistInstance::$name"></a><h3>
+<span class="nb-faded-text">string 
+          protected 
+          </span>$name
+          =
+          ''</h3>
+<em>Имя элемента</em><br><small>&lt;p&gt;Нельзя изменить вне класса.&lt;/p&gt;</small><br><br>
+</div>
+</div>
+<div style="clear: both"></div>
+</div>
+<div id="SdmxCodelist" class="class">
+<h3>SdmxCodelist</h3>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">Extends</label><div class="property-value">
+         </div>
+<label class="property-key">Implements</label><div class="property-value"> 
+      </div>
+<label class="property-key">package</label><div class="property-value">
+<a title="">sdmx</a>
+             
+        </div>
+<label class="property-key">Abstract</label><div class="property-value">No 
+      </div>
+<label class="property-key">Final</label><div class="property-value">No 
+      </div>
+</div>
+<h4>Description</h4>
+<em><var>Codelist</var></em><br><p>Некий список неких элементов :) В Xml такой пример:</p>
+
+<pre><code>&lt;structure:Codelist id="NAME">
+  &lt;structure:Name>VALUE&lt;/structure:Name>
+  &lt;structure:Code value="CONSTANT_NAME_0">
+      &lt;structure:Description>CONSTANT_DESCRIPTION_0&lt;/structure:Description>
+  &lt;/structure:Code>
+  &lt;structure:Code value="CONSTANT_NAME_1">
+      &lt;structure:Description>CONSTANT_DESCRIPTION_1&lt;/structure:Description>
+  &lt;/structure:Code>
+&lt;/structure:Codelist>
+</code></pre>
+
+<p>Объект содержит в себе массив объектов <var>SdmxCodelistInstance</var></p>
+
+<p>Объект неизменяем вне самого себя, поэтому можно безболезненно передавать его куда-либо</p><br><div id="methods_SdmxCodelist">
+<h4>Methods</h4>
+<a style="font-style: italic;" href="#SdmxCodelist::AddInstance()">AddInstance</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::GetDefaultInstance()">GetDefaultInstance</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::GetDefaultInstanceName()">GetDefaultInstanceName</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::GetDescription()">GetDescription</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::GetInstance()">GetInstance</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::GetInstancesIterator()">GetInstancesIterator</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::GetName()">GetName</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::Parse()">Parse</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::SetDefaultInstanceName()">SetDefaultInstanceName</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::SetDescription()">SetDescription</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::SetInstanceArray()">SetInstanceArray</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::SetName()">SetName</a>,
+      <a style="font-style: italic;" href="#SdmxCodelist::__construct()">__construct</a>,
+      <div class="method">
+<a id="SdmxCodelist::AddInstance()"></a><h3>AddInstance<span class="nb-faded-text">(
+          <a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance</a>
+             
+            $inst,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelist</span>
+</h3>
+<h4>Description</h4>
+<em>Добавление элемента в список</em><br><small><p>Добавляет в список уже созданный элемент. Также, если массив элементов был пустым, выставляет его в качестве элемента по умолчанию.</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$inst</td>
+<td style="white-space: normal;"><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance</a></td>
+<td><p>элемент, который будет добавлен в список</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelist</td>
+<td>сам объект Codelist</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::GetDefaultInstance()"></a><h3>GetDefaultInstance<span class="nb-faded-text">(
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Получение объекта по умолчанию</em><br><small><p>Если элемента с таким именем нет, то вернётся <var>$default</var></p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение, возвращаемое при отсутствии элемента по уполчанию</p>
+</td>
+<td>false</td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>элемент списка по умолчанию (&lt;var&gt;SdmxCodelistInstance&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае отсутствия</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::GetDefaultInstanceName()"></a><h3>GetDefaultInstanceName<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение имени элемента по умолчанию</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>имя элемента по умолчанию</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::GetDescription()"></a><h3>GetDescription<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение описания</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>описание объекта</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::GetInstance()"></a><h3>GetInstance<span class="nb-faded-text">(
+          string
+             
+            $name,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Получение элемента списка</em><br><small><p>Возвращает элемент списка с именем <var>$name</var> или <var>$defult</var> если такого элемента нет</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя элемента</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>возвращается, когда не находится элемента с именем <var>$name</var>. По умолчанию установлен в false</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>Элемент списка (&lt;var&gt;SdmxCodelistInstance&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; если не найдено</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::GetInstancesIterator()"></a><h3>GetInstancesIterator<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\ArrayIterator</span>
+</h3>
+<h4>Description</h4>
+<em>Получение итератора списка</em><br><small><p>Возвращает итератор на начало массива элементов</p></small><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\ArrayIterator</td>
+<td>итератор на начало массива элементов</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::GetName()"></a><h3>GetName<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение имени</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>имя списка (в xml -- &lt;var&gt;id&lt;/var&gt;)</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::Parse()"></a><h3>Parse<span class="nb-faded-text">(
+          <a href="XmlParseUtils.html#%5CXmlDataArray">\XmlDataArray</a>
+             
+            $arr,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelist</span>
+</h3>
+<h4>Description</h4>
+<em>Создание элемента из XmlDataArray</em><br><small><p>"Достаёт" элемент из объекта <var>XmlDataArray</var> и перемещает его внутренний указатель.</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$arr</td>
+<td style="white-space: normal;"><a href="XmlParseUtils.html#%5CXmlDataArray">\XmlDataArray</a></td>
+<td><p>объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelist</td>
+<td>новый экземпляр класса</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::SetDefaultInstanceName()"></a><h3>SetDefaultInstanceName<span class="nb-faded-text">(
+          string
+             
+            $defaultInstanceName,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelist</span>
+</h3>
+<h4>Description</h4>
+<em>Установка имени элемента по умолчанию</em><br><small><p>Функция не проверяет существование этого элемента</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$defaultInstanceName</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя нового элемента по умолчанию</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelist</td>
+<td>сам объект, из которого вызывался метод</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::SetDescription()"></a><h3>SetDescription<span class="nb-faded-text">(
+          string
+             
+            $description,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelist</span>
+</h3>
+<h4>Description</h4>
+<em>Установка описания</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$description</td>
+<td style="white-space: normal;">string</td>
+<td><p>новое описание</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelist</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::SetInstanceArray()"></a><h3>SetInstanceArray<span class="nb-faded-text">(
+          <a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a>
+             
+            $arr,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelist</span>
+</h3>
+<h4>Description</h4>
+<em>Установка всего списка</em><br><small><p>Полностью копирует данный массив в себя
+Массив должен иметь одну из форм (можно несколько в одной): <var>['&lt;name>' => new SdmxCodelistInstance(), '&lt;name>' => '&lt;desc>', new SdmxCodelistInstance()]</var></p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$arr</td>
+<td style="white-space: normal;"><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></td>
+<td><p>массив с элементами</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelist</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::SetName()"></a><h3>SetName<span class="nb-faded-text">(
+          string
+             
+            $name,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxCodelist</span>
+</h3>
+<h4>Description</h4>
+<em>Установка имени</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>новое имя</p></td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxCodelist</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxCodelist::__construct()"></a><h3>__construct<span class="nb-faded-text">(
+          string
+             
+            $name,
+          string
+             
+            $description,
+          <a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a>
+             
+            $instances
+            = array(),
+          string
+             
+            $defaultInstanceName
+            = null,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Description</h4>
+<em>Конструктор</em><br><small><p>Создаёт новый объект и сразу присваивает ему имя и описание. Есть возможность передать массив и имя элемента по умолчанию
+Если имя элемента по умолчанию - <var>null</var>, то будет взят первый элемент списка. Если и список пуст, не будет установлен вовсе.</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя списка</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$description</td>
+<td style="white-space: normal;">string</td>
+<td><p>описание списка</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$instances</td>
+<td style="white-space: normal;"><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></td>
+<td><p>массив элементов списка в юбой из форм: <var>['<name>' => new SdmxCodelistInstance(), '<name>' => '<desc>', new SdmxCodelistInstance()]</var> По умолчанию - пустой.</p>
+</td>
+<td>array()</td>
+</tr>
+<tr>
+<td>$defaultInstanceName</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя элемента по умолчанию. По умолчанию - <var>null</var>, тогда будет взят первый элемент массива (если не пуст)</p>
+</td>
+<td>null</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<div id="properties_SdmxCodelist">
+<h4>Properties</h4>
+<a href="#SdmxCodelist::%24defaultInstanceName">$defaultInstanceName</a>,
+      <a href="#SdmxCodelist::%24description">$description</a>,
+      <a href="#SdmxCodelist::%24instances">$instances</a>,
+      <a href="#SdmxCodelist::%24name">$name</a>,
+      <div class="method">
+<a id="SdmxCodelist::$defaultInstanceName"></a><h3>
+<span class="nb-faded-text">string 
+          protected 
+          </span>$defaultInstanceName
+          =
+          ''</h3>
+<em>Элемент по умолчанию</em><br><small>&lt;p&gt;В некоторых случаях оказывается, что должен быть элемент списка по умолчанию.
+В этом поле содержится имя этого элемента в массиве элементов
+Он может быть установлен из функции &lt;var&gt;self::SetDefaultInstanceName()&lt;/var&gt; или если он будет будет первым в массиве (см. функцию &lt;var&gt;self::AddCInstance()&lt;/var&gt;)&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxCodelist::$description"></a><h3>
+<span class="nb-faded-text">string 
+          protected 
+          </span>$description
+          =
+          ''</h3>
+<em>Описание списка</em><br><small>&lt;p&gt;Имя списка на человеческом языке. в файле имеет название "&lt;var&gt;name&lt;/var&gt;". Свойство read-only&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxCodelist::$instances"></a><h3>
+<span class="nb-faded-text">\SdmxCodelistInstance[] 
+          protected 
+          </span>$instances
+          =
+          array()</h3>
+<em>Массив элементов</em><br><small>&lt;p&gt;Массив элементов списка -- экземпляров &lt;var&gt;SdmxCoelistInstance&lt;/var&gt;
+Хранятся в виде&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;array('name' =&gt; SdmxCodelistInstance('name', 'description'), ...)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Каждый из них неизменяем после создания, поэтому можно не копировать их при передаче&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxCodelist::$name"></a><h3>
+<span class="nb-faded-text">string 
+          protected 
+          </span>$name
+          =
+          ''</h3>
+<em>Имя</em><br><small>&lt;p&gt;Имя списка, в xml называется идентификатором (&lt;var&gt;id&lt;/var&gt;). Свойство read-only.&lt;/p&gt;</small><br><br>
+</div>
+</div>
+<div style="clear: both"></div>
+</div>
+<div id="SdmxPredefinedCodelists" class="class">
+<h3>SdmxPredefinedCodelists</h3>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">Extends</label><div class="property-value">
+         </div>
+<label class="property-key">Implements</label><div class="property-value"> 
+      </div>
+<label class="property-key">Abstract</label><div class="property-value">Yes 
+      </div>
+<label class="property-key">Final</label><div class="property-value">No 
+      </div>
+</div>
+<h4>Description</h4>
+<em>Объект со стандартными <var>Codelist</var>'ами</em><br><p>Абстрактный класс со статическим массивом стандартных <var>Codelist</var>'ов. Сейчас есть только <var>OKSM</var> да и то с одним значением</p><br><div id="methods_SdmxPredefinedCodelists">
+<h4>Methods</h4>
+<a style="font-style: italic;" href="#SdmxPredefinedCodelists::GetCodelist()">GetCodelist</a>,
+      <div class="method">
+<a id="SdmxPredefinedCodelists::GetCodelist()"></a><h3>GetCodelist<span class="nb-faded-text">(
+          string
+             
+            $name,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Получение конкретного списка</em><br><small><p>Возвращает список с заданным именем <var>$name</var> (в том числе пытается его создать в случае отутствия), если имя списка неизвестно, вернёт <var>$default</var></p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя списка (в xml-файле - <var>id</var>)</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение по умолчанию, возвращаемое в случае отсутствия искомого списка</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>искомый список с именем &lt;var&gt;$name&lt;/var&gt; (&lt;var&gt;SdmxCodelist&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае отсутствия такового.</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<div id="properties_SdmxPredefinedCodelists">
+<h4>Properties</h4>
+<a href="#SdmxPredefinedCodelists::%24codelists">$codelists</a>,
+      <div class="method">
+<a id="SdmxPredefinedCodelists::$codelists"></a><h3>
+<span class="nb-faded-text">\SdmxCodelist[] 
+          protected 
+          static </span>$codelists
+          =
+          array()</h3>
+<em>Массив списков</em><br><small>&lt;p&gt;Массив стандартных списков, заполняется по мере обращения к нему&lt;/p&gt;</small><br><br>
+</div>
+</div>
+<div style="clear: both"></div>
+</div>
+</div>
+<small xmlns="" class="footer">Documentation was generated by <a href="http://www.phpdoc.org">phpDocumentor 2.0.0a12</a>.</small></div><div id="index"><div class="padder"><script xmlns="" type="text/javascript">
+      $(function() {
+
+        var is_chrome = /chrome/.test( navigator.userAgent.toLowerCase() );
+        var is_local = /file:\/\//.test(document.location.href);
+        if (is_chrome && is_local)
+        {
+          // search is disabled on chrome with local files due to http://code.google.com/p/chromium/issues/detail?id=40787
+          return;
+        }
+
+        $("#search_box").show();
+        var search_index = {};
+        $.ajax({
+          url: "search_index.xml",
+          dataType: ($.browser.msie) ? "text" : "xml",
+          error: function(data) {
+            alert('An error occurred using the search data');
+          },
+          success: function( data ) {
+            var xml;
+            if (typeof data == "string") {
+              xml = new ActiveXObject("Microsoft.XMLDOM");
+              xml.async = false;
+              xml.loadXML(data);
+            } else {
+              xml = data;
+            }
+
+            search_index = $("node", xml).map(function() {
+              type = $("type", this).text();
+              return {
+                value: $("value", this).text(),
+                label: '<img src="images/icons/'+type+'.png" align="absmiddle">'+$("value", this).text(),
+                id: $("id", this).text(),
+              };
+            }).get();
+
+            $("#search_box").autocomplete({
+              source: search_index,
+              select: function(event, ui) {
+                // redirect to the documentation
+                if ((parent) && (parent.content))
+                {
+                  parent.content.document.location = ''+ui.item.id;
+                }
+                else
+                {
+                  jQuery(document).location = ''+ui.item.id;
+                }
+                applySearchHash();
+              }
+            });
+          }
+        });
+      });
+    </script><input id="search_box"></input><div class="section">
+<h1>Namespaces</h1>
+<ul id="namespaces-" class="filetree"><li class="closed">
+<span class="folder">global</span><ul>
+<li><span class="class"><a href="Test.html#CClass">CClass</a><br><small>some class</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li><span class="class"><a href="SdmxData.html#SdmxData">SdmxData</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+<li><span class="class"><a href="SdmxPeriodicity.html#SdmxPeriodicity">SdmxPeriodicity</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxPredefinedCodelists">SdmxPredefinedCodelists</a><br><small>Объект со стандартными &lt;var&gt;Codelist&lt;/var&gt;&#39;ами</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlDataArray">XmlDataArray</a><br><small>Обработанный xml-файл</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlTagInArray">XmlTagInArray</a><br><small>Класс, описывающий один тег в xml-файле.</small></span></li>
+</ul>
+</li></ul>
+</div><div class="section">
+<h1>Packages</h1>
+<ul id="packages-" class="filetree">
+<li class="closed">
+<span class="folder">Default</span><ul id="packages_Default" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">Search</span><ul id="packages_Search" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">sdmx</span><ul id="packages_sdmx" class="filetree">
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div><div id="footer"><div class="padder"></div></div></div></body></html>

@@ -1,0 +1,524 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>SdmxParser</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><link rel="stylesheet" href="css/black-tie/jquery-ui-1.8.2.custom.css" type="text/css"></link><link rel="stylesheet" href="css/jquery.treeview.css" type="text/css"></link><link rel="stylesheet" href="css/default.css" type="text/css"></link><script type="text/javascript" src="js/jquery-1.4.2.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script><script type="text/javascript" src="js/jquery.cookie.js"></script><script type="text/javascript" src="js/jquery.treeview.js"></script></head><body><script type="text/javascript">
+          $(document).ready(function()
+          {
+            $(".filetree").treeview({
+              animated: "fast",
+              collapsed: true,
+              persist: "cookie"
+            });
+          });
+
+          function jq_escape(myid)
+          {
+            return '#' + myid.replace(/(#|\$|:|\.|\(|\))/g, '\\$1');
+          }
+
+          function applySearchHash()
+          {
+            hashes = document.location.hash.substr(1, document.location.hash.length);
+            if (hashes != "")
+            {
+              hashes = hashes.split('/');
+              $.each(hashes, function(index, hash)
+              {
+                node = $(jq_escape(hash));
+                switch (node[0].nodeName)
+                {
+                  case 'DIV':
+                    tabs = node.parents('.tabs');
+                    $(tabs[0]).tabs('select', '#' + hash)
+                    break;
+                  case 'A':
+                    window.scrollTo(0, node.offset().top);
+                    break;
+                }
+              });
+            }
+          }
+
+          jQuery(function()
+          {
+            jQuery(".tabs").tabs();
+            applySearchHash();
+          });
+        </script><div id="maincontainer"><div id="header"><h1>SdmxParser<img src="images/top-stopper.png"></img></h1></div><ul xmlns="" id="menu">
+<li><a href="graph.html">Class diagram</a></li>
+<li><a href="markers.html">TODO / Markers</a></li>
+<li><a href="parse_markers.html">Errors</a></li>
+</ul>
+<div id="content_container"><div xmlns="" id="content">
+<h1>SdmxDimension.php</h1>
+<div class="file_menu">
+<a href="#includes">Includes</a> |<a href="#classes">Classes</a> |</div>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">author</label><div class="property-value"></div>
+<label class="property-key">package</label><div class="property-value"></div>
+<label class="property-key">version</label><div class="property-value"></div>
+</div>
+<h2>Description</h2><var>SdmxDimension</var> -- одна из размерностей sdmx-таблицы<br><br><a name="includes"></a><h2>Includes</h2>XmlParseUtils.php <span class="nb-faded-text">(Require Once)</span><br>SdmxCodelist.php <span class="nb-faded-text">(Require Once)</span><br><a name="classes"></a><h2>Classes</h2>
+<div id="SdmxDimension" class="class">
+<h3>SdmxDimension</h3>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">Extends</label><div class="property-value">
+         </div>
+<label class="property-key">Implements</label><div class="property-value"> 
+      </div>
+<label class="property-key">package</label><div class="property-value">
+<a title="">sdmx</a>
+             
+        </div>
+<label class="property-key">Abstract</label><div class="property-value">No 
+      </div>
+<label class="property-key">Final</label><div class="property-value">No 
+      </div>
+</div>
+<h4>Description</h4>
+<em>Размерность таблицы</em><br><p>По сути своей - ссылка на Codelist c описанием (имени нет)
+Соответствует коду:</p>
+
+<pre><code>&lt;Dimension value="OKSM">
+    &lt;Name xml:lang="ru">ОКСМ</Name>
+&lt;/Dimension>
+</code></pre><br><div id="methods_SdmxDimension">
+<h4>Methods</h4>
+<a style="font-style: italic;" href="#SdmxDimension::GetCodelist()">GetCodelist</a>,
+      <a style="font-style: italic;" href="#SdmxDimension::GetCodelistName()">GetCodelistName</a>,
+      <a style="font-style: italic;" href="#SdmxDimension::GetDescription()">GetDescription</a>,
+      <a style="font-style: italic;" href="#SdmxDimension::HasCodelistLink()">HasCodelistLink</a>,
+      <a style="font-style: italic;" href="#SdmxDimension::Parse()">Parse</a>,
+      <a style="font-style: italic;" href="#SdmxDimension::SetCodelist()">SetCodelist</a>,
+      <a style="font-style: italic;" href="#SdmxDimension::SetCodelistFromAray()">SetCodelistFromAray</a>,
+      <a style="font-style: italic;" href="#SdmxDimension::SetDescription()">SetDescription</a>,
+      <a style="font-style: italic;" href="#SdmxDimension::__construct()">__construct</a>,
+      <div class="method">
+<a id="SdmxDimension::GetCodelist()"></a><h3>GetCodelist<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Получение списка значений</em><br><small><p>Возвращает список значений (<var>SdmxCodelist</var>) или <var>null</var>, если в <var>$this->codelist</var> -- строка-имя списка</p></small><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>список значений (&lt;var&gt;SdmxCodelist&lt;/var&gt;) или &lt;var&gt;null&lt;/var&gt;, если в &lt;var&gt;$this-&gt;codelist&lt;/var&gt; -- строка-имя списка</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDimension::GetCodelistName()"></a><h3>GetCodelistName<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение имени списка значений</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>имя списка значений</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDimension::GetDescription()"></a><h3>GetDescription<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение описания</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>описание размерности</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDimension::HasCodelistLink()"></a><h3>HasCodelistLink<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">bool</span>
+</h3>
+<h4>Description</h4>
+<em>Состояние списка значений</em><br><small><p>Проверяет, является ли <var>$this->codelist</var> самим объектом или строкой с его именем</p></small><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>bool</td>
+<td>&lt;var&gt;true&lt;/var&gt; в случае, когда список -- список, а не строка с именем</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDimension::Parse()"></a><h3>Parse<span class="nb-faded-text">(
+          <a href="XmlParseUtils.html#%5CXmlDataArray">\XmlDataArray</a>
+             
+            $arr,
+          <a href="SdmxCodelist.html#%5CSdmxCodelist">\SdmxCodelist[]</a>
+             
+            $codelists,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDimension</span>
+</h3>
+<h4>Description</h4>
+<em>Создание элемента из XmlDataArray</em><br><small><p>"Достаёт" элемент из объекта <var>XmlDataArray</var> и перемещает его внутренний указатель.</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$arr</td>
+<td style="white-space: normal;"><a href="XmlParseUtils.html#%5CXmlDataArray">\XmlDataArray</a></td>
+<td><p>объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$codelists</td>
+<td style="white-space: normal;"><a href="SdmxCodelist.html#%5CSdmxCodelist">\SdmxCodelist[]</a></td>
+<td><p>Массив списков значений в виде <var>['<имя списка>' => new SdmxCodelist()]</var>. Предполагается, что такой массив содержится в <var>SdmxData</var>. Гарантируется, что он не будет изменён</p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDimension</td>
+<td>новый экземпляр класса</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDimension::SetCodelist()"></a><h3>SetCodelist<span class="nb-faded-text">(
+          mixed
+             
+            $codelist,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDimension</span>
+</h3>
+<h4>Description</h4>
+<em>Установка списка значений</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$codelist</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>новый список значений (<var>SdmxCodelist</var>) или его имя (<var>string</var>)</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDimension</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDimension::SetCodelistFromAray()"></a><h3>SetCodelistFromAray<span class="nb-faded-text">(
+          <a href="SdmxCodelist.html#%5CSdmxCodelist">\SdmxCodelist[]</a>
+             
+            $codelists,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">bool</span>
+</h3>
+<h4>Description</h4>
+<em>Установка <i>нужного</i> списка значений</em><br><small><p>Функция нужна для того, чтобы установить правильный список значений. Если в <var>$this->codelist</var> хранится имя списка,
+то он будет найден в массиве и установлен. Предполагается, что массив такого же вида содержится в <var>SdmxData</var>
+Также происходит поиск в стандартных списках (см. <var>SdmxPredefinedCodelists</var>)
+Если <var>$this->codelist</var> и так было списком, то ничего не изменится (возвращено будет <var>true</var>)</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$codelists</td>
+<td style="white-space: normal;"><a href="SdmxCodelist.html#%5CSdmxCodelist">\SdmxCodelist[]</a></td>
+<td><p>массив списков в следующей форме: <var>['<имя списка>' => SdmxCodelist()]</var></p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>bool</td>
+<td>&lt;var&gt;true&lt;/var&gt;, если в результате в &lt;var&gt;$this-&gt;codelist&lt;/var&gt; оказался объект SdmxCodelist, &lt;var&gt;false&lt;/var&gt; при неудаче</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDimension::SetDescription()"></a><h3>SetDescription<span class="nb-faded-text">(
+          string
+             
+            $description,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDimension</span>
+</h3>
+<h4>Description</h4>
+<em>Установка описания</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$description</td>
+<td style="white-space: normal;">string</td>
+<td><p>новое описание</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDimension</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDimension::__construct()"></a><h3>__construct<span class="nb-faded-text">(
+          mixed
+             
+            $codelist,
+          string
+             
+            $description,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Description</h4>
+<em>Конструктор</em><br><small><p>Codelist может быть объектом, может быть просто строкой (тогда надо будет вызвать <var>$this->SetCodelistFromArray()</var>)</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$codelist</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>список значений (<var>SdmxCodelist</var>) или имя списка (<var>string</var>)</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$description</td>
+<td style="white-space: normal;">string</td>
+<td><p>описание размерности</p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<div id="properties_SdmxDimension">
+<h4>Properties</h4>
+<a href="#SdmxDimension::%24codelist">$codelist</a>,
+      <a href="#SdmxDimension::%24description">$description</a>,
+      <div class="method">
+<a id="SdmxDimension::$codelist"></a><h3>
+<span class="nb-faded-text">mixed 
+          protected 
+          </span>$codelist
+          =
+          </h3>
+<em>список значений</em><br><small>&lt;p&gt;&lt;var&gt;Codelist&lt;/var&gt; -- список значений этой размерности. Может быть ссылкой на &lt;var&gt;SdmxCodelist&lt;/var&gt; или строкой - именем требуемого списка&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxDimension::$description"></a><h3>
+<span class="nb-faded-text">string 
+          protected 
+          </span>$description
+          =
+          ''</h3>
+<em>Описание</em><br><small>&lt;p&gt;Описание размерности&lt;/p&gt;</small><br><br>
+</div>
+</div>
+<div style="clear: both"></div>
+</div>
+</div>
+<small xmlns="" class="footer">Documentation was generated by <a href="http://www.phpdoc.org">phpDocumentor 2.0.0a12</a>.</small></div><div id="index"><div class="padder"><script xmlns="" type="text/javascript">
+      $(function() {
+
+        var is_chrome = /chrome/.test( navigator.userAgent.toLowerCase() );
+        var is_local = /file:\/\//.test(document.location.href);
+        if (is_chrome && is_local)
+        {
+          // search is disabled on chrome with local files due to http://code.google.com/p/chromium/issues/detail?id=40787
+          return;
+        }
+
+        $("#search_box").show();
+        var search_index = {};
+        $.ajax({
+          url: "search_index.xml",
+          dataType: ($.browser.msie) ? "text" : "xml",
+          error: function(data) {
+            alert('An error occurred using the search data');
+          },
+          success: function( data ) {
+            var xml;
+            if (typeof data == "string") {
+              xml = new ActiveXObject("Microsoft.XMLDOM");
+              xml.async = false;
+              xml.loadXML(data);
+            } else {
+              xml = data;
+            }
+
+            search_index = $("node", xml).map(function() {
+              type = $("type", this).text();
+              return {
+                value: $("value", this).text(),
+                label: '<img src="images/icons/'+type+'.png" align="absmiddle">'+$("value", this).text(),
+                id: $("id", this).text(),
+              };
+            }).get();
+
+            $("#search_box").autocomplete({
+              source: search_index,
+              select: function(event, ui) {
+                // redirect to the documentation
+                if ((parent) && (parent.content))
+                {
+                  parent.content.document.location = ''+ui.item.id;
+                }
+                else
+                {
+                  jQuery(document).location = ''+ui.item.id;
+                }
+                applySearchHash();
+              }
+            });
+          }
+        });
+      });
+    </script><input id="search_box"></input><div class="section">
+<h1>Namespaces</h1>
+<ul id="namespaces-" class="filetree"><li class="closed">
+<span class="folder">global</span><ul>
+<li><span class="class"><a href="Test.html#CClass">CClass</a><br><small>some class</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li><span class="class"><a href="SdmxData.html#SdmxData">SdmxData</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+<li><span class="class"><a href="SdmxPeriodicity.html#SdmxPeriodicity">SdmxPeriodicity</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxPredefinedCodelists">SdmxPredefinedCodelists</a><br><small>Объект со стандартными &lt;var&gt;Codelist&lt;/var&gt;&#39;ами</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlDataArray">XmlDataArray</a><br><small>Обработанный xml-файл</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlTagInArray">XmlTagInArray</a><br><small>Класс, описывающий один тег в xml-файле.</small></span></li>
+</ul>
+</li></ul>
+</div><div class="section">
+<h1>Packages</h1>
+<ul id="packages-" class="filetree">
+<li class="closed">
+<span class="folder">Default</span><ul id="packages_Default" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">Search</span><ul id="packages_Search" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">sdmx</span><ul id="packages_sdmx" class="filetree">
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div><div id="footer"><div class="padder"></div></div></div></body></html>

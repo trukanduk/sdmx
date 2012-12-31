@@ -1,0 +1,2181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project version="2.0.0a12" title="SdmxParse">
+  <file path="Doc\ajax_search.php" hash="af5b30d502c52d4bf5a47ea66f85c65d" package="Search">
+    <docblock line="2">
+      <description>phpDocumentor</description>
+      <long-description>&lt;p&gt;PHP Version 5&lt;/p&gt;</long-description>
+      <tag line="2" name="category" description="phpDocumentor"/>
+      <tag line="2" name="package" description="Search"/>
+      <tag line="2" name="author" description="Mike van Riel &lt;mike.vanriel@naenius.com&gt;"/>
+      <tag line="2" name="copyright" description="2010-2011 Mike van Riel / Naenius (http://www.naenius.com)"/>
+      <tag line="2" name="license" description="http://www.opensource.org/licenses/mit-license.php MIT"/>
+      <tag line="2" name="link" description="http://phpdoc.org" link="http://phpdoc.org"/>
+    </docblock>
+  </file>
+  <file path="index.php" hash="d6f5d6b4c718b686994aa2048cd378f1" package="Default">
+    <include line="2" type="Require Once" package="Default">
+      <name>SdmxData.php</name>
+    </include>
+    <parse_markers>
+      <error line="0" code="50007">No page-level DocBlock was found in file index.php</error>
+    </parse_markers>
+  </file>
+  <file path="SdmxCodelist.php" hash="962d46909cd3d6d14cd83dbf9b97cd2b" package="sdmx">
+    <docblock line="2">
+      <description>Описание &lt;var&gt;Codelist&lt;/var&gt;'ов и сопутствующего</description>
+      <long-description></long-description>
+      <tag line="2" name="author" description="Илья Уваренков &lt;trukanduk@gmail.com&gt;"/>
+      <tag line="2" name="version" description="1.2"/>
+      <tag line="2" name="package" description="sdmx"/>
+    </docblock>
+    <include line="10" type="Require Once" package="Default">
+      <name>XmlParseUtils.php</name>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="27" package="sdmx">
+      <extends/>
+      <name>SdmxCodelistInstance</name>
+      <full_name>\SdmxCodelistInstance</full_name>
+      <docblock line="12">
+        <description>Элемент &lt;var&gt;Codelist&lt;/var&gt;'а</description>
+        <long-description>&lt;p&gt;Один элемент из &lt;var&gt;Codelist&lt;/var&gt;'а, содержит в себе имя (идентификатор) и описание на человеческом языке
+По сути соответствует коду:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;structure:Code value="NAME"&gt;
+    &amp;lt;structure:Description&gt;DESCRIPTION&amp;lt;/structure:Description&gt;
+&amp;lt;/structure:Code&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Стоит отметить, что объекты являются константными, то есть после создания их нельзя изменить, а значит, нет смысла в копировании при передаче их куда-либо&lt;/p&gt;</long-description>
+        <tag line="12" name="package" description="sdmx"/>
+        <tag line="12" name="version" description="1.2"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="35" namespace="global" package="Default">
+        <name>$name</name>
+        <default>''</default>
+        <docblock line="28">
+          <description>Имя элемента</description>
+          <long-description>&lt;p&gt;Нельзя изменить вне класса.&lt;/p&gt;</long-description>
+          <tag line="28" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="63" namespace="global" package="Default">
+        <name>$description</name>
+        <default>''</default>
+        <docblock line="56">
+          <description>Описание элемента</description>
+          <long-description>&lt;p&gt;Нельзя изменить вне класса&lt;/p&gt;</long-description>
+          <tag line="56" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="42" package="sdmx">
+        <name>GetName</name>
+        <full_name>GetName</full_name>
+        <docblock line="37">
+          <description>Получение имени</description>
+          <long-description></long-description>
+          <tag line="37" name="return" description="имя константы" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="50" package="sdmx">
+        <name>SetName</name>
+        <full_name>SetName</full_name>
+        <docblock line="44">
+          <description>Установка имени</description>
+          <long-description></long-description>
+          <tag line="44" name="param" description="новое имя" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="44" name="return" description="возвращает сам объект" type="\SdmxCodelistInstance">
+            <type by_reference="false">\SdmxCodelistInstance</type>
+          </tag>
+        </docblock>
+        <argument line="50">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="70" package="sdmx">
+        <name>GetDescription</name>
+        <full_name>GetDescription</full_name>
+        <docblock line="65">
+          <description>Получение описания</description>
+          <long-description></long-description>
+          <tag line="65" name="return" description="описание элемента" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="78" package="sdmx">
+        <name>SetDescription</name>
+        <full_name>SetDescription</full_name>
+        <docblock line="72">
+          <description>Установка описания</description>
+          <long-description></long-description>
+          <tag line="72" name="param" description="новое описание" type="string" variable="$description">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="72" name="return" description="сам объект" type="\SdmxCodelistInstance">
+            <type by_reference="false">\SdmxCodelistInstance</type>
+          </tag>
+        </docblock>
+        <argument line="78">
+          <name>$description</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="91" package="sdmx">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="83">
+          <description>Конструктор</description>
+          <long-description>&lt;p&gt;Создаёт новый элемент. Нельзя изменять поля после создания, а потому создавать надо сразу со всеми параметрами&lt;/p&gt;</long-description>
+          <tag line="83" name="param" description="имя элемента" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="83" name="param" description="описание элемента" type="string" variable="$description">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="91">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="91">
+          <name>$description</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="104" package="sdmx">
+        <name>Parse</name>
+        <full_name>Parse</full_name>
+        <docblock line="96">
+          <description>Создание элемента из &lt;var&gt;XmlDataArray&lt;/var&gt;</description>
+          <long-description>&lt;p&gt;"Достаёт" элемент из объекта &lt;var&gt;XmlDataArray&lt;/var&gt; и перемещает его внутренний указатель.&lt;/p&gt;</long-description>
+          <tag line="96" name="param" description="объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта" type="\XmlDataArray" variable="$arr">
+            <type by_reference="false">\XmlDataArray</type>
+          </tag>
+          <tag line="96" name="return" description="новый экземпляк класса" type="\SdmxCodelistInstance">
+            <type by_reference="false">\SdmxCodelistInstance</type>
+          </tag>
+        </docblock>
+        <argument line="104">
+          <name>$arr</name>
+          <default></default>
+          <type>\XmlDataArray</type>
+        </argument>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="138" package="sdmx">
+      <extends/>
+      <name>SdmxCodelist</name>
+      <full_name>\SdmxCodelist</full_name>
+      <docblock line="116">
+        <description>&lt;var&gt;Codelist&lt;/var&gt;</description>
+        <long-description>&lt;p&gt;Некий список неких элементов :) В Xml такой пример:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;structure:Codelist id="NAME"&gt;
+  &amp;lt;structure:Name&gt;VALUE&amp;lt;/structure:Name&gt;
+  &amp;lt;structure:Code value="CONSTANT_NAME_0"&gt;
+      &amp;lt;structure:Description&gt;CONSTANT_DESCRIPTION_0&amp;lt;/structure:Description&gt;
+  &amp;lt;/structure:Code&gt;
+  &amp;lt;structure:Code value="CONSTANT_NAME_1"&gt;
+      &amp;lt;structure:Description&gt;CONSTANT_DESCRIPTION_1&amp;lt;/structure:Description&gt;
+  &amp;lt;/structure:Code&gt;
+&amp;lt;/structure:Codelist&gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Объект содержит в себе массив объектов &lt;var&gt;SdmxCodelistInstance&lt;/var&gt;&lt;/p&gt;
+
+&lt;p&gt;Объект неизменяем вне самого себя, поэтому можно безболезненно передавать его куда-либо&lt;/p&gt;</long-description>
+        <tag line="116" name="package" description="sdmx"/>
+        <tag line="116" name="version" description="1.1"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="146" namespace="global" package="Default">
+        <name>$name</name>
+        <default>''</default>
+        <docblock line="139">
+          <description>Имя</description>
+          <long-description>&lt;p&gt;Имя списка, в xml называется идентификатором (&lt;var&gt;id&lt;/var&gt;). Свойство read-only.&lt;/p&gt;</long-description>
+          <tag line="139" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="174" namespace="global" package="Default">
+        <name>$description</name>
+        <default>''</default>
+        <docblock line="167">
+          <description>Описание списка</description>
+          <long-description>&lt;p&gt;Имя списка на человеческом языке. в файле имеет название "&lt;var&gt;name&lt;/var&gt;". Свойство read-only&lt;/p&gt;</long-description>
+          <tag line="167" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="205" namespace="global" package="Default">
+        <name>$instances</name>
+        <default>array()</default>
+        <docblock line="195">
+          <description>Массив элементов</description>
+          <long-description>&lt;p&gt;Массив элементов списка -- экземпляров &lt;var&gt;SdmxCoelistInstance&lt;/var&gt;
+Хранятся в виде&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;array('&amp;lt;имя элемента&gt;' =&gt; SdmxCodelistInstance('&amp;lt;имя элемента&gt;', '&amp;lt;описание элемента&gt;'), ...)&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Имя элемента не зависит от регистра.
+Каждый из них неизменяем после создания, поэтому можно не копировать их при передаче&lt;/p&gt;</long-description>
+          <tag line="195" name="var" description="" type="\SdmxCodelistInstance[]">
+            <type by_reference="false">\SdmxCodelistInstance[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="292" namespace="global" package="Default">
+        <name>$defaultInstanceName</name>
+        <default>''</default>
+        <docblock line="283">
+          <description>Элемент по умолчанию</description>
+          <long-description>&lt;p&gt;В некоторых случаях оказывается, что должен быть элемент списка по умолчанию.
+В этом поле содержится имя этого элемента в массиве элементов
+Он может быть установлен из функции &lt;var&gt;self::SetDefaultInstanceName()&lt;/var&gt; или если он будет будет первым в массиве (см. функцию &lt;var&gt;self::AddCInstance()&lt;/var&gt;)&lt;/p&gt;</long-description>
+          <tag line="283" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="153" package="sdmx">
+        <name>GetName</name>
+        <full_name>GetName</full_name>
+        <docblock line="148">
+          <description>Получение имени</description>
+          <long-description></long-description>
+          <tag line="148" name="return" description="имя списка (в xml -- &lt;var&gt;id&lt;/var&gt;)" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="161" package="sdmx">
+        <name>SetName</name>
+        <full_name>SetName</full_name>
+        <docblock line="155">
+          <description>Установка имени</description>
+          <long-description></long-description>
+          <tag line="155" name="param" description="новое имя" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="155" name="return" description="сам объект" type="\SdmxCodelist">
+            <type by_reference="false">\SdmxCodelist</type>
+          </tag>
+        </docblock>
+        <argument line="161">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="181" package="sdmx">
+        <name>GetDescription</name>
+        <full_name>GetDescription</full_name>
+        <docblock line="176">
+          <description>Получение описания</description>
+          <long-description></long-description>
+          <tag line="176" name="return" description="описание объекта" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="189" package="sdmx">
+        <name>SetDescription</name>
+        <full_name>SetDescription</full_name>
+        <docblock line="183">
+          <description>Установка описания</description>
+          <long-description></long-description>
+          <tag line="183" name="param" description="новое описание" type="string" variable="$description">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="183" name="return" description="сам объект" type="\SdmxCodelist">
+            <type by_reference="false">\SdmxCodelist</type>
+          </tag>
+        </docblock>
+        <argument line="189">
+          <name>$description</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="217" package="sdmx">
+        <name>GetInstance</name>
+        <full_name>GetInstance</full_name>
+        <docblock line="207">
+          <description>Получение элемента списка</description>
+          <long-description>&lt;p&gt;Возвращает элемент списка с именем &lt;var&gt;$name&lt;/var&gt; или &lt;var&gt;$defult&lt;/var&gt; если такого элемента нет
+имя элемента не зависит от регистра&lt;/p&gt;</long-description>
+          <tag line="207" name="param" description="имя элемента (не зависит от регистра)" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="207" name="param" description="возвращается, когда не находится элемента с именем &lt;var&gt;$name&lt;/var&gt;. По умолчанию установлен в false" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="207" name="return" description="Элемент списка (&lt;var&gt;SdmxCodelistInstance&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; если не найдено" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="217">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="217">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="233" package="sdmx">
+        <name>AddInstance</name>
+        <full_name>AddInstance</full_name>
+        <docblock line="224">
+          <description>Добавление элемента в список</description>
+          <long-description>&lt;p&gt;Добавляет в список уже созданный элемент. Также, если массив элементов был пустым, выставляет его в качестве элемента по умолчанию.
+Имя элемента не зависит от регистра (т.е. &lt;var&gt;'Key'&lt;/var&gt; и &lt;var&gt;'key'&lt;/var&gt; -- одинаковые элементы)&lt;/p&gt;</long-description>
+          <tag line="224" name="param" description="элемент, который будет добавлен в список" type="\SdmxCodelistInstance" variable="$inst">
+            <type by_reference="false">\SdmxCodelistInstance</type>
+          </tag>
+          <tag line="224" name="return" description="сам объект Codelist" type="\SdmxCodelist">
+            <type by_reference="false">\SdmxCodelist</type>
+          </tag>
+        </docblock>
+        <argument line="233">
+          <name>$inst</name>
+          <default></default>
+          <type>\SdmxCodelistInstance</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="250" package="sdmx">
+        <name>SetInstanceArray</name>
+        <full_name>SetInstanceArray</full_name>
+        <docblock line="241">
+          <description>Установка всего списка</description>
+          <long-description>&lt;p&gt;Полностью копирует данный массив в себя
+Массив должен иметь одну из форм (можно несколько в одной): &lt;var&gt;['&amp;lt;name&gt;' =&gt; new SdmxCodelistInstance(), '&amp;lt;name&gt;' =&gt; '&amp;lt;desc&gt;', new SdmxCodelistInstance()]&lt;/var&gt;&lt;/p&gt;</long-description>
+          <tag line="241" name="param" description="массив с элементами" type="\SdmxCodelistInstance[]" variable="$arr">
+            <type by_reference="false">\SdmxCodelistInstance[]</type>
+          </tag>
+          <tag line="241" name="return" description="сам объект" type="\SdmxCodelist">
+            <type by_reference="false">\SdmxCodelist</type>
+          </tag>
+        </docblock>
+        <argument line="250">
+          <name>$arr</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="279" package="sdmx">
+        <name>GetInstancesIterator</name>
+        <full_name>GetInstancesIterator</full_name>
+        <docblock line="272">
+          <description>Получение итератора списка</description>
+          <long-description>&lt;p&gt;Возвращает итератор на начало массива элементов&lt;/p&gt;</long-description>
+          <tag line="272" name="return" description="итератор на начало массива элементов" type="\ArrayIterator">
+            <type by_reference="false">\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="299" package="sdmx">
+        <name>GetDefaultInstanceName</name>
+        <full_name>GetDefaultInstanceName</full_name>
+        <docblock line="294">
+          <description>Получение имени элемента по умолчанию</description>
+          <long-description></long-description>
+          <tag line="294" name="return" description="имя элемента по умолчанию" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="309" package="sdmx">
+        <name>GetDefaultInstance</name>
+        <full_name>GetDefaultInstance</full_name>
+        <docblock line="301">
+          <description>Получение объекта по умолчанию</description>
+          <long-description>&lt;p&gt;Если элемента с таким именем нет, то вернётся &lt;var&gt;$default&lt;/var&gt;&lt;/p&gt;</long-description>
+          <tag line="301" name="param" description="значение, возвращаемое при отсутствии элемента по уполчанию" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="301" name="return" description="элемент списка по умолчанию (&lt;var&gt;SdmxCodelistInstance&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае отсутствия" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="309">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="319" package="sdmx">
+        <name>SetDefaultInstanceName</name>
+        <full_name>SetDefaultInstanceName</full_name>
+        <docblock line="311">
+          <description>Установка имени элемента по умолчанию</description>
+          <long-description>&lt;p&gt;Функция не проверяет существование этого элемента&lt;/p&gt;</long-description>
+          <tag line="311" name="param" description="имя нового элемента по умолчанию" type="string" variable="$defaultInstanceName">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="311" name="return" description="сам объект, из которого вызывался метод" type="\SdmxCodelist">
+            <type by_reference="false">\SdmxCodelist</type>
+          </tag>
+        </docblock>
+        <argument line="319">
+          <name>$defaultInstanceName</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="335" package="sdmx">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="324">
+          <description>Конструктор</description>
+          <long-description>&lt;p&gt;Создаёт новый объект и сразу присваивает ему имя и описание. Есть возможность передать массив и имя элемента по умолчанию
+Если имя элемента по умолчанию - &lt;var&gt;null&lt;/var&gt;, то будет взят первый элемент списка. Если и список пуст, не будет установлен вовсе.&lt;/p&gt;</long-description>
+          <tag line="324" name="param" description="имя списка" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="324" name="param" description="описание списка" type="string" variable="$description">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="324" name="param" description="массив элементов списка в юбой из форм: &lt;var&gt;['&amp;lt;name&gt;' =&gt; new SdmxCodelistInstance(), '&amp;lt;name&gt;' =&gt; '&amp;lt;desc&gt;', new SdmxCodelistInstance()]&lt;/var&gt; По умолчанию - пустой." type="\SdmxCodelistInstance[]" variable="$instances">
+            <type by_reference="false">\SdmxCodelistInstance[]</type>
+          </tag>
+          <tag line="324" name="param" description="имя элемента по умолчанию. По умолчанию - &lt;var&gt;null&lt;/var&gt;, тогда будет взят первый элемент массива (если не пуст)" type="string" variable="$defaultInstanceName">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="335">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="335">
+          <name>$description</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="335">
+          <name>$instances</name>
+          <default>array()</default>
+          <type/>
+        </argument>
+        <argument line="335">
+          <name>$defaultInstanceName</name>
+          <default>null</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="358" package="sdmx">
+        <name>Parse</name>
+        <full_name>Parse</full_name>
+        <docblock line="350">
+          <description>Создание элемента из XmlDataArray</description>
+          <long-description>&lt;p&gt;"Достаёт" элемент из объекта &lt;var&gt;XmlDataArray&lt;/var&gt; и перемещает его внутренний указатель.&lt;/p&gt;</long-description>
+          <tag line="350" name="param" description="объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта" type="\XmlDataArray" variable="$arr">
+            <type by_reference="false">\XmlDataArray</type>
+          </tag>
+          <tag line="350" name="return" description="новый экземпляр класса" type="\SdmxCodelist">
+            <type by_reference="false">\SdmxCodelist</type>
+          </tag>
+        </docblock>
+        <argument line="358">
+          <name>$arr</name>
+          <default></default>
+          <type>\XmlDataArray</type>
+        </argument>
+      </method>
+    </class>
+    <class final="false" abstract="true" namespace="global" line="391" package="sdmx">
+      <extends/>
+      <name>SdmxPredefinedCodelists</name>
+      <full_name>\SdmxPredefinedCodelists</full_name>
+      <docblock line="383">
+        <description>Объект со стандартными &lt;var&gt;Codelist&lt;/var&gt;'ами</description>
+        <long-description>&lt;p&gt;Абстрактный класс со статическим массивом стандартных &lt;var&gt;Codelist&lt;/var&gt;'ов. Сейчас есть только &lt;var&gt;OKSM&lt;/var&gt; да и то с одним значением&lt;/p&gt;</long-description>
+        <tag line="383" name="version" description="0.1"/>
+        <tag line="383" name="package" description="sdmx"/>
+      </docblock>
+      <property final="false" static="true" visibility="protected" line="398" namespace="global" package="Default">
+        <name>$codelists</name>
+        <default>array()</default>
+        <docblock line="392">
+          <description>Массив списков</description>
+          <long-description>&lt;p&gt;Массив стандартных списков, заполняется по мере обращения к нему&lt;/p&gt;</long-description>
+          <tag line="392" name="var" description="" type="\SdmxCodelist[]">
+            <type by_reference="false">\SdmxCodelist[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="410" package="sdmx">
+        <name>GetCodelist</name>
+        <full_name>GetCodelist</full_name>
+        <docblock line="400">
+          <description>Получение конкретного списка</description>
+          <long-description>&lt;p&gt;Возвращает список с заданным именем &lt;var&gt;$name&lt;/var&gt; (в том числе пытается его создать в случае отутствия), если имя списка неизвестно, вернёт &lt;var&gt;$default&lt;/var&gt;
+Имя списка не зависит от регистра&lt;/p&gt;</long-description>
+          <tag line="400" name="param" description="имя списка (в xml-файле - &lt;var&gt;id&lt;/var&gt;), не зависит от регистра" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="400" name="param" description="значение по умолчанию, возвращаемое в случае отсутствия искомого списка" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="400" name="return" description="искомый список с именем &lt;var&gt;$name&lt;/var&gt; (&lt;var&gt;SdmxCodelist&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае отсутствия такового." type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="410">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="410">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="SdmxData.php" hash="6fad3e318fc1d94f307cfa88b2a8997e" package="sdmx">
+    <docblock line="2">
+      <description>В файле содержится описание класса &lt;var&gt;SdmxData&lt;/var&gt; -- основного класса для работы с Sdmx-файлами</description>
+      <long-description></long-description>
+      <tag line="2" name="author" description="Илья Уваренков &lt;truanduk@gmail.com&gt;"/>
+      <tag line="2" name="version" description="0.3"/>
+      <tag line="2" name="package" description="sdmx"/>
+    </docblock>
+    <include line="10" type="Require Once" package="Default">
+      <name>XmlParseUtils.php</name>
+    </include>
+    <include line="11" type="Require Once" package="Default">
+      <name>SdmxCodelist.php</name>
+    </include>
+    <include line="12" type="Require Once" package="Default">
+      <name>SdmxDimension.php</name>
+    </include>
+    <include line="13" type="Require Once" package="Default">
+      <name>SdmxDataPoint.php</name>
+    </include>
+    <include line="14" type="Require Once" package="Default">
+      <name>SdmxPeriodicity.php</name>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="37" package="sdmx">
+      <extends/>
+      <name>SdmxData</name>
+      <full_name>\SdmxData</full_name>
+      <docblock line="16">
+        <description>Sdmx-файл</description>
+        <long-description>&lt;p&gt;Объект, соответствующий распарсенному sdmx-файлу.
+Надо отметить, что объект повсюду константен, т.е. нет возможности перезаписать файл или что-то изменить
+Состоит по сути из пяти частей:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt; заголовки (список аттрибутов внутри тега &amp;lt;header&gt;)
+&lt;li&gt; списки значений размерностей (codelist'ы)
+&lt;li&gt; описания (как и заголовки, список аттрибутов)
+&lt;li&gt; размерности (dimension'ы)
+&lt;li&gt; данные (массив DataPoint'ов)
+&lt;/ol&gt;</long-description>
+        <tag line="16" name="todo" description="только один индикатор!"/>
+        <tag line="16" name="todo" description="косяк с периодизацией и аллокацией"/>
+        <tag line="16" name="todo" description="запросы"/>
+        <tag line="16" name="package" description="sdmx"/>
+        <tag line="16" name="version" description="0.3"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="46" namespace="global" package="Default">
+        <name>$header</name>
+        <default>array()</default>
+        <docblock line="38">
+          <description>Заголовки</description>
+          <long-description>&lt;p&gt;Массив заголовков файла в виде &lt;var&gt;['&amp;lt;имя&gt;' =&gt; '&amp;lt;значение&gt;']&lt;/var&gt;. В случае тега &lt;var&gt;Sender&lt;/var&gt; имя будет выглядеть как &lt;var&gt;'sender::name'&lt;/var&gt;
+Все ключи приводятся к нижнему регистру.&lt;/p&gt;</long-description>
+          <tag line="38" name="var" description="" type="string[]">
+            <type by_reference="false">string[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="175" namespace="global" package="Default">
+        <name>$codelists</name>
+        <default>array()</default>
+        <docblock line="167">
+          <description>Массив списков значений размерностей</description>
+          <long-description>&lt;p&gt;Массив &lt;var&gt;SdmxCodelist&lt;/var&gt;'ов в форме &lt;var&gt;['&amp;lt;имя списка&gt;' =&gt; new SdmxCodelist()]&lt;/var&gt;
+ключи в массиве хранятся в нижнем регистре (вне зависимости от того, какой у них там на самом деле регистр)&lt;/p&gt;</long-description>
+          <tag line="167" name="var" description="" type="\SdmxCodelist[]">
+            <type by_reference="false">\SdmxCodelist[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="262" namespace="global" package="Default">
+        <name>$description</name>
+        <default>array()</default>
+        <docblock line="254">
+          <description>Описание файла.</description>
+          <long-description>&lt;p&gt;По сути ещё один header. Массив хранится в виде &lt;var&gt;['&amp;lt;имя описания&gt;' =&gt; '&amp;lt;значение&gt;']&lt;/var&gt;, причём имя регистронезависимо (всегда приводится к нижнему регистру)
+Вообще, в теге &lt;var&gt;description&lt;/var&gt; может быть несколько тегов &lt;var&gt;indicator&lt;/var&gt;, однако здесь считается, что он может быть только один.
+Вложенные описания выглядят как&lt;/p&gt;</long-description>
+          <tag line="254" name="var" description="" type="string[]">
+            <type by_reference="false">string[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="311" namespace="global" package="Default">
+        <name>$dimensions</name>
+        <default>array()</default>
+        <docblock line="304">
+          <description>Массив размерностей таблицы</description>
+          <long-description>&lt;p&gt;Массив вида &lt;var&gt;[new SdmxDimension()]&lt;/var&gt;&lt;/p&gt;</long-description>
+          <tag line="304" name="var" description="" type="\SdmxDimension[]">
+            <type by_reference="false">\SdmxDimension[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="439" namespace="global" package="Default">
+        <name>$data</name>
+        <default>array()</default>
+        <docblock line="433">
+          <description>Массив с данными</description>
+          <long-description>&lt;p&gt;Просто массив &lt;var&gt;SdmxDataPoint&lt;/var&gt;&lt;/p&gt;</long-description>
+          <tag line="433" name="var" description="" type="\SdmxDataPoint[]">
+            <type by_reference="false">\SdmxDataPoint[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="58" package="sdmx">
+        <name>GetHeaderAttr</name>
+        <full_name>GetHeaderAttr</full_name>
+        <docblock line="48">
+          <description>Получение аттрибута заголовка</description>
+          <long-description>&lt;p&gt;Возвращает значение аттрибута заголовка с именем &lt;var&gt;$attr&lt;/var&gt;. В случае отсутствия вернётся &lt;var&gt;$default&lt;/var&gt;
+Имя аттрибута приводится к нижнему регистру&lt;/p&gt;</long-description>
+          <tag line="48" name="param" description="имя аттрибута. Приводится к нижнему регистру (т.е. 'key' и 'KEY' -- одинаковые ключи)" type="string" variable="$attr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="48" name="param" description="значение, которое вернётся в случае отсутствия аттрибута с именем &lt;var&gt;$attr&lt;/var&gt;" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="48" name="return" description="значение аттрибута заголовка (т.е. &lt;var&gt;string&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае отсутствия аттрибута заголовка" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="58">
+          <name>$attr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="58">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="74" package="sdmx">
+        <name>SetHeaderAttr</name>
+        <full_name>SetHeaderAttr</full_name>
+        <docblock line="65">
+          <description>Установка аттрибута заголовка</description>
+          <long-description>&lt;p&gt;Устанавливает аттрибут заголовка &lt;var&gt;$attr&lt;/var&gt;. Имя заголовка (&lt;var&gt;$attr&lt;/var&gt;) не зависит от регистра (т.е. 'Key', 'KEY' и 'key' -- один и тот же заголовок)&lt;/p&gt;</long-description>
+          <tag line="65" name="param" description="имя аттрибута (не зависит от регистра)" type="string" variable="$attr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="65" name="param" description="новое значение аттрибута" type="string" variable="$val">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="65" name="return" description="сам объект" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+        <argument line="74">
+          <name>$attr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="74">
+          <name>$val</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="84" package="sdmx">
+        <name>GetHeaderIterator</name>
+        <full_name>GetHeaderIterator</full_name>
+        <docblock line="79">
+          <description>Получение итератора на начало массива заголовков</description>
+          <long-description></long-description>
+          <tag line="79" name="return" description="итератор на начало массива заголовков" type="\ArrayIterator">
+            <type by_reference="false">\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="96" package="sdmx">
+        <name>ParseHeader</name>
+        <full_name>ParseHeader</full_name>
+        <docblock line="88">
+          <description>Анализ заголовков файла</description>
+          <long-description>&lt;p&gt;Парсит массив &lt;var&gt;XmlDataArray&lt;/var&gt;. В том числе перемещает внутренний указатель на элемент сразу после окончания заголовков.&lt;/p&gt;</long-description>
+          <tag line="88" name="param" description="уже расперсенный sdmx-файл, внутренний указатель которого указывает на элемент перед началом заголовков (или на первом теге)" type="\XmlDataArray" variable="$arr">
+            <type by_reference="false">\XmlDataArray</type>
+          </tag>
+          <tag line="88" name="return" description="сам объект" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+        <argument line="96">
+          <name>$arr</name>
+          <default></default>
+          <type>\XmlDataArray</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="184" package="sdmx">
+        <name>GetCodelist</name>
+        <full_name>GetCodelist</full_name>
+        <docblock line="177">
+          <description>Получение списка значений рахмерностей</description>
+          <long-description></long-description>
+          <tag line="177" name="param" description="имя списка (не зависит от регистра)" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="177" name="param" description="значение, которое вернётся в случае, если нужный список не найдён" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="177" name="return" description="список (&lt;var&gt;SdmxCodelist&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае неудачи" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="184">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="184">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="198" package="sdmx">
+        <name>SetCodelist</name>
+        <full_name>SetCodelist</full_name>
+        <docblock line="191">
+          <description>Установка списка значений</description>
+          <long-description></long-description>
+          <tag line="191" name="param" description="имя списка (не зависит от регистра)" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="191" name="param" description="добавляемый список" type="\SdmxCodelist" variable="$val">
+            <type by_reference="false">\SdmxCodelist</type>
+          </tag>
+          <tag line="191" name="return" description="сам объект" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+        <argument line="198">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="198">
+          <name>$val</name>
+          <default></default>
+          <type>\SdmxCodelist</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="211" package="sdmx">
+        <name>AddCodelist</name>
+        <full_name>AddCodelist</full_name>
+        <docblock line="203">
+          <description>Добавление списка значений</description>
+          <long-description>&lt;p&gt;Имя списка в массиве не зависит от регистра!&lt;/p&gt;</long-description>
+          <tag line="203" name="param" description="добавляемый список" type="\SdmxCodelist" variable="$codelist">
+            <type by_reference="false">\SdmxCodelist</type>
+          </tag>
+          <tag line="203" name="return" description="сам объект" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+        <argument line="211">
+          <name>$codelist</name>
+          <default></default>
+          <type>\SdmxCodelist</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="221" package="sdmx">
+        <name>GetCodelistsIterator</name>
+        <full_name>GetCodelistsIterator</full_name>
+        <docblock line="216">
+          <description>Получение итератора на массив списков значений</description>
+          <long-description></long-description>
+          <tag line="216" name="return" description="итератор на начало массива списков значений" type="\ArrayIterator">
+            <type by_reference="false">\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="233" package="sdmx">
+        <name>ParseCodelists</name>
+        <full_name>ParseCodelists</full_name>
+        <docblock line="225">
+          <description>Анализ списков значений файла</description>
+          <long-description>&lt;p&gt;Парсит массив &lt;var&gt;XmlDataArray&lt;/var&gt;. В том числе перемещает внутренний указатель на элемент сразу после окончания списка значений.&lt;/p&gt;</long-description>
+          <tag line="225" name="param" description="уже расперсенный sdmx-файл, внутренний указатель которого указывает на элемент перед началом списков значений (или на первом теге)" type="\XmlDataArray" variable="$arr">
+            <type by_reference="false">\XmlDataArray</type>
+          </tag>
+          <tag line="225" name="return" description="сам объект" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+        <argument line="233">
+          <name>$arr</name>
+          <default></default>
+          <type>\XmlDataArray</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="274" package="sdmx">
+        <name>GetDescriptionAttr</name>
+        <full_name>GetDescriptionAttr</full_name>
+        <docblock line="264">
+          <description>Получение аттрибута описания</description>
+          <long-description>&lt;p&gt;Возвращает какой-то конкретный аттрибут из описания. В случае несуществования аттрибута возвращает &lt;var&gt;$default&lt;/var&gt;.
+Имя аттрибута не зависит от регистра&lt;/p&gt;</long-description>
+          <tag line="264" name="param" description="имя аттрибута (не зависит от регистра)" type="string" variable="$attr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="264" name="param" description="значение, которое будет возвращено в случае отсутствия требуемого аттрибута." type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="264" name="return" description="значение аттрибута или &lt;var&gt;$default&lt;/var&gt; в случае его отсутствия" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="274">
+          <name>$attr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="274">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="288" package="sdmx">
+        <name>GetDescriptionIterator</name>
+        <full_name>GetDescriptionIterator</full_name>
+        <docblock line="281">
+          <description>Получение итератора на начало массива описания</description>
+          <long-description>&lt;p&gt;Надо отметить, что все имена в массиве (ключи массива) хранятся в нижнем регистре&lt;/p&gt;</long-description>
+          <tag line="281" name="return" description="итератор на начало массива с описанием файла" type="\ArrayIterator">
+            <type by_reference="false">\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="299" package="sdmx">
+        <name>SetDescriptionAttr</name>
+        <full_name>SetDescriptionAttr</full_name>
+        <docblock line="290">
+          <description>Установка аттрибута описания</description>
+          <long-description>&lt;p&gt;Устанавливает начение аттрибута описания. Имя регистронезависимо и будет приведено к нижнем регистру&lt;/p&gt;</long-description>
+          <tag line="290" name="param" description="имя аттрибута (регистронезависимо)" type="string" variable="$attr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="290" name="param" description="значение аттрибута" type="mixed" variable="$val">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="290" name="return" description="сам объект, из которого вызван метод." type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+        <argument line="299">
+          <name>$attr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="299">
+          <name>$val</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="322" package="sdmx">
+        <name>GetDimension</name>
+        <full_name>GetDimension</full_name>
+        <docblock line="313">
+          <description>Получение размерности</description>
+          <long-description>&lt;p&gt;Возвращает размерность (&lt;var&gt;SdmxDimension&lt;/var&gt;) по индексу или &lt;var&gt;$default&lt;/var&gt; в случае его отсутствия&lt;/p&gt;</long-description>
+          <tag line="313" name="param" description="индекс желаемой размерности" type="int" variable="$ind">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="313" name="param" description="значение, коорое будет возвращено в случае отсутствия размерности индексом &lt;var&gt;$ind&lt;/var&gt;" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="313" name="return" description="желаемая размерность" type="\SdmxDimension">
+            <type by_reference="false">\SdmxDimension</type>
+          </tag>
+        </docblock>
+        <argument line="322">
+          <name>$ind</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="322">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="336" package="sdmx">
+        <name>GetDimensionsIterator</name>
+        <full_name>GetDimensionsIterator</full_name>
+        <docblock line="329">
+          <description>Получение итератора на массив размерности</description>
+          <long-description>&lt;p&gt;Возвращает итератор на начало массива размерностей файла&lt;/p&gt;</long-description>
+          <tag line="329" name="return" description="Итератор на массив размерностей" type="\ArrayIterator">
+            <type by_reference="false">\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="345" package="sdmx">
+        <name>AddDimension</name>
+        <full_name>AddDimension</full_name>
+        <docblock line="338">
+          <description>Добавление размерности</description>
+          <long-description>&lt;p&gt;Добавляет размерность в объект.&lt;/p&gt;</long-description>
+          <tag line="338" name="param" description="" type="\SdmxDimension" variable="$dim">
+            <type by_reference="false">\SdmxDimension</type>
+          </tag>
+        </docblock>
+        <argument line="345">
+          <name>$dim</name>
+          <default></default>
+          <type>\SdmxDimension</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="358" package="sdmx">
+        <name>ParseDescription</name>
+        <full_name>ParseDescription</full_name>
+        <docblock line="350">
+          <description>Анализ описания файла</description>
+          <long-description>&lt;p&gt;Парсит массив &lt;var&gt;XmlDataArray&lt;/var&gt;. В том числе перемещает внутренний указатель на элемент сразу после окончания описания.&lt;/p&gt;</long-description>
+          <tag line="350" name="param" description="уже расперсенный sdmx-файл, внутренний указатель которого указывает на элемент перед началом описания (или на первом теге)" type="\XmlDataArray" variable="$arr">
+            <type by_reference="false">\XmlDataArray</type>
+          </tag>
+          <tag line="350" name="return" description="сам объект" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+        <argument line="358">
+          <name>$arr</name>
+          <default></default>
+          <type>\XmlDataArray</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="449" package="sdmx">
+        <name>GetDataPoint</name>
+        <full_name>GetDataPoint</full_name>
+        <docblock line="441">
+          <description>Получение ячейки</description>
+          <long-description>&lt;p&gt;Функция возвращает ячейку с нужным индексом или &lt;var&gt;$default&lt;/var&gt;, если его не было&lt;/p&gt;</long-description>
+          <tag line="441" name="param" description="индекс желаемой точки" type="int" variable="$ind">
+            <type by_reference="false">int</type>
+          </tag>
+          <tag line="441" name="param" description="" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="449">
+          <name>$ind</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="449">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="461" package="sdmx">
+        <name>GetDataPointsIterator</name>
+        <full_name>GetDataPointsIterator</full_name>
+        <docblock line="456">
+          <description>Получение итератора на начало массива данных</description>
+          <long-description></long-description>
+          <tag line="456" name="return" description="итератор на начало массива данных" type="\ArrayIterator">
+            <type by_reference="false">\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="469" package="sdmx">
+        <name>AddDataPoint</name>
+        <full_name>AddDataPoint</full_name>
+        <docblock line="463">
+          <description>добавление точки в массив</description>
+          <long-description></long-description>
+          <tag line="463" name="param" description="добавляемая точка" type="\SdmxDataPoint" variable="$point">
+            <type by_reference="false">\SdmxDataPoint</type>
+          </tag>
+          <tag line="463" name="return" description="оъект, у которого был вызван метод" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+        <argument line="469">
+          <name>$point</name>
+          <default></default>
+          <type>\SdmxDataPoint</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="482" package="sdmx">
+        <name>ParseData</name>
+        <full_name>ParseData</full_name>
+        <docblock line="474">
+          <description>Анализ данных файла</description>
+          <long-description>&lt;p&gt;Парсит массив &lt;var&gt;XmlDataArray&lt;/var&gt;. В том числе перемещает внутренний указатель на элемент сразу после окончания данных.&lt;/p&gt;</long-description>
+          <tag line="474" name="param" description="уже расперсенный sdmx-файл, внутренний указатель которого указывает на элемент перед началом данных (или на первом теге)" type="\XmlDataArray" variable="$arr">
+            <type by_reference="false">\XmlDataArray</type>
+          </tag>
+          <tag line="474" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+        <argument line="482">
+          <name>$arr</name>
+          <default></default>
+          <type>\XmlDataArray</type>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="502" package="sdmx">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="495">
+          <description>Конструктор</description>
+          <long-description>&lt;p&gt;Создаёт и заполняет объект данными из файла &lt;var&gt;$filename&lt;/var&gt;&lt;/p&gt;</long-description>
+          <tag line="495" name="param" description="имя файла, который надо проанализировать" type="string" variable="$filename">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="502">
+          <name>$filename</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="516" package="sdmx">
+        <name>_DebugPrintHeader</name>
+        <full_name>_DebugPrintHeader</full_name>
+        <docblock line="512">
+          <description>Дебаговывод заголовков</description>
+          <long-description></long-description>
+          <tag line="512" name="return" description="сам объект" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="530" package="sdmx">
+        <name>_DebugPrintCodelists</name>
+        <full_name>_DebugPrintCodelists</full_name>
+        <docblock line="526">
+          <description>Дебаговывод списков значений</description>
+          <long-description></long-description>
+          <tag line="526" name="return" description="сам объект" type="\SdmxData">
+            <type by_reference="false">\SdmxData</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="543" package="sdmx">
+        <name>_DebugPrintDescription</name>
+        <full_name>_DebugPrintDescription</full_name>
+        <docblock line="539">
+          <description>Дебаговывод описаний</description>
+          <long-description></long-description>
+          <tag line="539" name="return" description="объект" type="\сам">
+            <type by_reference="false">\сам</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="557" package="sdmx">
+        <name>_DebugPrintDimensions</name>
+        <full_name>_DebugPrintDimensions</full_name>
+        <docblock line="553">
+          <description>Дебаговывод размерностей</description>
+          <long-description></long-description>
+          <tag line="553" name="return" description="объект" type="\сам">
+            <type by_reference="false">\сам</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="571" package="sdmx">
+        <name>_DebugPrintData</name>
+        <full_name>_DebugPrintData</full_name>
+        <docblock line="567">
+          <description>Дебаговывод данных</description>
+          <long-description></long-description>
+          <tag line="567" name="return" description="объект" type="\сам">
+            <type by_reference="false">\сам</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="584" package="sdmx">
+        <name>_DebugPrintAll</name>
+        <full_name>_DebugPrintAll</full_name>
+        <docblock line="580">
+          <description>Дебаговывод всего</description>
+          <long-description></long-description>
+          <tag line="580" name="return" description="объект" type="\сам">
+            <type by_reference="false">\сам</type>
+          </tag>
+        </docblock>
+      </method>
+    </class>
+  </file>
+  <file path="SdmxDataPoint.php" hash="a5b18ae2296721930982e7f448701951" package="sdmx">
+    <docblock line="2">
+      <description>В файле содержится описание класса SdmxDataPoint -- "ячейки таблицы".</description>
+      <long-description></long-description>
+      <tag line="2" name="author" description="Илья Уваренков &lt;trukanduk@gmail.com&gt;"/>
+      <tag line="2" name="version" description="1.1"/>
+      <tag line="2" name="package" description="sdmx"/>
+    </docblock>
+    <include line="10" type="Require Once" package="Default">
+      <name>XmlParseUtils.php</name>
+    </include>
+    <include line="11" type="Require Once" package="Default">
+      <name>SdmxCodelist.php</name>
+    </include>
+    <include line="12" type="Require Once" package="Default">
+      <name>SdmxDimension.php</name>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="23" package="sdmx">
+      <extends/>
+      <name>SdmxDataPoint</name>
+      <full_name>\SdmxDataPoint</full_name>
+      <docblock line="14">
+        <description>Ячейка таблицы</description>
+        <long-description>&lt;p&gt;Класс по семантике - "ячейка таблицы". Название &lt;var&gt;SdmxDataPoint&lt;/var&gt; дано потому что эту ячейку можно предстаавить как точку со значением в N-мерном пространстве.
+Хранит в себе значения "координат" во всех размерностях, так же некие аттрибуты, год (всё-таки статистические данные) и, наконец, значение ячейки&lt;/p&gt;</long-description>
+        <tag line="14" name="package" description="sdmx"/>
+        <tag line="14" name="version" description="1.1"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="33" namespace="global" package="Default">
+        <name>$dimensions</name>
+        <default>array()</default>
+        <docblock line="24">
+          <description>Описние размерностей</description>
+          <long-description>&lt;p&gt;Массив имеет вид: &lt;var&gt;['&amp;lt;имя размерности&gt;' =&gt; new SdmxCodelistInstance()]&lt;/var&gt;,
+однако есть второй временный вариант, &lt;var&gt;['&amp;lt;имя размерности' =&gt; '&amp;lt;имя значения&gt;']&lt;/var&gt;, который останется в случае ошибки при поиске нужной размерности,
+то есть если при заполнении объекта не будет найдена какая-то размерность, то соответствующей этой размерности элемент массива будет строкой с названием значения.&lt;/p&gt;</long-description>
+          <tag line="24" name="var" description="" type="mixed[]">
+            <type by_reference="false">mixed[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="139" namespace="global" package="Default">
+        <name>$dimsFilled</name>
+        <default>true</default>
+        <docblock line="133">
+          <description>Вид массива $dimensions</description>
+          <long-description>&lt;p&gt;Если &lt;var&gt;true&lt;/var&gt;, то массив &lt;var&gt;$this-&gt;dimensions&lt;/var&gt; имеет верную форму (&lt;var&gt;['&amp;lt;имя размерности&gt;' =&gt; new SdmxCodelistInstance()]&lt;/var&gt;)&lt;/p&gt;</long-description>
+          <tag line="133" name="var" description="" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="155" namespace="global" package="Default">
+        <name>$attributes</name>
+        <default>array()</default>
+        <docblock line="149">
+          <description>Аттрибуты объекта</description>
+          <long-description>&lt;p&gt;Просто ассоциативный массив с аттрибутами точки&lt;/p&gt;</long-description>
+          <tag line="149" name="var" description="" type="string[]">
+            <type by_reference="false">string[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="217" namespace="global" package="Default">
+        <name>$time</name>
+        <default>''</default>
+        <docblock line="211">
+          <description>Время</description>
+          <long-description>&lt;p&gt;Видимо, речь о годе. Хотя в принципе это всё равно строка -- может быть чем угодно&lt;/p&gt;</long-description>
+          <tag line="211" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="242" namespace="global" package="Default">
+        <name>$value</name>
+        <default>''</default>
+        <docblock line="236">
+          <description>Значение в ячейке</description>
+          <long-description>&lt;p&gt;собственно, значение, хранящееся в ячейке таблицы&lt;/p&gt;</long-description>
+          <tag line="236" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="42" package="sdmx">
+        <name>GetDimensionsIterator</name>
+        <full_name>GetDimensionsIterator</full_name>
+        <docblock line="35">
+          <description>Итератор массива размерностей</description>
+          <long-description>&lt;p&gt;Возвращает итератор на начало массива размерностей точки&lt;/p&gt;</long-description>
+          <tag line="35" name="return" description="итератор на начало массива" type="\ArrayIterator">
+            <type by_reference="false">\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="54" package="sdmx">
+        <name>GetDimension</name>
+        <full_name>GetDimension</full_name>
+        <docblock line="44">
+          <description>Получение значения размерности</description>
+          <long-description>&lt;p&gt;Возвращает элемент массива я индексом &lt;var&gt;$name&lt;/var&gt;, будь то строка или &lt;var&gt;SdmxCodelistInstance&lt;/var&gt;
+Имя размерности не зависит от регистра&lt;/p&gt;</long-description>
+          <tag line="44" name="param" description="имя нужной размерности (не зависит от регистра)" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="44" name="param" description="значение, возвращаемое в случае ненахождения размерности" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="44" name="return" description="Объект &lt;var&gt;SdmxCodelistInstance&lt;/var&gt;, строку-имя значения или &lt;var&gt;$default&lt;var&gt; в случае отсутствия размерности" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="54">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="54">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="68" package="sdmx">
+        <name>SetDimension</name>
+        <full_name>SetDimension</full_name>
+        <docblock line="61">
+          <description>Установка размерности</description>
+          <long-description></long-description>
+          <tag line="61" name="param" description="имя размерности (не зависит от регистра)" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="61" name="param" description="имя значения (строка) или экземпляр &lt;var&gt;SdmxCodelistInstance&lt;/var&gt;" type="mixed" variable="$dim">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="61" name="return" description="сам объект" type="\SdmxDataPoint">
+            <type by_reference="false">\SdmxDataPoint</type>
+          </tag>
+        </docblock>
+        <argument line="68">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="68">
+          <name>$dim</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="83" package="sdmx">
+        <name>SetDimensionsArray</name>
+        <full_name>SetDimensionsArray</full_name>
+        <docblock line="75">
+          <description>Установка массива размерностей</description>
+          <long-description>&lt;p&gt;Гарантируется, что входной массив &lt;var&gt;$dimensions&lt;/var&gt; не будет изменён.&lt;/p&gt;</long-description>
+          <tag line="75" name="param" description="массив размерностей в виде &lt;var&gt;['&amp;lt;имя размерности&gt;' =&gt; new SdmxCodelistInstance()]&lt;/var&gt;" type="\SdmxCodelistInstance[]" variable="$dimensions">
+            <type by_reference="false">\SdmxCodelistInstance[]</type>
+          </tag>
+          <tag line="75" name="return" description="объект-родитель" type="\SdmxDataPoint">
+            <type by_reference="false">\SdmxDataPoint</type>
+          </tag>
+        </docblock>
+        <argument line="83">
+          <name>$dimensions</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="103" package="sdmx">
+        <name>FillDimensions</name>
+        <full_name>FillDimensions</full_name>
+        <docblock line="90">
+          <description>Заполнение массива размерностей значениями</description>
+          <long-description>&lt;p&gt;Функция берёт принимает на вход массив &lt;var&gt;$dimensions&lt;/var&gt; вида &lt;var&gt;['&amp;lt;имя размерности&gt;' =&gt; new SdmxDimension()]&lt;/var&gt; (такой массив должен быть в &lt;var&gt;SdmxData&lt;/var&gt;)
+Возвращает &lt;var&gt;true&lt;/var&gt;, если всё прошло успешно, иначе остаются элементы со строками в качестве значений.
+Если какая-то размерность есть в массиве &lt;var&gt;$dimensions&lt;/var&gt;, но нет в точке, то эта размерность будет присвоена объекту (будет взято значение размерности по умолчанию).
+Если в объекте была размерность, которой нет в массиве &lt;var&gt;$dimensions&lt;/var&gt;, элемент этой размерности в объекте не будет изменён и останется строкой.
+Если  объекте какая-то размерность была заполнена, она не будет перезаписана
+&lt;b&gt;Функция не изменяет массив&lt;b&gt;&lt;/p&gt;</long-description>
+          <tag line="90" name="param" description="массив размерностей файла" type="\SdmxDimension[]" variable="$dimensions">
+            <type by_reference="false">\SdmxDimension[]</type>
+          </tag>
+          <tag line="90" name="return" description="&lt;var&gt;true&lt;/var&gt; в случае успеха, иначе &lt;var&gt;false&lt;/var&gt;" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="103">
+          <name>$dimensions</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="144" package="sdmx">
+        <name>IsDimensionsFilled</name>
+        <full_name>IsDimensionsFilled</full_name>
+        <docblock line="141">
+          <description>Правильность заполнения размерностей</description>
+          <long-description></long-description>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="163" package="sdmx">
+        <name>GetAttributesIterator</name>
+        <full_name>GetAttributesIterator</full_name>
+        <docblock line="157">
+          <description>Получение итератора аттрибутов</description>
+          <long-description>&lt;p&gt;Возвращает итератор на начало массива аттрибутов&lt;/p&gt;</long-description>
+          <tag line="157" name="return" description="итератор на начало массива аттрибутов" type="\ArrayIterator">
+            <type by_reference="false">\ArrayIterator</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="175" package="sdmx">
+        <name>GetAttr</name>
+        <full_name>GetAttr</full_name>
+        <docblock line="165">
+          <description>Получение конкретного аттрибута</description>
+          <long-description>&lt;p&gt;Возвращает аттрибут по его имени, если такой аттрибут не был найден, вернётся &lt;var&gt;$default&lt;/var&gt;
+Имя аттрибута не зависит от регистра (т.е. &lt;var&gt;'attr'&lt;/var&gt; и &lt;var&gt;'ATTR'&lt;/var&gt; относятся к  одному аттрибуту)&lt;/p&gt;</long-description>
+          <tag line="165" name="param" description="имя аттрибута (не зависит от регистра)" type="string" variable="$attr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="165" name="param" description="значение, возвращаемое при отсутствии аттрибута" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="165" name="return" description="значение аттрибута (&lt;var&gt;string&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="175">
+          <name>$attr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="175">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="191" package="sdmx">
+        <name>SetAttr</name>
+        <full_name>SetAttr</full_name>
+        <docblock line="182">
+          <description>Установка аттрибута</description>
+          <long-description>&lt;p&gt;Устанавливает аттрибут &lt;var&gt;$name&lt;/var&gt;. Имя аттрибута не зависит от регистра (т.е. имена &lt;var&gt;'attr'&lt;/var&gt;, &lt;var&gt;'Attr'&lt;/var&gt; и &lt;var&gt;'ATTR'&lt;/var&gt; отвечают за один аттрибут)&lt;/p&gt;</long-description>
+          <tag line="182" name="param" description="имя изменяемого аттрибута (не зависит от регистра)" type="string" variable="$attr">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="182" name="param" description="новое значение аттрибута" type="string" variable="$val">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="182" name="return" description="сам объект" type="\SdmxDataPoint">
+            <type by_reference="false">\SdmxDataPoint</type>
+          </tag>
+        </docblock>
+        <argument line="191">
+          <name>$attr</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="191">
+          <name>$val</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="204" package="sdmx">
+        <name>SetAttrsArray</name>
+        <full_name>SetAttrsArray</full_name>
+        <docblock line="196">
+          <description>Установка массива аттрибутов</description>
+          <long-description>&lt;p&gt;Гарантируется, что входной массив &lt;var&gt;$attrs&lt;/var&gt; не изменится&lt;/p&gt;</long-description>
+          <tag line="196" name="param" description="Массив аттрибутов в форме &lt;var&gt;['&amp;lt;имя аттрибута&gt;' =&gt; '&amp;lt;значение аттрибута&gt;']&lt;/var&gt;" type="string[]" variable="$attrs">
+            <type by_reference="false">string[]</type>
+          </tag>
+          <tag line="196" name="return" description="объект-родитель" type="\SdmxDataPoint">
+            <type by_reference="false">\SdmxDataPoint</type>
+          </tag>
+        </docblock>
+        <argument line="204">
+          <name>$attrs</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="224" package="sdmx">
+        <name>GetTime</name>
+        <full_name>GetTime</full_name>
+        <docblock line="219">
+          <description>Получение времени</description>
+          <long-description></long-description>
+          <tag line="219" name="return" description="время, к которому относится данный объект" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="231" package="sdmx">
+        <name>SetTime</name>
+        <full_name>SetTime</full_name>
+        <docblock line="226">
+          <description>Установка времени</description>
+          <long-description></long-description>
+          <tag line="226" name="param" description="новое время, относящееся к объекту" type="string" variable="$time">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="231">
+          <name>$time</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="249" package="sdmx">
+        <name>GetValue</name>
+        <full_name>GetValue</full_name>
+        <docblock line="244">
+          <description>Получение значения</description>
+          <long-description></long-description>
+          <tag line="244" name="return" description="значение объекта (ячейки, которой соотвествуюет объект)" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="257" package="sdmx">
+        <name>SetValue</name>
+        <full_name>SetValue</full_name>
+        <docblock line="251">
+          <description>Устаноска значения</description>
+          <long-description></long-description>
+          <tag line="251" name="param" description="@value новое значение" type="string" variable="$value">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="251" name="return" description="сам объект" type="\SdmxDataPoint">
+            <type by_reference="false">\SdmxDataPoint</type>
+          </tag>
+        </docblock>
+        <argument line="257">
+          <name>$value</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="272" package="sdmx">
+        <name>GetProperty</name>
+        <full_name>GetProperty</full_name>
+        <docblock line="262">
+          <description>Получение свойства</description>
+          <long-description>&lt;p&gt;Возвращает свойство ячейки. Свойства (в порядке уменьшения приоритета): значение ('value'), время ('time'), размерность (имя размерности) или аттрибут (имя аттрибута)
+имя свойства не зависит от регистра&lt;/p&gt;</long-description>
+          <tag line="262" name="param" description="имя свойства (не зависит от регистра)" type="string" variable="$property">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="262" name="param" description="значение, возвращаемое в случае отсутствия свойства" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="262" name="return" description="значение свойства" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="272">
+          <name>$property</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="272">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="296" package="sdmx">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="285">
+          <description>Конструктор</description>
+          <long-description>&lt;p&gt;После создания объекта нет никаких способов его изменить извне.
+Гарантируется, что входный массивы &lt;var&gt;$dimensions&lt;/var&gt; и &lt;var&gt;$attrs&lt;/var&gt; не будут изменены&lt;/p&gt;</long-description>
+          <tag line="285" name="param" description="значение ячейки" type="string" variable="$value">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="285" name="param" description="время ячейки (некий параметр)" type="string" variable="$time">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="285" name="param" description="массив размерностей в виде &lt;var&gt;['&amp;lt;имя размерности&gt;' =&gt; new SdmxCodelistInstance()]&lt;/var&gt;" type="\SdmxCodelistInstance[]" variable="$dimensions">
+            <type by_reference="false">\SdmxCodelistInstance[]</type>
+          </tag>
+          <tag line="285" name="param" description="массив аттрибутов в виде &lt;var&gt;['&amp;lt;имя аттрибута' =&gt; '&amp;lt;значение аттрибута&gt;']&lt;/var&gt;" type="string[]" variable="$attrs">
+            <type by_reference="false">string[]</type>
+          </tag>
+        </docblock>
+        <argument line="296">
+          <name>$value</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="296">
+          <name>$time</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="296">
+          <name>$dimensions</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="296">
+          <name>$attrs</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="312" package="sdmx">
+        <name>Parse</name>
+        <full_name>Parse</full_name>
+        <docblock line="303">
+          <description>Создание элемента из XmlDataArray</description>
+          <long-description>&lt;p&gt;"Достаёт" элемент из объекта &lt;var&gt;XmlDataArray&lt;/var&gt; и перемещает его внутренний указатель.&lt;/p&gt;</long-description>
+          <tag line="303" name="param" description="объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта" type="\XmlDataArray" variable="$arr">
+            <type by_reference="false">\XmlDataArray</type>
+          </tag>
+          <tag line="303" name="param" description="массив разверностей в форме &lt;var&gt;['&amp;lt;имя размерности&gt;' =&gt; new SdmxDimension()]&lt;/var&gt; Гарантируется, что массив не будет изменён" type="\SdmxDimension[]" variable="$dimensions">
+            <type by_reference="false">\SdmxDimension[]</type>
+          </tag>
+          <tag line="303" name="return" description="новый экземпляр класса" type="\SdmxDataPoint">
+            <type by_reference="false">\SdmxDataPoint</type>
+          </tag>
+        </docblock>
+        <argument line="312">
+          <name>$arr</name>
+          <default></default>
+          <type>\XmlDataArray</type>
+        </argument>
+        <argument line="312">
+          <name>$dimensions</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="SdmxDimension.php" hash="ded7d8e97028cbf5b25fde9374cdd2bf" package="sdmx">
+    <docblock line="2">
+      <description>&lt;var&gt;SdmxDimension&lt;/var&gt; -- одна из размерностей sdmx-таблицы</description>
+      <long-description></long-description>
+      <tag line="2" name="author" description="Илья Уваренков &lt;trukanduk@gmail.com&gt;"/>
+      <tag line="2" name="version" description="1.1"/>
+      <tag line="2" name="package" description="sdmx"/>
+    </docblock>
+    <include line="10" type="Require Once" package="Default">
+      <name>XmlParseUtils.php</name>
+    </include>
+    <include line="11" type="Require Once" package="Default">
+      <name>SdmxCodelist.php</name>
+    </include>
+    <class final="false" abstract="false" namespace="global" line="27" package="sdmx">
+      <extends/>
+      <name>SdmxDimension</name>
+      <full_name>\SdmxDimension</full_name>
+      <docblock line="13">
+        <description>Размерность таблицы</description>
+        <long-description>&lt;p&gt;По сути своей - ссылка на Codelist c описанием (имени нет)
+Соответствует коду:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;Dimension value="OKSM"&gt;
+    &amp;lt;Name xml:lang="ru"&gt;ОКСМ&lt;/Name&gt;
+&amp;lt;/Dimension&gt;
+&lt;/code&gt;&lt;/pre&gt;</long-description>
+        <tag line="13" name="package" description="sdmx"/>
+        <tag line="13" name="version" description="1.1"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="34" namespace="global" package="Default">
+        <name>$description</name>
+        <default>''</default>
+        <docblock line="28">
+          <description>Описание</description>
+          <long-description>&lt;p&gt;Описание размерности&lt;/p&gt;</long-description>
+          <tag line="28" name="var" description="" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="61" namespace="global" package="Default">
+        <name>$codelist</name>
+        <default></default>
+        <docblock line="54">
+          <description>список значений</description>
+          <long-description>&lt;p&gt;&lt;var&gt;Codelist&lt;/var&gt; -- список значений этой размерности. Может быть ссылкой на &lt;var&gt;SdmxCodelist&lt;/var&gt; или строкой - именем требуемого списка&lt;/p&gt;</long-description>
+          <tag line="54" name="var" description="" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="41" package="sdmx">
+        <name>GetDescription</name>
+        <full_name>GetDescription</full_name>
+        <docblock line="36">
+          <description>Получение описания</description>
+          <long-description></long-description>
+          <tag line="36" name="return" description="описание размерности" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="49" package="sdmx">
+        <name>SetDescription</name>
+        <full_name>SetDescription</full_name>
+        <docblock line="43">
+          <description>Установка описания</description>
+          <long-description></long-description>
+          <tag line="43" name="param" description="новое описание" type="string" variable="$description">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="43" name="return" description="сам объект" type="\SdmxDimension">
+            <type by_reference="false">\SdmxDimension</type>
+          </tag>
+        </docblock>
+        <argument line="49">
+          <name>$description</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="70" package="sdmx">
+        <name>HasCodelistLink</name>
+        <full_name>HasCodelistLink</full_name>
+        <docblock line="63">
+          <description>Состояние списка значений</description>
+          <long-description>&lt;p&gt;Проверяет, является ли &lt;var&gt;$this-&gt;codelist&lt;/var&gt; самим объектом или строкой с его именем&lt;/p&gt;</long-description>
+          <tag line="63" name="return" description="&lt;var&gt;true&lt;/var&gt; в случае, когда список -- список, а не строка с именем" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="79" package="sdmx">
+        <name>GetCodelist</name>
+        <full_name>GetCodelist</full_name>
+        <docblock line="72">
+          <description>Получение списка значений</description>
+          <long-description>&lt;p&gt;Возвращает список значений (&lt;var&gt;SdmxCodelist&lt;/var&gt;) или &lt;var&gt;null&lt;/var&gt;, если в &lt;var&gt;$this-&gt;codelist&lt;/var&gt; -- строка-имя списка&lt;/p&gt;</long-description>
+          <tag line="72" name="return" description="список значений (&lt;var&gt;SdmxCodelist&lt;/var&gt;) или &lt;var&gt;null&lt;/var&gt;, если в &lt;var&gt;$this-&gt;codelist&lt;/var&gt; -- строка-имя списка" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="91" package="sdmx">
+        <name>GetCodelistName</name>
+        <full_name>GetCodelistName</full_name>
+        <docblock line="86">
+          <description>Получение имени списка значений</description>
+          <long-description></long-description>
+          <tag line="86" name="return" description="имя списка значений" type="string">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="109" package="sdmx">
+        <name>SetCodelistFromAray</name>
+        <full_name>SetCodelistFromAray</full_name>
+        <docblock line="98">
+          <description>Установка &lt;i&gt;нужного&lt;/i&gt; списка значений</description>
+          <long-description>&lt;p&gt;Функция нужна для того, чтобы установить правильный список значений. Если в &lt;var&gt;$this-&gt;codelist&lt;/var&gt; хранится имя списка,
+то он будет найден в массиве и установлен. Предполагается, что массив такого же вида содержится в &lt;var&gt;SdmxData&lt;/var&gt;
+Также происходит поиск в стандартных списках (см. &lt;var&gt;SdmxPredefinedCodelists&lt;/var&gt;)
+Если &lt;var&gt;$this-&gt;codelist&lt;/var&gt; и так было списком, то ничего не изменится (возвращено будет &lt;var&gt;true&lt;/var&gt;)&lt;/p&gt;</long-description>
+          <tag line="98" name="param" description="массив списков в следующей форме: &lt;var&gt;['&amp;lt;имя списка&gt;' =&gt; SdmxCodelist()]&lt;/var&gt;" type="\SdmxCodelist[]" variable="$codelists">
+            <type by_reference="false">\SdmxCodelist[]</type>
+          </tag>
+          <tag line="98" name="return" description="&lt;var&gt;true&lt;/var&gt;, если в результате в &lt;var&gt;$this-&gt;codelist&lt;/var&gt; оказался объект SdmxCodelist, &lt;var&gt;false&lt;/var&gt; при неудаче" type="bool">
+            <type by_reference="false">bool</type>
+          </tag>
+        </docblock>
+        <argument line="109">
+          <name>$codelists</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="protected" namespace="global" line="133" package="sdmx">
+        <name>SetCodelist</name>
+        <full_name>SetCodelist</full_name>
+        <docblock line="127">
+          <description>Установка списка значений</description>
+          <long-description></long-description>
+          <tag line="127" name="param" description="новый список значений (&lt;var&gt;SdmxCodelist&lt;/var&gt;) или его имя (&lt;var&gt;string&lt;/var&gt;)" type="mixed" variable="$codelist">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="127" name="return" description="сам объект" type="\SdmxDimension">
+            <type by_reference="false">\SdmxDimension</type>
+          </tag>
+        </docblock>
+        <argument line="133">
+          <name>$codelist</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="146" package="sdmx">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="138">
+          <description>Конструктор</description>
+          <long-description>&lt;p&gt;Codelist может быть объектом, может быть просто строкой (тогда надо будет вызвать &lt;var&gt;$this-&gt;SetCodelistFromArray()&lt;/var&gt;)&lt;/p&gt;</long-description>
+          <tag line="138" name="param" description="список значений (&lt;var&gt;SdmxCodelist&lt;/var&gt;) или имя списка (&lt;var&gt;string&lt;/var&gt;)" type="mixed" variable="$codelist">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="138" name="param" description="описание размерности" type="string" variable="$description">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="146">
+          <name>$codelist</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="146">
+          <name>$description</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="true" visibility="public" namespace="global" line="160" package="sdmx">
+        <name>Parse</name>
+        <full_name>Parse</full_name>
+        <docblock line="151">
+          <description>Создание элемента из XmlDataArray</description>
+          <long-description>&lt;p&gt;"Достаёт" элемент из объекта &lt;var&gt;XmlDataArray&lt;/var&gt; и перемещает его внутренний указатель.&lt;/p&gt;</long-description>
+          <tag line="151" name="param" description="объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта" type="\XmlDataArray" variable="$arr">
+            <type by_reference="false">\XmlDataArray</type>
+          </tag>
+          <tag line="151" name="param" description="Массив списков значений в виде &lt;var&gt;['&amp;lt;имя списка&gt;' =&gt; new SdmxCodelist()]&lt;/var&gt;. Предполагается, что такой массив содержится в &lt;var&gt;SdmxData&lt;/var&gt;. Гарантируется, что он не будет изменён" type="\SdmxCodelist[]" variable="$codelists">
+            <type by_reference="false">\SdmxCodelist[]</type>
+          </tag>
+          <tag line="151" name="return" description="новый экземпляр класса" type="\SdmxDimension">
+            <type by_reference="false">\SdmxDimension</type>
+          </tag>
+        </docblock>
+        <argument line="160">
+          <name>$arr</name>
+          <default></default>
+          <type>\XmlDataArray</type>
+        </argument>
+        <argument line="160">
+          <name>$codelists</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <file path="XmlParseUtils.php" hash="df824bd47ef58b810cd8c05d2eb29b66" package="sdmx\parseUtils">
+    <docblock line="2">
+      <description>Файл содержит описания классов для парсинга xml-файлов (любых, не только sdmx).</description>
+      <long-description></long-description>
+      <tag line="2" name="author" description="Илья Уваренков &lt;trukanduk@gmail.com&gt;"/>
+      <tag line="2" name="version" description="1.2"/>
+      <tag line="2" name="package" description="sdmx\parseUtils"/>
+    </docblock>
+    <class final="false" abstract="false" namespace="global" line="19" package="sdmx\parseUtils">
+      <extends/>
+      <name>XmlTagInArray</name>
+      <full_name>\XmlTagInArray</full_name>
+      <docblock line="10">
+        <description>Класс, описывающий один тег в xml-файле.</description>
+        <long-description>&lt;p&gt;По сути - обин объект из выходного массива функции xml_parse_into_struct(..).
+Его нельзя изменить вне себя, только в конструкторе. Поэтому нет смысла копировать этот объект, чтобы куда-либо передать -- он всегда read-only&lt;/p&gt;</long-description>
+        <tag line="10" name="package" description="sdmx\parseUtils"/>
+        <tag line="10" name="version" description="1.1"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="28" namespace="global" package="Default">
+        <name>$values</name>
+        <default>array()</default>
+        <docblock line="20">
+          <description>объект (массив) из массива, возвращаемого функцией xml_struct_into_struct()</description>
+          <long-description>&lt;p&gt;Объект, оформленный в виде массива из возвращаемого массива xml_parse_into_struct(),
+имеет как правило структуру: &lt;var&gt;['tag'=&gt;'&amp;lt;ИМЯ ТЕГА&gt;', 'value'=&gt;'&amp;lt;содержимое&gt;', 'type'=&gt;'open|close|complete|cdata' 'attributes'=&gt;['&amp;lt;АТТРИБУТ&gt;'=&gt;'&amp;lt;значение&gt;']]&lt;/var&gt;.&lt;/p&gt;</long-description>
+          <tag line="20" name="var" description="" type="mixed[]">
+            <type by_reference="false">mixed[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="39" package="sdmx\parseUtils">
+        <name>GetValue</name>
+        <full_name>GetValue</full_name>
+        <docblock line="30">
+          <description>Свойство тега.</description>
+          <long-description>&lt;p&gt;Возвращает &lt;var&gt;$this-&gt;values[$name]&lt;/var&gt; или &lt;var&gt;$default&lt;/var&gt; в случае отсутствия&lt;/p&gt;</long-description>
+          <tag line="30" name="param" description="название свойства" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="30" name="param" description="значение по умолчанию, которое возвращается в случае отсутствия свойства. По умолчанию &lt;var&gt;false&lt;/var&gt;." type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="30" name="return" description="значение свойства (&lt;var&gt;$this-&gt;values[$name]&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае его отсутствия." type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="39">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="39">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="55" package="sdmx\parseUtils">
+        <name>GetAttrValue</name>
+        <full_name>GetAttrValue</full_name>
+        <docblock line="46">
+          <description>Аттрибут тега</description>
+          <long-description>&lt;p&gt;Возвращает &lt;var&gt;$this-&gt;values['attributes'][$name]&lt;/var&gt; или &lt;var&gt;$default&lt;/var&gt; в случае отсутствия&lt;/p&gt;</long-description>
+          <tag line="46" name="param" description="название аттрибута" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="46" name="param" description="значение по умолчанию, которое возвращается в случае отсутствия аттрибута. По умолчанию false" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="46" name="return" description="значение аттрибута (&lt;var&gt;$this-&gt;values[$name]&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае его отсутствия." type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="55">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="55">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="67" package="sdmx\parseUtils">
+        <name>PrintObject</name>
+        <full_name>PrintObject</full_name>
+        <docblock line="62">
+          <description>Печатает объект.</description>
+          <long-description></long-description>
+          <tag line="62" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="79" package="sdmx\parseUtils">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="72">
+          <description>Конструктор</description>
+          <long-description>&lt;p&gt;Создаёт объект по данному массиву (пойдёт напрямую в &lt;var&gt;$this-&gt;values&lt;/var&gt;)&lt;/p&gt;</long-description>
+          <tag line="72" name="param" description="собственно, значения тега без обработки" type="mixed[]" variable="$values">
+            <type by_reference="false">mixed[]</type>
+          </tag>
+        </docblock>
+        <argument line="79">
+          <name>$values</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+    <class final="false" abstract="false" namespace="global" line="93" package="sdmx\parseUtils">
+      <extends/>
+      <name>XmlDataArray</name>
+      <full_name>\XmlDataArray</full_name>
+      <docblock line="84">
+        <description>Обработанный xml-файл</description>
+        <long-description>&lt;p&gt;По сути своей этот объект - обертка для массива, возвращаемого функцией &lt;var&gt;xml_parse_into_struct()&lt;/var&gt;
+Имеет свой внутренний указатель на текущий тег.&lt;/p&gt;</long-description>
+        <tag line="84" name="package" description="sdmx\parseUtils"/>
+        <tag line="84" name="version" description="1.2"/>
+      </docblock>
+      <property final="false" static="false" visibility="protected" line="99" namespace="global" package="Default">
+        <name>$data</name>
+        <default>array()</default>
+        <docblock line="94">
+          <description>Массив с данными</description>
+          <long-description></long-description>
+          <tag line="94" name="var" description="массив с данными" type="\XmlTagInArray[]">
+            <type by_reference="false">\XmlTagInArray[]</type>
+          </tag>
+        </docblock>
+      </property>
+      <property final="false" static="false" visibility="protected" line="106" namespace="global" package="Default">
+        <name>$index</name>
+        <default>0</default>
+        <docblock line="101">
+          <description>Индекс текущего элемента</description>
+          <long-description></long-description>
+          <tag line="101" name="var" description="" type="int">
+            <type by_reference="false">int</type>
+          </tag>
+        </docblock>
+      </property>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="117" package="sdmx\parseUtils">
+        <name>Curr</name>
+        <full_name>Curr</full_name>
+        <docblock line="108">
+          <description>Текущий элемент</description>
+          <long-description>&lt;p&gt;Возвращает ссылку на текущий элемент. Если параметр &lt;var&gt;$attr&lt;/var&gt; - строка, то возвращается значение свойства $attr текущего элемента&lt;/p&gt;</long-description>
+          <tag line="108" name="param" description="если &lt;var&gt;false&lt;/var&gt; (по умолчанию), то возвращается весь текущий элемент, если строка, то свойство текущего элемента (или &lt;var&gt;$default&lt;/var&gt;)" type="mixed" variable="$attr">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="108" name="param" description="возвращается в случае отсутствия элемента или отсутствия свойства" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="108" name="return" description="Текущий элемент массива, значение свойства или &lt;var&gt;$default&lt;/var&gt;, если его нет (свойства или самого объекта)" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="117">
+          <name>$attr</name>
+          <default>false</default>
+          <type/>
+        </argument>
+        <argument line="117">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="134" package="sdmx\parseUtils">
+        <name>Next</name>
+        <full_name>Next</full_name>
+        <docblock line="126">
+          <description>Перемещение указателя на следующий элемент</description>
+          <long-description>&lt;p&gt;перемещает указатель на следующий элемент (даже если его не существует) и возвращает его значение (или &lt;var&gt;$default&lt;/var&gt;)&lt;/p&gt;</long-description>
+          <tag line="126" name="param" description="значение, возвращаемое в случае отсутствия элемента" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="126" name="return" description="Новый текущий элемент (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если следующего нет" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="134">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="147" package="sdmx\parseUtils">
+        <name>Prev</name>
+        <full_name>Prev</full_name>
+        <docblock line="139">
+          <description>Перемещение указателя на предыдущий элемент</description>
+          <long-description>&lt;p&gt;Перемещает указатель на предыдущий элемент (даже если его не существует) и возвращает его занчение (или &lt;/var&gt;$default&lt;var&gt;)&lt;/p&gt;</long-description>
+          <tag line="139" name="param" description="значение, возвращаемое в случае отсутствия элемента" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="139" name="return" description="Новый текущий элемент (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если предыдущего нет" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="147">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="158" package="sdmx\parseUtils">
+        <name>Reset</name>
+        <full_name>Reset</full_name>
+        <docblock line="152">
+          <description>Возврат указателя в начало</description>
+          <long-description></long-description>
+          <tag line="152" name="param" description="значение в случае пустого массива" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="152" name="return" description="Первый элемент массива (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если массив пустой" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="158">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="169" package="sdmx\parseUtils">
+        <name>End</name>
+        <full_name>End</full_name>
+        <docblock line="163">
+          <description>Установка указателя на последний элемент</description>
+          <long-description></long-description>
+          <tag line="163" name="param" description="возвращаемое значение в случае пустого массива" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="163" name="return" description="Последний элемент (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если массив пустой" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="169">
+          <name>$default</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="179" package="sdmx\parseUtils">
+        <name>PrintObject</name>
+        <full_name>PrintObject</full_name>
+        <docblock line="174">
+          <description>Печать объекта</description>
+          <long-description></long-description>
+          <tag line="174" name="return" description="" type="void">
+            <type by_reference="false">void</type>
+          </tag>
+        </docblock>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="194" package="sdmx\parseUtils">
+        <name>SkipCdata</name>
+        <full_name>SkipCdata</full_name>
+        <docblock line="186">
+          <description>Пропуск всех cdata-тегов</description>
+          <long-description>&lt;p&gt;Функция пропускает все теги в массиве с типом cdata&lt;/p&gt;</long-description>
+          <tag line="186" name="param" description="значение, возращаемое в случае пропуска всего массива" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="186" name="return" description="Новый текущий элемент (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если пропущен весь массив" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="194">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="211" package="sdmx\parseUtils">
+        <name>SkipTo</name>
+        <full_name>SkipTo</full_name>
+        <docblock line="200">
+          <description>Пропуск тегов до нужного</description>
+          <long-description>&lt;p&gt;Пропускает все теги до тега с именем &lt;var&gt;$name&lt;/var&gt; и типом &lt;var&gt;$type&lt;/var&gt; (если &lt;var&gt;$type&lt;/var&gt; === &lt;var&gt;false&lt;/var&gt;, то тип не учитывается),
+возвращает &lt;var&gt;$default&lt;/var&gt;, если пропущен весь массив&lt;/p&gt;</long-description>
+          <tag line="200" name="param" description="имя тега, до которого надо всё пропустить" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="200" name="param" description="тип искомого тега, при &lt;var&gt;false&lt;/var&gt; типы тегов игнорируются" type="mixed" variable="$type">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="200" name="param" description="возвращается в случае пропуска всего массива" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="200" name="return" description="искомый тег (&lt;/var&gt;XmlTagInArray&lt;var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае пропуска всего массива" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="211">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="211">
+          <name>$type</name>
+          <default>false</default>
+          <type/>
+        </argument>
+        <argument line="211">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="228" package="sdmx\parseUtils">
+        <name>Skip</name>
+        <full_name>Skip</full_name>
+        <docblock line="217">
+          <description>Пропуск тегов</description>
+          <long-description>&lt;p&gt;Пропускает все теги, включая тег с именем &lt;var&gt;$name&lt;/var&gt; и типом &lt;var&gt;$type&lt;/var&gt; (если &lt;var&gt;$type&lt;/var&gt; установлен как &lt;var&gt;false&lt;/var&gt;, он игнорируется)
+Если пропущен весь массив, вернётся &lt;var&gt;$default&lt;/var&gt;&lt;/p&gt;</long-description>
+          <tag line="217" name="param" description="имя тега, который надо пропустить" type="string" variable="$name">
+            <type by_reference="false">string</type>
+          </tag>
+          <tag line="217" name="param" description="тип тега, если установлен в &lt;var&gt;false&lt;/var&gt;, игнорируется" type="mixed" variable="$type">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="217" name="param" description="значение, которое возвращается в случае, если пропущен весь массив" type="mixed" variable="$default">
+            <type by_reference="false">mixed</type>
+          </tag>
+          <tag line="217" name="return" description="тег после тега с именем &lt;var&gt;$name&lt;/var&gt; и типом &lt;var&gt;$type&lt;/var&gt; (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если пропущен весь массив" type="mixed">
+            <type by_reference="false">mixed</type>
+          </tag>
+        </docblock>
+        <argument line="228">
+          <name>$name</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="228">
+          <name>$type</name>
+          <default>false</default>
+          <type/>
+        </argument>
+        <argument line="228">
+          <name>$default</name>
+          <default>false</default>
+          <type/>
+        </argument>
+      </method>
+      <method final="false" abstract="false" static="false" visibility="public" namespace="global" line="243" package="sdmx\parseUtils">
+        <name>__construct</name>
+        <full_name>__construct</full_name>
+        <docblock line="235">
+          <description>Конструктор</description>
+          <long-description>&lt;p&gt;конструктор основан на функции &lt;var&gt;xml_parse_into_struct()&lt;/var&gt; (оттуда схожесть параметров)&lt;/p&gt;</long-description>
+          <tag line="235" name="param" description="xml-парсер" type="\resourse" variable="$parser">
+            <type by_reference="false">\resourse</type>
+          </tag>
+          <tag line="235" name="param" description="текст, который надо обработать" type="string" variable="$data">
+            <type by_reference="false">string</type>
+          </tag>
+        </docblock>
+        <argument line="243">
+          <name>$parser</name>
+          <default></default>
+          <type/>
+        </argument>
+        <argument line="243">
+          <name>$data</name>
+          <default></default>
+          <type/>
+        </argument>
+      </method>
+    </class>
+  </file>
+  <package name="Default" full_name="Default"/>
+  <package name="Search" full_name="Search"/>
+  <package name="sdmx" full_name="sdmx">
+    <package name="parseUtils" full_name="sdmx\parseUtils"/>
+  </package>
+  <namespace name="global" full_name="global"/>
+  <marker count="3">todo</marker>
+  <marker count="0">fixme</marker>
+  <deprecated count="0"/>
+</project>

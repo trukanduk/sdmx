@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GenericData
+ xmlns="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message"
+ xmlns:common="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/common"
+ xmlns:compact="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/compact"
+ xmlns:cross="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/cross"
+ xmlns:generic="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/generic"
+ xmlns:query="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/query"
+ xmlns:structure="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/structure"
+ xmlns:utility="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/utility"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/message SDMXMessage.xsd">
+<Header Id="singHead">
+	<ID>12102218</ID>
+	<Test>false</Test>
+	<Truncated>false</Truncated>
+	<Prepared>2012-11-15T01:00:00</Prepared>
+	<Extracted>2012-11-15T01:00:00</Extracted>
+	<Sender id="UniSIS">
+		<Name xml:lang="en">Unified Interdepartmental Statistical Information System</Name>
+		<Name xml:lang="ru">Единая межведомственная информационно-статистическая система</Name>
+		<Contact>
+			<URI>mailto:emiss.dev@mail.ru</URI>
+		</Contact>
+	</Sender>
+	<DataSetAgency>27</DataSetAgency>
+	<DataSetID>U.M.DOB.SHA</DataSetID>
+</Header>
+<CodeLists>
+	<structure:CodeList id="U.M.VID_UGLYA">
+		<structure:Name xml:lang="ru">Перечень видов угля</structure:Name>
+		<structure:Code value="code_U.M.VID_UGLYA01">
+			<structure:Description xml:lang="ru">бурый уголь</structure:Description>
+		</structure:Code>
+		<structure:Code value="code_U.M.VID_UGLYA02">
+			<structure:Description xml:lang="ru">каменный уголь</structure:Description>
+		</structure:Code>
+	</structure:CodeList>
+</CodeLists>
+<Description Id="signObj">
+	<Indicator id="42619" name="Количество добытого угля на шахтах">
+		<Units>
+			<Unit value="килотонна"/>
+		</Units>
+		<Periodicities>
+			<Periodicity value="Годовая" releases="30 июня" next-release="30.06.2013"/>
+		</Periodicities>
+		<DataRange start="2005" end="2011"/>
+		<LastUpdate value="2012-05-30T10:22:18"/>
+		<Dimensions>
+			<Dimension value="OKSM">
+				<Name xml:lang="ru">ОКСМ</Name>
+			</Dimension>
+			<Dimension value="U.M.VID_UGLYA" agencyID="27">
+				<Name xml:lang="ru">Перечень видов угля</Name>
+			</Dimension>
+		</Dimensions>
+		<Methodology value="Показатель отражает общее количество добытого угля подземным способом (шахта) в Российской Федерации по видам углей (бурый и каменный).  Значения показателя формируются на основе обработки данных из формы № 1-тэк (уголь) &quot;Сведения о работе угольной (сланцевой) шахты&quot;, утвержденной Постановлением Росстата от 17.05.2005 № 28 &quot;Об утверждении статистического инструментария для организации Росэнерго статистического наблюдения за деятельностью угледобывающих и углеперерабатывающих предприятий&quot;."/>
+		<Organization value="Министерство энергетики"/>
+		<Department value="Департамент угольной и торфяной промышленности"/>
+		<Allocations>
+			<Allocation id="27.07.">
+				<Name xml:lang="ru">По федеральному плану статработ / Министерство энергетики / Технико-экономические показатели работы угледобывающих и углеперерабатывающих предприятий</Name>
+			</Allocation>
+		</Allocations>
+		<Responsible>
+			<Name xml:lang="ru">Скрыль Анатолий Иванович; Лычагина Елена Сергеевна</Name>
+			<Comments xml:lang="ru">695-61-34; 607-50-12 ais@riu.ru; LychaginaES@minenergo.gov.ru</Comments>
+		</Responsible>
+	</Indicator>
+</Description>
+<DataSet>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA01"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2005</generic:Time>
+			<generic:ObsValue value="55796,5"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA01"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2006</generic:Time>
+			<generic:ObsValue value="2216,9"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA01"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2007</generic:Time>
+			<generic:ObsValue value="62614,5"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA01"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2008</generic:Time>
+			<generic:ObsValue value="1557,6"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA01"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2009</generic:Time>
+			<generic:ObsValue value="633,4"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA01"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2010</generic:Time>
+			<generic:ObsValue value="465,8"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA01"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2011</generic:Time>
+			<generic:ObsValue value="405,5"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA02"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2005</generic:Time>
+			<generic:ObsValue value="103558,1"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA02"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2006</generic:Time>
+			<generic:ObsValue value="107838,9"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA02"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2007</generic:Time>
+			<generic:ObsValue value="108297,8"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA02"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2008</generic:Time>
+			<generic:ObsValue value="103865,9"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA02"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2009</generic:Time>
+			<generic:ObsValue value="104749,1"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA02"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2010</generic:Time>
+			<generic:ObsValue value="100341,2"/>
+		</generic:Obs>
+	</generic:Series>
+	<generic:Series>
+		<generic:SeriesKey>
+			<generic:Value concept="U.M.VID_UGLYA" value="code_U.M.VID_UGLYA02"/>
+		</generic:SeriesKey>
+		<generic:Attributes>
+			<generic:Value concept="EI" value="килотонна"/>
+			<generic:Value concept="PERIOD" value="значение показателя за год"/>
+		</generic:Attributes>
+		<generic:Obs>
+			<generic:Time>2011</generic:Time>
+			<generic:ObsValue value="102490,2"/>
+		</generic:Obs>
+	</generic:Series>
+</DataSet>
+</GenericData>

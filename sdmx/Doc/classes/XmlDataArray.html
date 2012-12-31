@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SdmxParse » \XmlDataArray</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SdmxParse</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/sdmx.html"><i class="icon-folder-open"></i> sdmx</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">49</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_Curr" title="Curr :: Текущий элемент"><span class="description">Текущий элемент</span><pre>Curr()</pre></a></li>
+<li class="method public "><a href="#method_End" title="End :: Установка указателя на последний элемент"><span class="description">Установка указателя на последний элемент</span><pre>End()</pre></a></li>
+<li class="method public "><a href="#method_Next" title="Next :: Перемещение указателя на следующий элемент"><span class="description">Перемещение указателя на следующий элемент</span><pre>Next()</pre></a></li>
+<li class="method public "><a href="#method_Prev" title="Prev :: Перемещение указателя на предыдущий элемент"><span class="description">Перемещение указателя на предыдущий элемент</span><pre>Prev()</pre></a></li>
+<li class="method public "><a href="#method_PrintObject" title="PrintObject :: Печать объекта"><span class="description">Печать объекта</span><pre>PrintObject()</pre></a></li>
+<li class="method public "><a href="#method_Reset" title="Reset :: Возврат указателя в начало"><span class="description">Возврат указателя в начало</span><pre>Reset()</pre></a></li>
+<li class="method public "><a href="#method_Skip" title="Skip :: Пропуск тегов"><span class="description">Пропуск тегов</span><pre>Skip()</pre></a></li>
+<li class="method public "><a href="#method_SkipCdata" title="SkipCdata :: Пропуск всех cdata-тегов"><span class="description">Пропуск всех cdata-тегов</span><pre>SkipCdata()</pre></a></li>
+<li class="method public "><a href="#method_SkipTo" title="SkipTo :: Пропуск тегов до нужного"><span class="description">Пропуск тегов до нужного</span><pre>SkipTo()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Конструктор"><span class="description">Конструктор</span><pre>__construct()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_data" title="$data :: Массив с данными"><span class="description"></span><pre>$data</pre></a></li>
+<li class="property protected "><a href="#property_index" title="$index :: Индекс текущего элемента"><span class="description"></span><pre>$index</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\XmlDataArray"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/XmlDataArray.html">XmlDataArray</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Обработанный xml-файл</p>
+<div class="details">
+<div class="long_description"><p>По сути своей этот объект - обертка для массива, возвращаемого функцией <var>xml_parse_into_struct()</var>
+Имеет свой внутренний указатель на текущий тег.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/sdmx.parseUtils.html">sdmx\parseUtils</a></td>
+</tr>
+<tr>
+<th>version</th>
+<td>1.2</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_Curr"></a><div class="element clickable method public method_Curr" data-toggle="collapse" data-target=".method_Curr .collapse">
+<h2>Текущий элемент</h2>
+<pre>Curr(mixed $attr, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает ссылку на текущий элемент. Если параметр <var>$attr</var> - строка, то возвращается значение свойства $attr текущего элемента</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attr</h4>
+<code>mixed</code><p>если <var>false</var> (по умолчанию), то возвращается весь текущий элемент, если строка, то свойство текущего элемента (или <var>$default</var>)</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>возвращается в случае отсутствия элемента или отсутствия свойства</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Текущий элемент массива, значение свойства или <var>$default</var>, если его нет (свойства или самого объекта)</div>
+</div></div>
+</div>
+<a id="method_End"></a><div class="element clickable method public method_End" data-toggle="collapse" data-target=".method_End .collapse">
+<h2>Установка указателя на последний элемент</h2>
+<pre>End(mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>возвращаемое значение в случае пустого массива</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Последний элемент (<var>XmlTagInArray</var>) или <var>$default</var>, если массив пустой</div>
+</div></div>
+</div>
+<a id="method_Next"></a><div class="element clickable method public method_Next" data-toggle="collapse" data-target=".method_Next .collapse">
+<h2>Перемещение указателя на следующий элемент</h2>
+<pre>Next(mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>перемещает указатель на следующий элемент (даже если его не существует) и возвращает его значение (или <var>$default</var>)</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, возвращаемое в случае отсутствия элемента</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Новый текущий элемент (<var>XmlTagInArray</var>) или <var>$default</var>, если следующего нет</div>
+</div></div>
+</div>
+<a id="method_Prev"></a><div class="element clickable method public method_Prev" data-toggle="collapse" data-target=".method_Prev .collapse">
+<h2>Перемещение указателя на предыдущий элемент</h2>
+<pre>Prev(mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Перемещает указатель на предыдущий элемент (даже если его не существует) и возвращает его занчение (или </var>$default<var>)</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, возвращаемое в случае отсутствия элемента</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Новый текущий элемент (<var>XmlTagInArray</var>) или <var>$default</var>, если предыдущего нет</div>
+</div></div>
+</div>
+<a id="method_PrintObject"></a><div class="element clickable method public method_PrintObject" data-toggle="collapse" data-target=".method_PrintObject .collapse">
+<h2>Печать объекта</h2>
+<pre>PrintObject() : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_Reset"></a><div class="element clickable method public method_Reset" data-toggle="collapse" data-target=".method_Reset .collapse">
+<h2>Возврат указателя в начало</h2>
+<pre>Reset(mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение в случае пустого массива</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Первый элемент массива (<var>XmlTagInArray</var>) или <var>$default</var>, если массив пустой</div>
+</div></div>
+</div>
+<a id="method_Skip"></a><div class="element clickable method public method_Skip" data-toggle="collapse" data-target=".method_Skip .collapse">
+<h2>Пропуск тегов</h2>
+<pre>Skip(string $name, mixed $type, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Пропускает все теги, включая тег с именем <var>$name</var> и типом <var>$type</var> (если <var>$type</var> установлен как <var>false</var>, он игнорируется)
+Если пропущен весь массив, вернётся <var>$default</var></p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>имя тега, который надо пропустить</p>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>mixed</code><p>тип тега, если установлен в <var>false</var>, игнорируется</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, которое возвращается в случае, если пропущен весь массив</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>тег после тега с именем <var>$name</var> и типом <var>$type</var> (<var>XmlTagInArray</var>) или <var>$default</var>, если пропущен весь массив</div>
+</div></div>
+</div>
+<a id="method_SkipCdata"></a><div class="element clickable method public method_SkipCdata" data-toggle="collapse" data-target=".method_SkipCdata .collapse">
+<h2>Пропуск всех cdata-тегов</h2>
+<pre>SkipCdata(mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Функция пропускает все теги в массиве с типом cdata</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, возращаемое в случае пропуска всего массива</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Новый текущий элемент (<var>XmlTagInArray</var>) или <var>$default</var>, если пропущен весь массив</div>
+</div></div>
+</div>
+<a id="method_SkipTo"></a><div class="element clickable method public method_SkipTo" data-toggle="collapse" data-target=".method_SkipTo .collapse">
+<h2>Пропуск тегов до нужного</h2>
+<pre>SkipTo(string $name, mixed $type, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Пропускает все теги до тега с именем <var>$name</var> и типом <var>$type</var> (если <var>$type</var> === <var>false</var>, то тип не учитывается),
+возвращает <var>$default</var>, если пропущен весь массив</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>имя тега, до которого надо всё пропустить</p>
+</div>
+<div class="subelement argument">
+<h4>$type</h4>
+<code>mixed</code><p>тип искомого тега, при <var>false</var> типы тегов игнорируются</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>возвращается в случае пропуска всего массива</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>искомый тег (</var>XmlTagInArray<var>) или <var>$default</var> в случае пропуска всего массива</div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Конструктор</h2>
+<pre>__construct(\resourse $parser, string $data) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>конструктор основан на функции <var>xml_parse_into_struct()</var> (оттуда схожесть параметров)</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$parser</h4>
+<code>\resourse</code><p>xml-парсер</p>
+</div>
+<div class="subelement argument">
+<h4>$data</h4>
+<code>string</code><p>текст, который надо обработать</p>
+</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_data"> </a><div class="element clickable property protected property_data" data-toggle="collapse" data-target=".property_data .collapse">
+<h2></h2>
+<pre>$data : <a href="XmlParseUtils.html#%5CXmlTagInArray">\XmlTagInArray[]</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_index"> </a><div class="element clickable property protected property_index" data-toggle="collapse" data-target=".property_index .collapse">
+<h2></h2>
+<pre>$index : int</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2012-12-28T00:01:24+04:00.<br></footer></div>
+</div>
+</body>
+</html>

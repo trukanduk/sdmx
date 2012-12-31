@@ -1,0 +1,892 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>SdmxParser</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><link rel="stylesheet" href="css/black-tie/jquery-ui-1.8.2.custom.css" type="text/css"></link><link rel="stylesheet" href="css/jquery.treeview.css" type="text/css"></link><link rel="stylesheet" href="css/default.css" type="text/css"></link><script type="text/javascript" src="js/jquery-1.4.2.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script><script type="text/javascript" src="js/jquery.cookie.js"></script><script type="text/javascript" src="js/jquery.treeview.js"></script></head><body><script type="text/javascript">
+          $(document).ready(function()
+          {
+            $(".filetree").treeview({
+              animated: "fast",
+              collapsed: true,
+              persist: "cookie"
+            });
+          });
+
+          function jq_escape(myid)
+          {
+            return '#' + myid.replace(/(#|\$|:|\.|\(|\))/g, '\\$1');
+          }
+
+          function applySearchHash()
+          {
+            hashes = document.location.hash.substr(1, document.location.hash.length);
+            if (hashes != "")
+            {
+              hashes = hashes.split('/');
+              $.each(hashes, function(index, hash)
+              {
+                node = $(jq_escape(hash));
+                switch (node[0].nodeName)
+                {
+                  case 'DIV':
+                    tabs = node.parents('.tabs');
+                    $(tabs[0]).tabs('select', '#' + hash)
+                    break;
+                  case 'A':
+                    window.scrollTo(0, node.offset().top);
+                    break;
+                }
+              });
+            }
+          }
+
+          jQuery(function()
+          {
+            jQuery(".tabs").tabs();
+            applySearchHash();
+          });
+        </script><div id="maincontainer"><div id="header"><h1>SdmxParser<img src="images/top-stopper.png"></img></h1></div><ul xmlns="" id="menu">
+<li><a href="graph.html">Class diagram</a></li>
+<li><a href="markers.html">TODO / Markers</a></li>
+<li><a href="parse_markers.html">Errors</a></li>
+</ul>
+<div id="content_container"><div xmlns="" id="content">
+<h1>SdmxDataPoint.php</h1>
+<div class="file_menu">
+<a href="#includes">Includes</a> |<a href="#classes">Classes</a> |</div>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">author</label><div class="property-value"></div>
+<label class="property-key">package</label><div class="property-value"></div>
+<label class="property-key">version</label><div class="property-value"></div>
+</div>
+<h2>Description</h2>В файле содержится описание класса SdmxDataPoint -- "ячейки таблицы".<br><br><a name="includes"></a><h2>Includes</h2>XmlParseUtils.php <span class="nb-faded-text">(Require Once)</span><br>SdmxCodelist.php <span class="nb-faded-text">(Require Once)</span><br>SdmxDimension.php <span class="nb-faded-text">(Require Once)</span><br><a name="classes"></a><h2>Classes</h2>
+<div id="SdmxDataPoint" class="class">
+<h3>SdmxDataPoint</h3>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">Extends</label><div class="property-value">
+         </div>
+<label class="property-key">Implements</label><div class="property-value"> 
+      </div>
+<label class="property-key">package</label><div class="property-value">
+<a title="">sdmx</a>
+             
+        </div>
+<label class="property-key">Abstract</label><div class="property-value">No 
+      </div>
+<label class="property-key">Final</label><div class="property-value">No 
+      </div>
+</div>
+<h4>Description</h4>
+<em>Ячейка таблицы</em><br><p>Класс по семантике - "ячейка таблицы". Название <var>SdmxDataPoint</var> дано потому что эту ячейку можно предстаавить как точку со значением в N-мерном пространстве.
+Хранит в себе значения "координат" во всех размерностях, так же некие аттрибуты, год (всё-таки статистические данные) и, наконец, значение ячейки</p><br><div id="methods_SdmxDataPoint">
+<h4>Methods</h4>
+<a style="font-style: italic;" href="#SdmxDataPoint::FillDimensions()">FillDimensions</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::GetAttr()">GetAttr</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::GetAttributesIterator()">GetAttributesIterator</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::GetDimension()">GetDimension</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::GetDimensionsIterator()">GetDimensionsIterator</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::GetTime()">GetTime</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::GetValue()">GetValue</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::IsDimensionsFilled()">IsDimensionsFilled</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::Parse()">Parse</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::SetAttr()">SetAttr</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::SetAttrsArray()">SetAttrsArray</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::SetDimension()">SetDimension</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::SetDimensionsArray()">SetDimensionsArray</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::SetTime()">SetTime</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::SetValue()">SetValue</a>,
+      <a style="font-style: italic;" href="#SdmxDataPoint::__construct()">__construct</a>,
+      <div class="method">
+<a id="SdmxDataPoint::FillDimensions()"></a><h3>FillDimensions<span class="nb-faded-text">(
+          <a href="SdmxDimension.html#%5CSdmxDimension">\SdmxDimension[]</a>
+             
+            $dimensions,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">bool</span>
+</h3>
+<h4>Description</h4>
+<em>Заполнение массива размерностей значениями</em><br><small><p>Функция берёт принимает на вход массив <var>$dimensions</var> вида <var>['&lt;имя размерности>' => new SdmxDimension()]</var> (такой массив должен быть в <var>SdmxData</var>)
+Возвращает <var>true</var>, если всё прошло успешно, иначе остаются элементы со строками в качестве значений.
+Если какая-то размерность есть в массиве <var>$dimensions</var>, но нет в точке, то эта размерность будет присвоена объекту (будет взято значение размерности по умолчанию).
+Если в объекте была размерность, которой нет в массиве <var>$dimensions</var>, элемент этой размерности в объекте не будет изменён и останется строкой.
+Если  объекте какая-то размерность была заполнена, она не будет перезаписана
+<b>Функция не изменяет массив<b></p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$dimensions</td>
+<td style="white-space: normal;"><a href="SdmxDimension.html#%5CSdmxDimension">\SdmxDimension[]</a></td>
+<td><p>массив размерностей файла</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>bool</td>
+<td>&lt;var&gt;true&lt;/var&gt; в случае успеха, иначе &lt;var&gt;false&lt;/var&gt;</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::GetAttr()"></a><h3>GetAttr<span class="nb-faded-text">(
+          string
+             
+            $attr,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Получение конкретного аттрибута</em><br><small><p>Возвращает аттрибут по его имени, если такой аттрибут не был найден, вернётся <var>$default</var></p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$attr</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя аттрибута</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение, возвращаемое при отсутствии аттрибута</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>значение аттрибута (&lt;var&gt;string&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::GetAttributesIterator()"></a><h3>GetAttributesIterator<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\ArrayIterator</span>
+</h3>
+<h4>Description</h4>
+<em>Получение итератора аттрибутов</em><br><small><p>Возвращает итератор на начало массива аттрибутов</p></small><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\ArrayIterator</td>
+<td>итератор на начало массива аттрибутов</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::GetDimension()"></a><h3>GetDimension<span class="nb-faded-text">(
+          string
+             
+            $name,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Получение значения размерности</em><br><small><p>Возвращает элемент массива я индексом <var>$name</var>, будь то строка или <var>SdmxCodelistInstance</var></p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя нужной размерности</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение, возвращаемое в случае ненахождения размерности</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>Объект &lt;var&gt;SdmxCodelistInstance&lt;/var&gt;, строку-имя значения или &lt;var&gt;$default&lt;var&gt; в случае отсутствия размерности</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::GetDimensionsIterator()"></a><h3>GetDimensionsIterator<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\ArrayIterator</span>
+</h3>
+<h4>Description</h4>
+<em>Итератор массива размерностей</em><br><small><p>Возвращает итератор на начало массива размерностей точки</p></small><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\ArrayIterator</td>
+<td>итератор на начало массива</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::GetTime()"></a><h3>GetTime<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение времени</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>время, к которому относится данный объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::GetValue()"></a><h3>GetValue<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">string</span>
+</h3>
+<h4>Description</h4>
+<em>Получение значения</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>string</td>
+<td>значение объекта (ячейки, которой соотвествуюет объект)</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::IsDimensionsFilled()"></a><h3>IsDimensionsFilled<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Description</h4>
+<em>Правильность заполнения размерностей</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::Parse()"></a><h3>Parse<span class="nb-faded-text">(
+          <a href="XmlParseUtils.html#%5CXmlDataArray">\XmlDataArray</a>
+             
+            $arr,
+          <a href="SdmxDimension.html#%5CSdmxDimension">\SdmxDimension[]</a>
+             
+            $dimensions,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDataPoint</span>
+</h3>
+<h4>Description</h4>
+<em>Создание элемента из XmlDataArray</em><br><small><p>"Достаёт" элемент из объекта <var>XmlDataArray</var> и перемещает его внутренний указатель.</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$arr</td>
+<td style="white-space: normal;"><a href="XmlParseUtils.html#%5CXmlDataArray">\XmlDataArray</a></td>
+<td><p>объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$dimensions</td>
+<td style="white-space: normal;"><a href="SdmxDimension.html#%5CSdmxDimension">\SdmxDimension[]</a></td>
+<td><p>массив разверностей в форме <var>['<имя размерности>' => new SdmxDimension()]</var> Гарантируется, что массив не будет изменён</p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDataPoint</td>
+<td>новый экземпляр класса</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::SetAttr()"></a><h3>SetAttr<span class="nb-faded-text">(
+          string
+             
+            $attr,
+          string
+             
+            $val,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDataPoint</span>
+</h3>
+<h4>Description</h4>
+<em>Установка аттрибута</em><br><small><p>Устанавливает аттрибут <var>$name</var></p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$attr</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя изменяемого аттрибута</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$val</td>
+<td style="white-space: normal;">string</td>
+<td><p>новое значение аттрибута</p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDataPoint</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::SetAttrsArray()"></a><h3>SetAttrsArray<span class="nb-faded-text">(
+          string[]
+             
+            $attrs,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDataPoint</span>
+</h3>
+<h4>Description</h4>
+<em>Установка массива аттрибутов</em><br><small><p>Гарантируется, что входной массив <var>$attrs</var> не изменится</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$attrs</td>
+<td style="white-space: normal;">string[]</td>
+<td><p>Массив аттрибутов в форме <var>['<имя аттрибута>' => '<значение аттрибута>']</var></p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDataPoint</td>
+<td>объект-родитель</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::SetDimension()"></a><h3>SetDimension<span class="nb-faded-text">(
+          string
+             
+            $name,
+          mixed
+             
+            $dim,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDataPoint</span>
+</h3>
+<h4>Description</h4>
+<em>Установка размерности</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя размерности</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$dim</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>имя значения (строка) или экземпляр <var>SdmxCodelistInstance</var></p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDataPoint</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::SetDimensionsArray()"></a><h3>SetDimensionsArray<span class="nb-faded-text">(
+          <a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a>
+             
+            $dimensions,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDataPoint</span>
+</h3>
+<h4>Description</h4>
+<em>Установка массива размерностей</em><br><small><p>Гарантируется, что входной массив <var>$dimensions</var> не будет изменён.</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$dimensions</td>
+<td style="white-space: normal;"><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></td>
+<td><p>массив размерностей в виде <var>['<имя размерности>' => new SdmxCodelistInstance()]</var></p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDataPoint</td>
+<td>объект-родитель</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::SetTime()"></a><h3>SetTime<span class="nb-faded-text">(
+          string
+             
+            $time,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Description</h4>
+<em>Установка времени</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$time</td>
+<td style="white-space: normal;">string</td>
+<td><p>новое время, относящееся к объекту</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::SetValue()"></a><h3>SetValue<span class="nb-faded-text">(
+          string
+             
+            $value,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">\SdmxDataPoint</span>
+</h3>
+<h4>Description</h4>
+<em>Устаноска значения</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$value</td>
+<td style="white-space: normal;">string</td>
+<td><p>@value новое значение</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>\SdmxDataPoint</td>
+<td>сам объект</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::__construct()"></a><h3>__construct<span class="nb-faded-text">(
+          string
+             
+            $value,
+          string
+             
+            $time,
+          <a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a>
+             
+            $dimensions,
+          string[]
+             
+            $attrs,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Description</h4>
+<em>Конструктор</em><br><small><p>После создания объекта нет никаких способов его изменить извне.
+Гарантируется, что входный массивы <var>$dimensions</var> и <var>$attrs</var> не будут изменены</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$value</td>
+<td style="white-space: normal;">string</td>
+<td><p>значение ячейки</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$time</td>
+<td style="white-space: normal;">string</td>
+<td><p>время ячейки (некий параметр)</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$dimensions</td>
+<td style="white-space: normal;"><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></td>
+<td><p>массив размерностей в виде <var>['<имя размерности>' => new SdmxCodelistInstance()]</var></p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$attrs</td>
+<td style="white-space: normal;">string[]</td>
+<td><p>массив аттрибутов в виде <var>['<имя аттрибута' => '<значение аттрибута>']</var></p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<div id="properties_SdmxDataPoint">
+<h4>Properties</h4>
+<a href="#SdmxDataPoint::%24attributes">$attributes</a>,
+      <a href="#SdmxDataPoint::%24dimensions">$dimensions</a>,
+      <a href="#SdmxDataPoint::%24dimsFilled">$dimsFilled</a>,
+      <a href="#SdmxDataPoint::%24time">$time</a>,
+      <a href="#SdmxDataPoint::%24value">$value</a>,
+      <div class="method">
+<a id="SdmxDataPoint::$attributes"></a><h3>
+<span class="nb-faded-text">string[] 
+          protected 
+          </span>$attributes
+          =
+          array()</h3>
+<em>Аттрибуты объекта</em><br><small>&lt;p&gt;Просто ассоциативный массив с аттрибутами точки&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::$dimensions"></a><h3>
+<span class="nb-faded-text">mixed[] 
+          protected 
+          </span>$dimensions
+          =
+          array()</h3>
+<em>Описние размерностей</em><br><small>&lt;p&gt;Массив имеет вид: &lt;var&gt;['&amp;lt;имя размерности&gt;' =&gt; new SdmxCodelistInstance()]&lt;/var&gt;,
+однако есть второй временный вариант, &lt;var&gt;['&amp;lt;имя размерности' =&gt; '&amp;lt;имя значения&gt;']&lt;/var&gt;, который останется в случае ошибки при поиске нужной размерности,
+то есть если при заполнении объекта не будет найдена какая-то размерность, то соответствующей этой размерности элемент массива будет строкой с названием значения.&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::$dimsFilled"></a><h3>
+<span class="nb-faded-text">bool 
+          protected 
+          </span>$dimsFilled
+          =
+          true</h3>
+<em>Вид массива $dimensions</em><br><small>&lt;p&gt;Если &lt;var&gt;true&lt;/var&gt;, то массив &lt;var&gt;$this-&gt;dimensions&lt;/var&gt; имеет верную форму (&lt;var&gt;['&amp;lt;имя размерности&gt;' =&gt; new SdmxCodelistInstance()]&lt;/var&gt;)&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::$time"></a><h3>
+<span class="nb-faded-text">string 
+          protected 
+          </span>$time
+          =
+          ''</h3>
+<em>Время</em><br><small>&lt;p&gt;Видимо, речь о годе. Хотя в принципе это всё равно строка -- может быть чем угодно&lt;/p&gt;</small><br><br>
+</div>
+<div class="method">
+<a id="SdmxDataPoint::$value"></a><h3>
+<span class="nb-faded-text">string 
+          protected 
+          </span>$value
+          =
+          ''</h3>
+<em>Значение в ячейке</em><br><small>&lt;p&gt;собственно, значение, хранящееся в ячейке таблицы&lt;/p&gt;</small><br><br>
+</div>
+</div>
+<div style="clear: both"></div>
+</div>
+</div>
+<small xmlns="" class="footer">Documentation was generated by <a href="http://www.phpdoc.org">phpDocumentor 2.0.0a12</a>.</small></div><div id="index"><div class="padder"><script xmlns="" type="text/javascript">
+      $(function() {
+
+        var is_chrome = /chrome/.test( navigator.userAgent.toLowerCase() );
+        var is_local = /file:\/\//.test(document.location.href);
+        if (is_chrome && is_local)
+        {
+          // search is disabled on chrome with local files due to http://code.google.com/p/chromium/issues/detail?id=40787
+          return;
+        }
+
+        $("#search_box").show();
+        var search_index = {};
+        $.ajax({
+          url: "search_index.xml",
+          dataType: ($.browser.msie) ? "text" : "xml",
+          error: function(data) {
+            alert('An error occurred using the search data');
+          },
+          success: function( data ) {
+            var xml;
+            if (typeof data == "string") {
+              xml = new ActiveXObject("Microsoft.XMLDOM");
+              xml.async = false;
+              xml.loadXML(data);
+            } else {
+              xml = data;
+            }
+
+            search_index = $("node", xml).map(function() {
+              type = $("type", this).text();
+              return {
+                value: $("value", this).text(),
+                label: '<img src="images/icons/'+type+'.png" align="absmiddle">'+$("value", this).text(),
+                id: $("id", this).text(),
+              };
+            }).get();
+
+            $("#search_box").autocomplete({
+              source: search_index,
+              select: function(event, ui) {
+                // redirect to the documentation
+                if ((parent) && (parent.content))
+                {
+                  parent.content.document.location = ''+ui.item.id;
+                }
+                else
+                {
+                  jQuery(document).location = ''+ui.item.id;
+                }
+                applySearchHash();
+              }
+            });
+          }
+        });
+      });
+    </script><input id="search_box"></input><div class="section">
+<h1>Namespaces</h1>
+<ul id="namespaces-" class="filetree"><li class="closed">
+<span class="folder">global</span><ul>
+<li><span class="class"><a href="Test.html#CClass">CClass</a><br><small>some class</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li><span class="class"><a href="SdmxData.html#SdmxData">SdmxData</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+<li><span class="class"><a href="SdmxPeriodicity.html#SdmxPeriodicity">SdmxPeriodicity</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxPredefinedCodelists">SdmxPredefinedCodelists</a><br><small>Объект со стандартными &lt;var&gt;Codelist&lt;/var&gt;&#39;ами</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlDataArray">XmlDataArray</a><br><small>Обработанный xml-файл</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlTagInArray">XmlTagInArray</a><br><small>Класс, описывающий один тег в xml-файле.</small></span></li>
+</ul>
+</li></ul>
+</div><div class="section">
+<h1>Packages</h1>
+<ul id="packages-" class="filetree">
+<li class="closed">
+<span class="folder">Default</span><ul id="packages_Default" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">Search</span><ul id="packages_Search" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">sdmx</span><ul id="packages_sdmx" class="filetree">
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div><div id="footer"><div class="padder"></div></div></div></body></html>

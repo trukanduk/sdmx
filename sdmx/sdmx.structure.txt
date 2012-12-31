@@ -1,0 +1,57 @@
+header # общая информация о файле (источники и проч.)
+	id
+	test?
+	truncated?
+	prepared # дата изготовления
+	extracted # ещё какая-то дата, обычно совпадает
+	sender id # id fedstat'а
+		name lang=rus # его название
+		name lang=en #
+		contact # контакты
+			URI
+	DataSetAgency # какое-то число. видимо, источник
+	DataSetId # хз вообще, что такое
+
+CodeLists # по сути контейнер для объявление enum'ов
+	structure:CodeList id # id enum'а (внутри документа)
+		structure:name # название enum'a (на человеческом языке)
+		structure:code value # id первого значения
+			structure:description # первое значение на человеческом языке
+		[structure:code # второй id...
+			structure:description]
+	
+Description id # описание представления?
+	Indicator id name # имя = заголовок. id хз чего. Походу задаёт несколько таблиц? может быть много, но непонятна семантика
+		Units # единицы измерения. не встречал больше одной, так что не понимаю, как они будут взаимодействовать
+			Unit/ value # собственно, единица измерения. прямо в value без закрывающего тега.
+			[Unit/] # видимо, может быть много
+		Periodicities # периодизация? а что, если их много?
+			Periodicity/ value releases next-release # напр., value='Месячная' releases - когда вышла (выходит обычно? в основном не строго пишут), next-release - точная дата выхода
+		DataRange/ start end # с какого по какой момент есть информация (речь идёт о годах? нигде не уточняется)
+		LastUpdate/ value # когда обновлялось. точное дата/время
+		Dimensions # размерности файла. потом пихаются в generic:SeriesKey элемента
+			Dimension value # value = CodeList::id -- id резмерности (используются те enum'ы)
+				Name # название размерности на человеческом языке
+			[Dimersion
+				Name]
+		Methodology/ value # много букав ни о чём. не понимаю, что это
+		Organization/ value # название рассматриваемой организации
+		Departament/ value # хз, что конкретно, подразделение, что ли?
+		Allocations # вообще не знаю, что это
+			Allocation id # О__о
+				Name # название аллокации? что за хрень? "По федеральному плану статработ / Государственная фельдъегерская служба /
+				                                          Доходы от услуг федеральной фельдъегерской связи" (с)
+		Responsible # обратная связь (видимо, с организацией)
+			Name # имя человека? какой-то неправильный тег тогда
+			Comments # комментарии. везде написаны контакты
+DataSet # самое интересное - данные
+	generic:Series # объект
+		generic:SeriesKey # см. Dimersions
+			generic:Value/ concept value # concept = dimension::value
+			[generic:Value]
+		generic:Attribute # Какие-то аттрибуты. Везде только единица измерения (не связанная с Unit'ами!) и период
+			generic:Value/ concept value # concept - название внутри (id), value - название на человеческом языке
+			[generic:Value] # обычно есть EI (диница измерения) и PERIOD 
+		generic:Obs # значение объекта?
+			generic:Time # год
+			generic:ObsValue/ value # собственно, значение в ячейке

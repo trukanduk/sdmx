@@ -1,0 +1,880 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>SdmxParser</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><link rel="stylesheet" href="css/black-tie/jquery-ui-1.8.2.custom.css" type="text/css"></link><link rel="stylesheet" href="css/jquery.treeview.css" type="text/css"></link><link rel="stylesheet" href="css/default.css" type="text/css"></link><script type="text/javascript" src="js/jquery-1.4.2.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script><script type="text/javascript" src="js/jquery.cookie.js"></script><script type="text/javascript" src="js/jquery.treeview.js"></script></head><body><script type="text/javascript">
+          $(document).ready(function()
+          {
+            $(".filetree").treeview({
+              animated: "fast",
+              collapsed: true,
+              persist: "cookie"
+            });
+          });
+
+          function jq_escape(myid)
+          {
+            return '#' + myid.replace(/(#|\$|:|\.|\(|\))/g, '\\$1');
+          }
+
+          function applySearchHash()
+          {
+            hashes = document.location.hash.substr(1, document.location.hash.length);
+            if (hashes != "")
+            {
+              hashes = hashes.split('/');
+              $.each(hashes, function(index, hash)
+              {
+                node = $(jq_escape(hash));
+                switch (node[0].nodeName)
+                {
+                  case 'DIV':
+                    tabs = node.parents('.tabs');
+                    $(tabs[0]).tabs('select', '#' + hash)
+                    break;
+                  case 'A':
+                    window.scrollTo(0, node.offset().top);
+                    break;
+                }
+              });
+            }
+          }
+
+          jQuery(function()
+          {
+            jQuery(".tabs").tabs();
+            applySearchHash();
+          });
+        </script><div id="maincontainer"><div id="header"><h1>SdmxParser<img src="images/top-stopper.png"></img></h1></div><ul xmlns="" id="menu">
+<li><a href="graph.html">Class diagram</a></li>
+<li><a href="markers.html">TODO / Markers</a></li>
+<li><a href="parse_markers.html">Errors</a></li>
+</ul>
+<div id="content_container"><div xmlns="" id="content">
+<h1>XmlParseUtils.php</h1>
+<div class="file_menu">
+<a href="#classes">Classes</a> |</div>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">author</label><div class="property-value"></div>
+<label class="property-key">package</label><div class="property-value"></div>
+<label class="property-key">version</label><div class="property-value"></div>
+</div>
+<h2>Description</h2>Файл содержит описания классов для парсинга xml-файлов (любых, не только sdmx).<br><br><a name="classes"></a><h2>Classes</h2>
+<div id="XmlTagInArray" class="class">
+<h3>XmlTagInArray</h3>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">Extends</label><div class="property-value">
+         </div>
+<label class="property-key">Implements</label><div class="property-value"> 
+      </div>
+<label class="property-key">package</label><div class="property-value">
+<a title="">sdmx\parseUtils</a>
+             
+        </div>
+<label class="property-key">Abstract</label><div class="property-value">No 
+      </div>
+<label class="property-key">Final</label><div class="property-value">No 
+      </div>
+</div>
+<h4>Description</h4>
+<em>Класс, описывающий один тег в xml-файле.</em><br><p>По сути - обин объект из выходного массива функции xml_parse_into_struct(..).
+Его нельзя изменить вне себя, только в конструкторе. Поэтому нет смысла копировать этот объект, чтобы куда-либо передать -- он всегда read-only</p><br><div id="methods_XmlTagInArray">
+<h4>Methods</h4>
+<a style="font-style: italic;" href="#XmlTagInArray::GetAttrValue()">GetAttrValue</a>,
+      <a style="font-style: italic;" href="#XmlTagInArray::GetValue()">GetValue</a>,
+      <a style="font-style: italic;" href="#XmlTagInArray::PrintObject()">PrintObject</a>,
+      <a style="font-style: italic;" href="#XmlTagInArray::__construct()">__construct</a>,
+      <div class="method">
+<a id="XmlTagInArray::GetAttrValue()"></a><h3>GetAttrValue<span class="nb-faded-text">(
+          string
+             
+            $name,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Аттрибут тега</em><br><small><p>Возвращает <var>$this->values['attributes'][$name]</var> или <var>$default</var> в случае отсутствия</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>название аттрибута</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение по умолчанию, которое возвращается в случае отсутствия аттрибута. По умолчанию false</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>значение аттрибута (&lt;var&gt;$this-&gt;values[$name]&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае его отсутствия.</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlTagInArray::GetValue()"></a><h3>GetValue<span class="nb-faded-text">(
+          string
+             
+            $name,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Свойство тега.</em><br><small><p>Возвращает <var>$this->values[$name]</var> или <var>$default</var> в случае отсутствия</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>название свойства</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение по умолчанию, которое возвращается в случае отсутствия свойства. По умолчанию <var>false</var>.</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>значение свойства (&lt;var&gt;$this-&gt;values[$name]&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае его отсутствия.</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlTagInArray::PrintObject()"></a><h3>PrintObject<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">void</span>
+</h3>
+<h4>Description</h4>
+<em>Печатает объект.</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>void</td>
+<td></td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlTagInArray::__construct()"></a><h3>__construct<span class="nb-faded-text">(
+          mixed[]
+             
+            $values,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Description</h4>
+<em>Конструктор</em><br><small><p>Создаёт объект по данному массиву (пойдёт напрямую в <var>$this->values</var>)</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$values</td>
+<td style="white-space: normal;">mixed[]</td>
+<td><p>собственно, значения тега без обработки</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<div id="properties_XmlTagInArray">
+<h4>Properties</h4>
+<a href="#XmlTagInArray::%24values">$values</a>,
+      <div class="method">
+<a id="XmlTagInArray::$values"></a><h3>
+<span class="nb-faded-text">mixed[] 
+          protected 
+          </span>$values
+          =
+          array()</h3>
+<em>объект (массив) из массива, возвращаемого функцией xml_struct_into_struct()</em><br><small>&lt;p&gt;Объект, оформленный в виде массива из возвращаемого массива xml_parse_into_struct(),
+имеет как правило структуру: &lt;var&gt;['tag'=&gt;'&amp;lt;ИМЯ ТЕГА&gt;', 'value'=&gt;'&amp;lt;содержимое&gt;', 'type'=&gt;'open|close|complete|cdata' 'attributes'=&gt;['&amp;lt;АТТРИБУТ&gt;'=&gt;'&amp;lt;значение&gt;']]&lt;/var&gt;.&lt;/p&gt;</small><br><br>
+</div>
+</div>
+<div style="clear: both"></div>
+</div>
+<div id="XmlDataArray" class="class">
+<h3>XmlDataArray</h3>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">Extends</label><div class="property-value">
+         </div>
+<label class="property-key">Implements</label><div class="property-value"> 
+      </div>
+<label class="property-key">package</label><div class="property-value">
+<a title="">sdmx\parseUtils</a>
+             
+        </div>
+<label class="property-key">Abstract</label><div class="property-value">No 
+      </div>
+<label class="property-key">Final</label><div class="property-value">No 
+      </div>
+</div>
+<h4>Description</h4>
+<em>Обработанный xml-файл</em><br><p>По сути своей этот объект - обертка для массива, возвращаемого функцией <var>xml_parse_into_struct()</var>
+Имеет свой внутренний указатель на текущий тег.</p><br><div id="methods_XmlDataArray">
+<h4>Methods</h4>
+<a style="font-style: italic;" href="#XmlDataArray::Curr()">Curr</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::End()">End</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::Next()">Next</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::Prev()">Prev</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::PrintObject()">PrintObject</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::Reset()">Reset</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::Skip()">Skip</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::SkipCdata()">SkipCdata</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::SkipTo()">SkipTo</a>,
+      <a style="font-style: italic;" href="#XmlDataArray::__construct()">__construct</a>,
+      <div class="method">
+<a id="XmlDataArray::Curr()"></a><h3>Curr<span class="nb-faded-text">(
+          mixed
+             
+            $attr
+            = false,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Текущий элемент</em><br><small><p>Возвращает ссылку на текущий элемент. Если параметр <var>$attr</var> - строка, то возвращается значение свойства $attr текущего элемента</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$attr</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>если <var>false</var> (по умолчанию), то возвращается весь текущий элемент, если строка, то свойство текущего элемента (или <var>$default</var>)</p>
+</td>
+<td>false</td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>возвращается в случае отсутствия элемента или отсутствия свойства</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>Текущий элемент массива, значение свойства или &lt;var&gt;$default&lt;/var&gt;, если его нет (свойства или самого объекта)</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::End()"></a><h3>End<span class="nb-faded-text">(
+          mixed
+             
+            $default,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Установка указателя на последний элемент</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>возвращаемое значение в случае пустого массива</p>
+</td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>Последний элемент (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если массив пустой</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::Next()"></a><h3>Next<span class="nb-faded-text">(
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Перемещение указателя на следующий элемент</em><br><small><p>перемещает указатель на следующий элемент (даже если его не существует) и возвращает его значение (или <var>$default</var>)</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение, возвращаемое в случае отсутствия элемента</p>
+</td>
+<td>false</td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>Новый текущий элемент (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если следующего нет</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::Prev()"></a><h3>Prev<span class="nb-faded-text">(
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Перемещение указателя на предыдущий элемент</em><br><small><p>Перемещает указатель на предыдущий элемент (даже если его не существует) и возвращает его занчение (или </var>$default<var>)</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение, возвращаемое в случае отсутствия элемента</p>
+</td>
+<td>false</td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>Новый текущий элемент (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если предыдущего нет</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::PrintObject()"></a><h3>PrintObject<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">void</span>
+</h3>
+<h4>Description</h4>
+<em>Печать объекта</em><br><h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>void</td>
+<td></td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::Reset()"></a><h3>Reset<span class="nb-faded-text">(
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Возврат указателя в начало</em><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение в случае пустого массива</p>
+</td>
+<td>false</td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>Первый элемент массива (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если массив пустой</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::Skip()"></a><h3>Skip<span class="nb-faded-text">(
+          string
+             
+            $name,
+          mixed
+             
+            $type
+            = false,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Пропуск тегов</em><br><small><p>Пропускает все теги, включая тег с именем <var>$name</var> и типом <var>$type</var> (если <var>$type</var> установлен как <var>false</var>, он игнорируется)
+Если пропущен весь массив, вернётся <var>$default</var></p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя тега, который надо пропустить</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$type</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>тип тега, если установлен в <var>false</var>, игнорируется</p>
+</td>
+<td>false</td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение, которое возвращается в случае, если пропущен весь массив</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>тег после тега с именем &lt;var&gt;$name&lt;/var&gt; и типом &lt;var&gt;$type&lt;/var&gt; (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если пропущен весь массив</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::SkipCdata()"></a><h3>SkipCdata<span class="nb-faded-text">(
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Пропуск всех cdata-тегов</em><br><small><p>Функция пропускает все теги в массиве с типом cdata</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>значение, возращаемое в случае пропуска всего массива</p>
+</td>
+<td>false</td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>Новый текущий элемент (&lt;var&gt;XmlTagInArray&lt;/var&gt;) или &lt;var&gt;$default&lt;/var&gt;, если пропущен весь массив</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::SkipTo()"></a><h3>SkipTo<span class="nb-faded-text">(
+          string
+             
+            $name,
+          mixed
+             
+            $type
+            = false,
+          mixed
+             
+            $default
+            = false,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">mixed</span>
+</h3>
+<h4>Description</h4>
+<em>Пропуск тегов до нужного</em><br><small><p>Пропускает все теги до тега с именем <var>$name</var> и типом <var>$type</var> (если <var>$type</var> === <var>false</var>, то тип не учитывается),
+возвращает <var>$default</var>, если пропущен весь массив</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$name</td>
+<td style="white-space: normal;">string</td>
+<td><p>имя тега, до которого надо всё пропустить</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$type</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>тип искомого тега, при <var>false</var> типы тегов игнорируются</p>
+</td>
+<td>false</td>
+</tr>
+<tr>
+<td>$default</td>
+<td style="white-space: normal;">mixed</td>
+<td><p>возвращается в случае пропуска всего массива</p>
+</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>mixed</td>
+<td>искомый тег (&lt;/var&gt;XmlTagInArray&lt;var&gt;) или &lt;var&gt;$default&lt;/var&gt; в случае пропуска всего массива</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="XmlDataArray::__construct()"></a><h3>__construct<span class="nb-faded-text">(
+          \resourse
+             
+            $parser,
+          string
+             
+            $data,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Description</h4>
+<em>Конструктор</em><br><small><p>конструктор основан на функции <var>xml_parse_into_struct()</var> (оттуда схожесть параметров)</p></small><br><h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$parser</td>
+<td style="white-space: normal;">\resourse</td>
+<td><p>xml-парсер</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td>$data</td>
+<td style="white-space: normal;">string</td>
+<td><p>текст, который надо обработать</p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<div id="properties_XmlDataArray">
+<h4>Properties</h4>
+<a href="#XmlDataArray::%24data">$data</a>,
+      <a href="#XmlDataArray::%24index">$index</a>,
+      <div class="method">
+<a id="XmlDataArray::$data"></a><h3>
+<span class="nb-faded-text">\XmlTagInArray[] 
+          protected 
+          </span>$data
+          =
+          array()</h3>
+<em>Массив с данными<p>массив с данными</p>
+</em><br><small></small><br><br>
+</div>
+<div class="method">
+<a id="XmlDataArray::$index"></a><h3>
+<span class="nb-faded-text">int 
+          protected 
+          </span>$index
+          =
+          0</h3>
+<em>Индекс текущего элемента</em><br><small></small><br><br>
+</div>
+</div>
+<div style="clear: both"></div>
+</div>
+</div>
+<small xmlns="" class="footer">Documentation was generated by <a href="http://www.phpdoc.org">phpDocumentor 2.0.0a12</a>.</small></div><div id="index"><div class="padder"><script xmlns="" type="text/javascript">
+      $(function() {
+
+        var is_chrome = /chrome/.test( navigator.userAgent.toLowerCase() );
+        var is_local = /file:\/\//.test(document.location.href);
+        if (is_chrome && is_local)
+        {
+          // search is disabled on chrome with local files due to http://code.google.com/p/chromium/issues/detail?id=40787
+          return;
+        }
+
+        $("#search_box").show();
+        var search_index = {};
+        $.ajax({
+          url: "search_index.xml",
+          dataType: ($.browser.msie) ? "text" : "xml",
+          error: function(data) {
+            alert('An error occurred using the search data');
+          },
+          success: function( data ) {
+            var xml;
+            if (typeof data == "string") {
+              xml = new ActiveXObject("Microsoft.XMLDOM");
+              xml.async = false;
+              xml.loadXML(data);
+            } else {
+              xml = data;
+            }
+
+            search_index = $("node", xml).map(function() {
+              type = $("type", this).text();
+              return {
+                value: $("value", this).text(),
+                label: '<img src="images/icons/'+type+'.png" align="absmiddle">'+$("value", this).text(),
+                id: $("id", this).text(),
+              };
+            }).get();
+
+            $("#search_box").autocomplete({
+              source: search_index,
+              select: function(event, ui) {
+                // redirect to the documentation
+                if ((parent) && (parent.content))
+                {
+                  parent.content.document.location = ''+ui.item.id;
+                }
+                else
+                {
+                  jQuery(document).location = ''+ui.item.id;
+                }
+                applySearchHash();
+              }
+            });
+          }
+        });
+      });
+    </script><input id="search_box"></input><div class="section">
+<h1>Namespaces</h1>
+<ul id="namespaces-" class="filetree"><li class="closed">
+<span class="folder">global</span><ul>
+<li><span class="class"><a href="Test.html#CClass">CClass</a><br><small>some class</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li><span class="class"><a href="SdmxData.html#SdmxData">SdmxData</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+<li><span class="class"><a href="SdmxPeriodicity.html#SdmxPeriodicity">SdmxPeriodicity</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxPredefinedCodelists">SdmxPredefinedCodelists</a><br><small>Объект со стандартными &lt;var&gt;Codelist&lt;/var&gt;&#39;ами</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlDataArray">XmlDataArray</a><br><small>Обработанный xml-файл</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlTagInArray">XmlTagInArray</a><br><small>Класс, описывающий один тег в xml-файле.</small></span></li>
+</ul>
+</li></ul>
+</div><div class="section">
+<h1>Packages</h1>
+<ul id="packages-" class="filetree">
+<li class="closed">
+<span class="folder">Default</span><ul id="packages_Default" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">Search</span><ul id="packages_Search" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">sdmx</span><ul id="packages_sdmx" class="filetree">
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div><div id="footer"><div class="padder"></div></div></div></body></html>

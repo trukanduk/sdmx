@@ -1,0 +1,735 @@
+<html xmlns="http://www.w3.org/1999/xhtml"><head><title>SdmxParser</title><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta><link rel="stylesheet" href="css/black-tie/jquery-ui-1.8.2.custom.css" type="text/css"></link><link rel="stylesheet" href="css/jquery.treeview.css" type="text/css"></link><link rel="stylesheet" href="css/default.css" type="text/css"></link><script type="text/javascript" src="js/jquery-1.4.2.min.js"></script><script type="text/javascript" src="js/jquery-ui-1.8.2.custom.min.js"></script><script type="text/javascript" src="js/jquery.cookie.js"></script><script type="text/javascript" src="js/jquery.treeview.js"></script></head><body><script type="text/javascript">
+          $(document).ready(function()
+          {
+            $(".filetree").treeview({
+              animated: "fast",
+              collapsed: true,
+              persist: "cookie"
+            });
+          });
+
+          function jq_escape(myid)
+          {
+            return '#' + myid.replace(/(#|\$|:|\.|\(|\))/g, '\\$1');
+          }
+
+          function applySearchHash()
+          {
+            hashes = document.location.hash.substr(1, document.location.hash.length);
+            if (hashes != "")
+            {
+              hashes = hashes.split('/');
+              $.each(hashes, function(index, hash)
+              {
+                node = $(jq_escape(hash));
+                switch (node[0].nodeName)
+                {
+                  case 'DIV':
+                    tabs = node.parents('.tabs');
+                    $(tabs[0]).tabs('select', '#' + hash)
+                    break;
+                  case 'A':
+                    window.scrollTo(0, node.offset().top);
+                    break;
+                }
+              });
+            }
+          }
+
+          jQuery(function()
+          {
+            jQuery(".tabs").tabs();
+            applySearchHash();
+          });
+        </script><div id="maincontainer"><div id="header"><h1>SdmxParser<img src="images/top-stopper.png"></img></h1></div><ul xmlns="" id="menu">
+<li><a href="graph.html">Class diagram</a></li>
+<li><a href="markers.html">TODO / Markers</a></li>
+<li><a href="parse_markers.html">Errors</a></li>
+</ul>
+<div id="content_container"><div xmlns="" id="content">
+<h1>SdmxPeriodicity.php</h1>
+<div class="file_menu">
+<a href="#includes">Includes</a> |<a href="#classes">Classes</a> |</div>
+<a name="includes"></a><h2>Includes</h2>XmlParseUtils.php <span class="nb-faded-text">(Require Once)</span><br><a name="classes"></a><h2>Classes</h2>
+<div id="SdmxPeriodicity" class="class">
+<h3>SdmxPeriodicity</h3>
+<div class="properties">
+<h1>Properties</h1>
+<label class="property-key">Extends</label><div class="property-value">
+         </div>
+<label class="property-key">Implements</label><div class="property-value"> 
+      </div>
+<label class="property-key">Abstract</label><div class="property-value">No 
+      </div>
+<label class="property-key">Final</label><div class="property-value">No 
+      </div>
+</div>
+<h4>Description</h4>
+<strong><em>No description is available</em></strong><div id="methods_SdmxPeriodicity">
+<h4>Methods</h4>
+<a style="font-style: italic;" href="#SdmxPeriodicity::GetDataRange()">GetDataRange</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::GetDataRangeBegin()">GetDataRangeBegin</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::GetDataRangeEnd()">GetDataRangeEnd</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::GetLastUpdate()">GetLastUpdate</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::GetNextRelease()">GetNextRelease</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::GetPeriod()">GetPeriod</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::GetReleases()">GetReleases</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::SetDataRange()">SetDataRange</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::SetDataRangeBegin()">SetDataRangeBegin</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::SetDataRangeEnd()">SetDataRangeEnd</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::SetLastUpdate()">SetLastUpdate</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::SetNextRelease()">SetNextRelease</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::SetPeriod()">SetPeriod</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::SetReleases()">SetReleases</a>,
+      <a style="font-style: italic;" href="#SdmxPeriodicity::__construct()">__construct</a>,
+      <div class="method">
+<a id="SdmxPeriodicity::GetDataRange()"></a><h3>GetDataRange<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::GetDataRangeBegin()"></a><h3>GetDataRangeBegin<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::GetDataRangeEnd()"></a><h3>GetDataRangeEnd<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::GetLastUpdate()"></a><h3>GetLastUpdate<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::GetNextRelease()"></a><h3>GetNextRelease<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::GetPeriod()"></a><h3>GetPeriod<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::GetReleases()"></a><h3>GetReleases<span class="nb-faded-text">(
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::SetDataRange()"></a><h3>SetDataRange<span class="nb-faded-text">(
+          
+             
+            $begin,
+          
+             
+            $end,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$begin</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$end</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::SetDataRangeBegin()"></a><h3>SetDataRangeBegin<span class="nb-faded-text">(
+          
+             
+            $begin,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$begin</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::SetDataRangeEnd()"></a><h3>SetDataRangeEnd<span class="nb-faded-text">(
+          
+             
+            $end,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$end</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::SetLastUpdate()"></a><h3>SetLastUpdate<span class="nb-faded-text">(
+          
+             
+            $lastUpdate,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$lastUpdate</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::SetNextRelease()"></a><h3>SetNextRelease<span class="nb-faded-text">(
+          
+             
+            $nextRelease,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$nextRelease</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::SetPeriod()"></a><h3>SetPeriod<span class="nb-faded-text">(
+          
+             
+            $period,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$period</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::SetReleases()"></a><h3>SetReleases<span class="nb-faded-text">(
+          
+             
+            $releases,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody><tr>
+<td>$releases</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr></tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::__construct()"></a><h3>__construct<span class="nb-faded-text">(
+          
+             
+            $period,
+          
+             
+            $releases,
+          
+             
+            $nextRelease,
+          
+             
+            $dataRangeBegin,
+          
+             
+            $dataRangeEnd,
+          
+             
+            $lastUpdate,
+          
+          )
+        </span>
+        :
+        <span class="nb-faded-text">n/a</span>
+</h3>
+<h4>Arguments</h4>
+<table>
+<thead><tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+<th>Default</th>
+</tr></thead>
+<tbody>
+<tr>
+<td>$period</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$releases</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$nextRelease</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$dataRangeBegin</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$dataRangeEnd</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>$lastUpdate</td>
+<td style="white-space: normal;">n/a</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4>Return value</h4>
+<table>
+<thead><tr>
+<th>Type</th>
+<th>Description</th>
+</tr></thead>
+<tbody><tr>
+<td>n/a</td>
+<td>n/a</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<div id="properties_SdmxPeriodicity">
+<h4>Properties</h4>
+<a href="#SdmxPeriodicity::%24dataRange">$dataRange</a>,
+      <a href="#SdmxPeriodicity::%24lastUpdate">$lastUpdate</a>,
+      <a href="#SdmxPeriodicity::%24nextRelease">$nextRelease</a>,
+      <a href="#SdmxPeriodicity::%24period">$period</a>,
+      <a href="#SdmxPeriodicity::%24releases">$releases</a>,
+      <div class="method">
+<a id="SdmxPeriodicity::$dataRange"></a><h3>
+<span class="nb-faded-text"> 
+          protected 
+          </span>$dataRange
+          =
+          array()</h3>
+<em></em><br>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::$lastUpdate"></a><h3>
+<span class="nb-faded-text"> 
+          protected 
+          </span>$lastUpdate
+          =
+          ''</h3>
+<em></em><br>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::$nextRelease"></a><h3>
+<span class="nb-faded-text"> 
+          protected 
+          </span>$nextRelease
+          =
+          ''</h3>
+<em></em><br>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::$period"></a><h3>
+<span class="nb-faded-text"> 
+          protected 
+          </span>$period
+          =
+          ''</h3>
+<em></em><br>
+</div>
+<div class="method">
+<a id="SdmxPeriodicity::$releases"></a><h3>
+<span class="nb-faded-text"> 
+          protected 
+          </span>$releases
+          =
+          ''</h3>
+<em></em><br>
+</div>
+</div>
+<div style="clear: both"></div>
+</div>
+</div>
+<small xmlns="" class="footer">Documentation was generated by <a href="http://www.phpdoc.org">phpDocumentor 2.0.0a12</a>.</small></div><div id="index"><div class="padder"><script xmlns="" type="text/javascript">
+      $(function() {
+
+        var is_chrome = /chrome/.test( navigator.userAgent.toLowerCase() );
+        var is_local = /file:\/\//.test(document.location.href);
+        if (is_chrome && is_local)
+        {
+          // search is disabled on chrome with local files due to http://code.google.com/p/chromium/issues/detail?id=40787
+          return;
+        }
+
+        $("#search_box").show();
+        var search_index = {};
+        $.ajax({
+          url: "search_index.xml",
+          dataType: ($.browser.msie) ? "text" : "xml",
+          error: function(data) {
+            alert('An error occurred using the search data');
+          },
+          success: function( data ) {
+            var xml;
+            if (typeof data == "string") {
+              xml = new ActiveXObject("Microsoft.XMLDOM");
+              xml.async = false;
+              xml.loadXML(data);
+            } else {
+              xml = data;
+            }
+
+            search_index = $("node", xml).map(function() {
+              type = $("type", this).text();
+              return {
+                value: $("value", this).text(),
+                label: '<img src="images/icons/'+type+'.png" align="absmiddle">'+$("value", this).text(),
+                id: $("id", this).text(),
+              };
+            }).get();
+
+            $("#search_box").autocomplete({
+              source: search_index,
+              select: function(event, ui) {
+                // redirect to the documentation
+                if ((parent) && (parent.content))
+                {
+                  parent.content.document.location = ''+ui.item.id;
+                }
+                else
+                {
+                  jQuery(document).location = ''+ui.item.id;
+                }
+                applySearchHash();
+              }
+            });
+          }
+        });
+      });
+    </script><input id="search_box"></input><div class="section">
+<h1>Namespaces</h1>
+<ul id="namespaces-" class="filetree"><li class="closed">
+<span class="folder">global</span><ul>
+<li><span class="class"><a href="Test.html#CClass">CClass</a><br><small>some class</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li><span class="class"><a href="SdmxData.html#SdmxData">SdmxData</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+<li><span class="class"><a href="SdmxPeriodicity.html#SdmxPeriodicity">SdmxPeriodicity</a><br><small></small></span></li>
+<li><span class="class"><a href="SdmxCodelist.html#SdmxPredefinedCodelists">SdmxPredefinedCodelists</a><br><small>Объект со стандартными &lt;var&gt;Codelist&lt;/var&gt;&#39;ами</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlDataArray">XmlDataArray</a><br><small>Обработанный xml-файл</small></span></li>
+<li><span class="class"><a href="XmlParseUtils.html#XmlTagInArray">XmlTagInArray</a><br><small>Класс, описывающий один тег в xml-файле.</small></span></li>
+</ul>
+</li></ul>
+</div><div class="section">
+<h1>Packages</h1>
+<ul id="packages-" class="filetree">
+<li class="closed">
+<span class="folder">Default</span><ul id="packages_Default" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">Search</span><ul id="packages_Search" class="filetree"></ul>
+</li>
+<li class="closed">
+<span class="folder">sdmx</span><ul id="packages_sdmx" class="filetree">
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelist">SdmxCodelist</a><br><small>&lt;var&gt;Codelist&lt;/var&gt;</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxCodelist.html#SdmxCodelistInstance">SdmxCodelistInstance</a><br><small>Элемент &lt;var&gt;Codelist&lt;/var&gt;&#39;а</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDataPoint.html#SdmxDataPoint">SdmxDataPoint</a><br><small>Ячейка таблицы</small></span></li>
+<li class="closed"><span class="class"><a href="SdmxDimension.html#SdmxDimension">SdmxDimension</a><br><small>Размерность таблицы</small></span></li>
+</ul>
+</li>
+</ul>
+</div>
+</div></div><div id="footer"><div class="padder"></div></div></div></body></html>

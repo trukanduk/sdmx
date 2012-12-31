@@ -1,0 +1,382 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SdmxParse » \SdmxCodelist</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SdmxParse</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/sdmx.html"><i class="icon-folder-open"></i> sdmx</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">49</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_GetDefaultInstance" title="GetDefaultInstance :: Получение объекта по умолчанию"><span class="description">Получение объекта по умолчанию</span><pre>GetDefaultInstance()</pre></a></li>
+<li class="method public "><a href="#method_GetDefaultInstanceName" title="GetDefaultInstanceName :: Получение имени элемента по умолчанию"><span class="description">Получение имени элемента по умолчанию</span><pre>GetDefaultInstanceName()</pre></a></li>
+<li class="method public "><a href="#method_GetDescription" title="GetDescription :: Получение описания"><span class="description">Получение описания</span><pre>GetDescription()</pre></a></li>
+<li class="method public "><a href="#method_GetInstance" title="GetInstance :: Получение элемента списка"><span class="description">Получение элемента списка</span><pre>GetInstance()</pre></a></li>
+<li class="method public "><a href="#method_GetInstancesIterator" title="GetInstancesIterator :: Получение итератора списка"><span class="description">Получение итератора списка</span><pre>GetInstancesIterator()</pre></a></li>
+<li class="method public "><a href="#method_GetName" title="GetName :: Получение имени"><span class="description">Получение имени</span><pre>GetName()</pre></a></li>
+<li class="method public "><a href="#method_Parse" title="Parse :: Создание элемента из XmlDataArray"><span class="description">Создание элемента из XmlDataArray</span><pre>Parse()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Конструктор"><span class="description">Конструктор</span><pre>__construct()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected "><a href="#method_AddInstance" title="AddInstance :: Добавление элемента в список"><span class="description">Добавление элемента в список</span><pre>AddInstance()</pre></a></li>
+<li class="method protected "><a href="#method_SetDefaultInstanceName" title="SetDefaultInstanceName :: Установка имени элемента по умолчанию"><span class="description">Установка имени элемента по умолчанию</span><pre>SetDefaultInstanceName()</pre></a></li>
+<li class="method protected "><a href="#method_SetDescription" title="SetDescription :: Установка описания"><span class="description">Установка описания</span><pre>SetDescription()</pre></a></li>
+<li class="method protected "><a href="#method_SetInstanceArray" title="SetInstanceArray :: Установка всего списка"><span class="description">Установка всего списка</span><pre>SetInstanceArray()</pre></a></li>
+<li class="method protected "><a href="#method_SetName" title="SetName :: Установка имени"><span class="description">Установка имени</span><pre>SetName()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_defaultInstanceName" title="$defaultInstanceName :: Элемент по умолчанию"><span class="description"></span><pre>$defaultInstanceName</pre></a></li>
+<li class="property protected "><a href="#property_description" title="$description :: Описание списка"><span class="description"></span><pre>$description</pre></a></li>
+<li class="property protected "><a href="#property_instances" title="$instances :: Массив элементов"><span class="description"></span><pre>$instances</pre></a></li>
+<li class="property protected "><a href="#property_name" title="$name :: Имя"><span class="description"></span><pre>$name</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SdmxCodelist"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SdmxCodelist.html">SdmxCodelist</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description"><var>Codelist</var></p>
+<div class="details">
+<div class="long_description"><p>Некий список неких элементов :) В Xml такой пример:</p>
+
+<pre><code>&lt;structure:Codelist id="NAME">
+  &lt;structure:Name>VALUE&lt;/structure:Name>
+  &lt;structure:Code value="CONSTANT_NAME_0">
+      &lt;structure:Description>CONSTANT_DESCRIPTION_0&lt;/structure:Description>
+  &lt;/structure:Code>
+  &lt;structure:Code value="CONSTANT_NAME_1">
+      &lt;structure:Description>CONSTANT_DESCRIPTION_1&lt;/structure:Description>
+  &lt;/structure:Code>
+&lt;/structure:Codelist>
+</code></pre>
+
+<p>Объект содержит в себе массив объектов <var>SdmxCodelistInstance</var></p>
+
+<p>Объект неизменяем вне самого себя, поэтому можно безболезненно передавать его куда-либо</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/sdmx.html">sdmx</a></td>
+</tr>
+<tr>
+<th>version</th>
+<td>1.1</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_GetDefaultInstance"></a><div class="element clickable method public method_GetDefaultInstance" data-toggle="collapse" data-target=".method_GetDefaultInstance .collapse">
+<h2>Получение объекта по умолчанию</h2>
+<pre>GetDefaultInstance(mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Если элемента с таким именем нет, то вернётся <var>$default</var></p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, возвращаемое при отсутствии элемента по уполчанию</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>элемент списка по умолчанию (<var>SdmxCodelistInstance</var>) или <var>$default</var> в случае отсутствия</div>
+</div></div>
+</div>
+<a id="method_GetDefaultInstanceName"></a><div class="element clickable method public method_GetDefaultInstanceName" data-toggle="collapse" data-target=".method_GetDefaultInstanceName .collapse">
+<h2>Получение имени элемента по умолчанию</h2>
+<pre>GetDefaultInstanceName() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>имя элемента по умолчанию</div>
+</div></div>
+</div>
+<a id="method_GetDescription"></a><div class="element clickable method public method_GetDescription" data-toggle="collapse" data-target=".method_GetDescription .collapse">
+<h2>Получение описания</h2>
+<pre>GetDescription() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>описание объекта</div>
+</div></div>
+</div>
+<a id="method_GetInstance"></a><div class="element clickable method public method_GetInstance" data-toggle="collapse" data-target=".method_GetInstance .collapse">
+<h2>Получение элемента списка</h2>
+<pre>GetInstance(string $name, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает элемент списка с именем <var>$name</var> или <var>$defult</var> если такого элемента нет
+имя элемента не зависит от регистра</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>имя элемента (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>возвращается, когда не находится элемента с именем <var>$name</var>. По умолчанию установлен в false</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Элемент списка (<var>SdmxCodelistInstance</var>) или <var>$default</var> если не найдено</div>
+</div></div>
+</div>
+<a id="method_GetInstancesIterator"></a><div class="element clickable method public method_GetInstancesIterator" data-toggle="collapse" data-target=".method_GetInstancesIterator .collapse">
+<h2>Получение итератора списка</h2>
+<pre>GetInstancesIterator() : <a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает итератор на начало массива элементов</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></code>итератор на начало массива элементов</div>
+</div></div>
+</div>
+<a id="method_GetName"></a><div class="element clickable method public method_GetName" data-toggle="collapse" data-target=".method_GetName .collapse">
+<h2>Получение имени</h2>
+<pre>GetName() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>имя списка (в xml -- <var>id</var>)</div>
+</div></div>
+</div>
+<a id="method_Parse"></a><div class="element clickable method public method_Parse" data-toggle="collapse" data-target=".method_Parse .collapse">
+<h2>Создание элемента из XmlDataArray</h2>
+<pre>Parse(\XmlDataArray $arr) : <a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>"Достаёт" элемент из объекта <var>XmlDataArray</var> и перемещает его внутренний указатель.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arr</h4>
+<code><a href="../classes/XmlDataArray.html">\XmlDataArray</a></code><p>объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></code>новый экземпляр класса</div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Конструктор</h2>
+<pre>__construct(string $name, string $description, <a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a> $instances, string $defaultInstanceName) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Создаёт новый объект и сразу присваивает ему имя и описание. Есть возможность передать массив и имя элемента по умолчанию
+Если имя элемента по умолчанию - <var>null</var>, то будет взят первый элемент списка. Если и список пуст, не будет установлен вовсе.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>имя списка</p>
+</div>
+<div class="subelement argument">
+<h4>$description</h4>
+<code>string</code><p>описание списка</p>
+</div>
+<div class="subelement argument">
+<h4>$instances</h4>
+<code><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></code><p>массив элементов списка в юбой из форм: <var>['<name>' => new SdmxCodelistInstance(), '<name>' => '<desc>', new SdmxCodelistInstance()]</var> По умолчанию - пустой.</p>
+</div>
+<div class="subelement argument">
+<h4>$defaultInstanceName</h4>
+<code>string</code><p>имя элемента по умолчанию. По умолчанию - <var>null</var>, тогда будет взят первый элемент массива (если не пуст)</p>
+</div>
+</div></div>
+</div>
+<a id="method_AddInstance"></a><div class="element clickable method protected method_AddInstance" data-toggle="collapse" data-target=".method_AddInstance .collapse">
+<h2>Добавление элемента в список</h2>
+<pre>AddInstance(\SdmxCodelistInstance $inst) : <a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Добавляет в список уже созданный элемент. Также, если массив элементов был пустым, выставляет его в качестве элемента по умолчанию.
+Имя элемента не зависит от регистра (т.е. <var>'Key'</var> и <var>'key'</var> -- одинаковые элементы)</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$inst</h4>
+<code><a href="../classes/SdmxCodelistInstance.html">\SdmxCodelistInstance</a></code><p>элемент, который будет добавлен в список</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></code>сам объект Codelist</div>
+</div></div>
+</div>
+<a id="method_SetDefaultInstanceName"></a><div class="element clickable method protected method_SetDefaultInstanceName" data-toggle="collapse" data-target=".method_SetDefaultInstanceName .collapse">
+<h2>Установка имени элемента по умолчанию</h2>
+<pre>SetDefaultInstanceName(string $defaultInstanceName) : <a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Функция не проверяет существование этого элемента</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$defaultInstanceName</h4>
+<code>string</code><p>имя нового элемента по умолчанию</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></code>сам объект, из которого вызывался метод</div>
+</div></div>
+</div>
+<a id="method_SetDescription"></a><div class="element clickable method protected method_SetDescription" data-toggle="collapse" data-target=".method_SetDescription .collapse">
+<h2>Установка описания</h2>
+<pre>SetDescription(string $description) : <a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$description</h4>
+<code>string</code><p>новое описание</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></code>сам объект</div>
+</div></div>
+</div>
+<a id="method_SetInstanceArray"></a><div class="element clickable method protected method_SetInstanceArray" data-toggle="collapse" data-target=".method_SetInstanceArray .collapse">
+<h2>Установка всего списка</h2>
+<pre>SetInstanceArray(<a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a> $arr) : <a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Полностью копирует данный массив в себя
+Массив должен иметь одну из форм (можно несколько в одной): <var>['&lt;name>' => new SdmxCodelistInstance(), '&lt;name>' => '&lt;desc>', new SdmxCodelistInstance()]</var></p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arr</h4>
+<code><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></code><p>массив с элементами</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></code>сам объект</div>
+</div></div>
+</div>
+<a id="method_SetName"></a><div class="element clickable method protected method_SetName" data-toggle="collapse" data-target=".method_SetName .collapse">
+<h2>Установка имени</h2>
+<pre>SetName(string $name) : <a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>новое имя</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></code>сам объект</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_defaultInstanceName"> </a><div class="element clickable property protected property_defaultInstanceName" data-toggle="collapse" data-target=".property_defaultInstanceName .collapse">
+<h2></h2>
+<pre>$defaultInstanceName : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>В некоторых случаях оказывается, что должен быть элемент списка по умолчанию.
+В этом поле содержится имя этого элемента в массиве элементов
+Он может быть установлен из функции <var>self::SetDefaultInstanceName()</var> или если он будет будет первым в массиве (см. функцию <var>self::AddCInstance()</var>)</p></div></div></div>
+</div>
+<a id="property_description"> </a><div class="element clickable property protected property_description" data-toggle="collapse" data-target=".property_description .collapse">
+<h2></h2>
+<pre>$description : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Имя списка на человеческом языке. в файле имеет название "<var>name</var>". Свойство read-only</p></div></div></div>
+</div>
+<a id="property_instances"> </a><div class="element clickable property protected property_instances" data-toggle="collapse" data-target=".property_instances .collapse">
+<h2></h2>
+<pre>$instances : <a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Массив элементов списка -- экземпляров <var>SdmxCoelistInstance</var>
+Хранятся в виде</p>
+
+<pre><code>array('&lt;имя элемента>' => SdmxCodelistInstance('&lt;имя элемента>', '&lt;описание элемента>'), ...)</code></pre>
+
+<p>Имя элемента не зависит от регистра.
+Каждый из них неизменяем после создания, поэтому можно не копировать их при передаче</p></div></div></div>
+</div>
+<a id="property_name"> </a><div class="element clickable property protected property_name" data-toggle="collapse" data-target=".property_name .collapse">
+<h2></h2>
+<pre>$name : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Имя списка, в xml называется идентификатором (<var>id</var>). Свойство read-only.</p></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2012-12-28T00:01:24+04:00.<br></footer></div>
+</div>
+</body>
+</html>

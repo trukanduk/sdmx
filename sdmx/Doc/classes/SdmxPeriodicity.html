@@ -1,0 +1,308 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SdmxParse » \SdmxPeriodicity</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SdmxParse</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/sdmx.html"><i class="icon-folder-open"></i> sdmx</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">49</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_GetDataRange" title="GetDataRange :: "><span class="description">GetDataRange()
+        </span><pre>GetDataRange()</pre></a></li>
+<li class="method public "><a href="#method_GetDataRangeBegin" title="GetDataRangeBegin :: "><span class="description">GetDataRangeBegin()
+        </span><pre>GetDataRangeBegin()</pre></a></li>
+<li class="method public "><a href="#method_GetDataRangeEnd" title="GetDataRangeEnd :: "><span class="description">GetDataRangeEnd()
+        </span><pre>GetDataRangeEnd()</pre></a></li>
+<li class="method public "><a href="#method_GetLastUpdate" title="GetLastUpdate :: "><span class="description">GetLastUpdate()
+        </span><pre>GetLastUpdate()</pre></a></li>
+<li class="method public "><a href="#method_GetNextRelease" title="GetNextRelease :: "><span class="description">GetNextRelease()
+        </span><pre>GetNextRelease()</pre></a></li>
+<li class="method public "><a href="#method_GetPeriod" title="GetPeriod :: "><span class="description">GetPeriod()
+        </span><pre>GetPeriod()</pre></a></li>
+<li class="method public "><a href="#method_GetReleases" title="GetReleases :: "><span class="description">GetReleases()
+        </span><pre>GetReleases()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: "><span class="description">__construct()
+        </span><pre>__construct()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected "><a href="#method_SetDataRange" title="SetDataRange :: "><span class="description">SetDataRange()
+        </span><pre>SetDataRange()</pre></a></li>
+<li class="method protected "><a href="#method_SetDataRangeBegin" title="SetDataRangeBegin :: "><span class="description">SetDataRangeBegin()
+        </span><pre>SetDataRangeBegin()</pre></a></li>
+<li class="method protected "><a href="#method_SetDataRangeEnd" title="SetDataRangeEnd :: "><span class="description">SetDataRangeEnd()
+        </span><pre>SetDataRangeEnd()</pre></a></li>
+<li class="method protected "><a href="#method_SetLastUpdate" title="SetLastUpdate :: "><span class="description">SetLastUpdate()
+        </span><pre>SetLastUpdate()</pre></a></li>
+<li class="method protected "><a href="#method_SetNextRelease" title="SetNextRelease :: "><span class="description">SetNextRelease()
+        </span><pre>SetNextRelease()</pre></a></li>
+<li class="method protected "><a href="#method_SetPeriod" title="SetPeriod :: "><span class="description">SetPeriod()
+        </span><pre>SetPeriod()</pre></a></li>
+<li class="method protected "><a href="#method_SetReleases" title="SetReleases :: "><span class="description">SetReleases()
+        </span><pre>SetReleases()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_dataRange" title="$dataRange :: "><span class="description"></span><pre>$dataRange</pre></a></li>
+<li class="property protected "><a href="#property_lastUpdate" title="$lastUpdate :: "><span class="description"></span><pre>$lastUpdate</pre></a></li>
+<li class="property protected "><a href="#property_nextRelease" title="$nextRelease :: "><span class="description"></span><pre>$nextRelease</pre></a></li>
+<li class="property protected "><a href="#property_period" title="$period :: "><span class="description"></span><pre>$period</pre></a></li>
+<li class="property protected "><a href="#property_releases" title="$releases :: "><span class="description"></span><pre>$releases</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SdmxPeriodicity"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SdmxPeriodicity.html">SdmxPeriodicity</a>
+</li>
+</ul>
+<div class="element class"><div class="details">
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_GetDataRange"></a><div class="element clickable method public method_GetDataRange" data-toggle="collapse" data-target=".method_GetDataRange .collapse">
+<h2>GetDataRange()
+        </h2>
+<pre>GetDataRange() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetDataRangeBegin"></a><div class="element clickable method public method_GetDataRangeBegin" data-toggle="collapse" data-target=".method_GetDataRangeBegin .collapse">
+<h2>GetDataRangeBegin()
+        </h2>
+<pre>GetDataRangeBegin() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetDataRangeEnd"></a><div class="element clickable method public method_GetDataRangeEnd" data-toggle="collapse" data-target=".method_GetDataRangeEnd .collapse">
+<h2>GetDataRangeEnd()
+        </h2>
+<pre>GetDataRangeEnd() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetLastUpdate"></a><div class="element clickable method public method_GetLastUpdate" data-toggle="collapse" data-target=".method_GetLastUpdate .collapse">
+<h2>GetLastUpdate()
+        </h2>
+<pre>GetLastUpdate() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetNextRelease"></a><div class="element clickable method public method_GetNextRelease" data-toggle="collapse" data-target=".method_GetNextRelease .collapse">
+<h2>GetNextRelease()
+        </h2>
+<pre>GetNextRelease() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetPeriod"></a><div class="element clickable method public method_GetPeriod" data-toggle="collapse" data-target=".method_GetPeriod .collapse">
+<h2>GetPeriod()
+        </h2>
+<pre>GetPeriod() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetReleases"></a><div class="element clickable method public method_GetReleases" data-toggle="collapse" data-target=".method_GetReleases .collapse">
+<h2>GetReleases()
+        </h2>
+<pre>GetReleases() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>__construct()
+        </h2>
+<pre>__construct($period, $releases, $nextRelease, $dataRangeBegin, $dataRangeEnd, $lastUpdate) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$period</h4></div>
+<div class="subelement argument"><h4>$releases</h4></div>
+<div class="subelement argument"><h4>$nextRelease</h4></div>
+<div class="subelement argument"><h4>$dataRangeBegin</h4></div>
+<div class="subelement argument"><h4>$dataRangeEnd</h4></div>
+<div class="subelement argument"><h4>$lastUpdate</h4></div>
+</div></div>
+</div>
+<a id="method_SetDataRange"></a><div class="element clickable method protected method_SetDataRange" data-toggle="collapse" data-target=".method_SetDataRange .collapse">
+<h2>SetDataRange()
+        </h2>
+<pre>SetDataRange($begin, $end) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$begin</h4></div>
+<div class="subelement argument"><h4>$end</h4></div>
+</div></div>
+</div>
+<a id="method_SetDataRangeBegin"></a><div class="element clickable method protected method_SetDataRangeBegin" data-toggle="collapse" data-target=".method_SetDataRangeBegin .collapse">
+<h2>SetDataRangeBegin()
+        </h2>
+<pre>SetDataRangeBegin($begin) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$begin</h4></div>
+</div></div>
+</div>
+<a id="method_SetDataRangeEnd"></a><div class="element clickable method protected method_SetDataRangeEnd" data-toggle="collapse" data-target=".method_SetDataRangeEnd .collapse">
+<h2>SetDataRangeEnd()
+        </h2>
+<pre>SetDataRangeEnd($end) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$end</h4></div>
+</div></div>
+</div>
+<a id="method_SetLastUpdate"></a><div class="element clickable method protected method_SetLastUpdate" data-toggle="collapse" data-target=".method_SetLastUpdate .collapse">
+<h2>SetLastUpdate()
+        </h2>
+<pre>SetLastUpdate($lastUpdate) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$lastUpdate</h4></div>
+</div></div>
+</div>
+<a id="method_SetNextRelease"></a><div class="element clickable method protected method_SetNextRelease" data-toggle="collapse" data-target=".method_SetNextRelease .collapse">
+<h2>SetNextRelease()
+        </h2>
+<pre>SetNextRelease($nextRelease) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$nextRelease</h4></div>
+</div></div>
+</div>
+<a id="method_SetPeriod"></a><div class="element clickable method protected method_SetPeriod" data-toggle="collapse" data-target=".method_SetPeriod .collapse">
+<h2>SetPeriod()
+        </h2>
+<pre>SetPeriod($period) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$period</h4></div>
+</div></div>
+</div>
+<a id="method_SetReleases"></a><div class="element clickable method protected method_SetReleases" data-toggle="collapse" data-target=".method_SetReleases .collapse">
+<h2>SetReleases()
+        </h2>
+<pre>SetReleases($releases) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$releases</h4></div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_dataRange"> </a><div class="element clickable property protected property_dataRange" data-toggle="collapse" data-target=".property_dataRange .collapse">
+<h2></h2>
+<pre>$dataRange </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_lastUpdate"> </a><div class="element clickable property protected property_lastUpdate" data-toggle="collapse" data-target=".property_lastUpdate .collapse">
+<h2></h2>
+<pre>$lastUpdate </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_nextRelease"> </a><div class="element clickable property protected property_nextRelease" data-toggle="collapse" data-target=".property_nextRelease .collapse">
+<h2></h2>
+<pre>$nextRelease </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_period"> </a><div class="element clickable property protected property_period" data-toggle="collapse" data-target=".property_period .collapse">
+<h2></h2>
+<pre>$period </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_releases"> </a><div class="element clickable property protected property_releases" data-toggle="collapse" data-target=".property_releases .collapse">
+<h2></h2>
+<pre>$releases </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+</div></div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2012-12-28T00:01:24+04:00.<br></footer></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SdmxParse » \SdmxData</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SdmxParse</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/sdmx.html"><i class="icon-folder-open"></i> sdmx</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">49</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_GetCodeList" title="GetCodeList :: Получение списка значений рахмерностей"><span class="description">Получение списка значений рахмерностей</span><pre>GetCodeList()</pre></a></li>
+<li class="method public "><a href="#method_GetCodeListsIterator" title="GetCodeListsIterator :: Получение итератора на массив списков значений"><span class="description">Получение итератора на массив списков значений</span><pre>GetCodeListsIterator()</pre></a></li>
+<li class="method public "><a href="#method_GetDataPoint" title="GetDataPoint :: "><span class="description">GetDataPoint()
+        </span><pre>GetDataPoint()</pre></a></li>
+<li class="method public "><a href="#method_GetDataPointsIterator" title="GetDataPointsIterator :: "><span class="description">GetDataPointsIterator()
+        </span><pre>GetDataPointsIterator()</pre></a></li>
+<li class="method public "><a href="#method_GetDescriptionAttr" title="GetDescriptionAttr :: Получение описание"><span class="description">Получение описание</span><pre>GetDescriptionAttr()</pre></a></li>
+<li class="method public "><a href="#method_GetDescriptionIterator" title="GetDescriptionIterator :: "><span class="description">GetDescriptionIterator()
+        </span><pre>GetDescriptionIterator()</pre></a></li>
+<li class="method public "><a href="#method_GetDimension" title="GetDimension :: "><span class="description">GetDimension()
+        </span><pre>GetDimension()</pre></a></li>
+<li class="method public "><a href="#method_GetDimensionsIterator" title="GetDimensionsIterator :: "><span class="description">GetDimensionsIterator()
+        </span><pre>GetDimensionsIterator()</pre></a></li>
+<li class="method public "><a href="#method_GetHeaderAttr" title="GetHeaderAttr :: Получение аттрибута заголовка"><span class="description">Получение аттрибута заголовка</span><pre>GetHeaderAttr()</pre></a></li>
+<li class="method public "><a href="#method_GetHeaderIterator" title="GetHeaderIterator :: Получение итератора на начало массива заголовков"><span class="description">Получение итератора на начало массива заголовков</span><pre>GetHeaderIterator()</pre></a></li>
+<li class="method public "><a href="#method__DebugPrintAll" title="_DebugPrintAll :: "><span class="description">_DebugPrintAll()
+        </span><pre>_DebugPrintAll()</pre></a></li>
+<li class="method public "><a href="#method__DebugPrintCodelists" title="_DebugPrintCodelists :: "><span class="description">_DebugPrintCodelists()
+        </span><pre>_DebugPrintCodelists()</pre></a></li>
+<li class="method public "><a href="#method__DebugPrintData" title="_DebugPrintData :: "><span class="description">_DebugPrintData()
+        </span><pre>_DebugPrintData()</pre></a></li>
+<li class="method public "><a href="#method__DebugPrintDescription" title="_DebugPrintDescription :: "><span class="description">_DebugPrintDescription()
+        </span><pre>_DebugPrintDescription()</pre></a></li>
+<li class="method public "><a href="#method__DebugPrintDimensions" title="_DebugPrintDimensions :: "><span class="description">_DebugPrintDimensions()
+        </span><pre>_DebugPrintDimensions()</pre></a></li>
+<li class="method public "><a href="#method__DebugPrintHeader" title="_DebugPrintHeader :: "><span class="description">_DebugPrintHeader()
+        </span><pre>_DebugPrintHeader()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: "><span class="description">__construct()
+        </span><pre>__construct()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected "><a href="#method_AddCodeList" title="AddCodeList :: Добавление списка значений"><span class="description">Добавление списка значений</span><pre>AddCodeList()</pre></a></li>
+<li class="method protected "><a href="#method_AddDataPoint" title="AddDataPoint :: "><span class="description">AddDataPoint()
+        </span><pre>AddDataPoint()</pre></a></li>
+<li class="method protected "><a href="#method_AddDimension" title="AddDimension :: "><span class="description">AddDimension()
+        </span><pre>AddDimension()</pre></a></li>
+<li class="method protected "><a href="#method_ParseCodeLists" title="ParseCodeLists :: Парсинг списков значений размерностей"><span class="description">Парсинг списков значений размерностей</span><pre>ParseCodeLists()</pre></a></li>
+<li class="method protected "><a href="#method_ParseData" title="ParseData :: "><span class="description">ParseData()
+        </span><pre>ParseData()</pre></a></li>
+<li class="method protected "><a href="#method_ParseDescription" title="ParseDescription :: "><span class="description">ParseDescription()
+        </span><pre>ParseDescription()</pre></a></li>
+<li class="method protected "><a href="#method_ParseHeader" title="ParseHeader :: Парсинг заголовков"><span class="description">Парсинг заголовков</span><pre>ParseHeader()</pre></a></li>
+<li class="method protected "><a href="#method_SetCodeList" title="SetCodeList :: Установка списка значений"><span class="description">Установка списка значений</span><pre>SetCodeList()</pre></a></li>
+<li class="method protected "><a href="#method_SetDescriptionAttr" title="SetDescriptionAttr :: "><span class="description">SetDescriptionAttr()
+        </span><pre>SetDescriptionAttr()</pre></a></li>
+<li class="method protected "><a href="#method_SetHeaderAttr" title="SetHeaderAttr :: Установка аттрибута заголовка"><span class="description">Установка аттрибута заголовка</span><pre>SetHeaderAttr()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_codelists" title="$codelists :: Массив списков значений размерностей"><span class="description"></span><pre>$codelists</pre></a></li>
+<li class="property protected "><a href="#property_data" title="$data :: "><span class="description"></span><pre>$data</pre></a></li>
+<li class="property protected "><a href="#property_description" title="$description :: Описание файла."><span class="description"></span><pre>$description</pre></a></li>
+<li class="property protected "><a href="#property_dimensions" title="$dimensions :: "><span class="description"></span><pre>$dimensions</pre></a></li>
+<li class="property protected "><a href="#property_header" title="$header :: Заголовки"><span class="description"></span><pre>$header</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SdmxData"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SdmxData.html">SdmxData</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Sdmx-файл</p>
+<div class="details">
+<div class="long_description"><p>Объект, соответствующий распарсенному sdmx-файлу.</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/sdmx.html">sdmx</a></td>
+</tr>
+<tr>
+<th>version</th>
+<td>0.3</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_GetCodeList"></a><div class="element clickable method public method_GetCodeList" data-toggle="collapse" data-target=".method_GetCodeList .collapse">
+<h2>Получение списка значений рахмерностей</h2>
+<pre>GetCodeList(string $name, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>имя списка (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, которое вернётся в случае, если нужный список не найдён</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>список (<var>SdmxCodelist</var>) или <var>$default</var> в случае неудачи</div>
+</div></div>
+</div>
+<a id="method_GetCodeListsIterator"></a><div class="element clickable method public method_GetCodeListsIterator" data-toggle="collapse" data-target=".method_GetCodeListsIterator .collapse">
+<h2>Получение итератора на массив списков значений</h2>
+<pre>GetCodeListsIterator() : <a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></code>итератор на начало массива списков значений</div>
+</div></div>
+</div>
+<a id="method_GetDataPoint"></a><div class="element clickable method public method_GetDataPoint" data-toggle="collapse" data-target=".method_GetDataPoint .collapse">
+<h2>GetDataPoint()
+        </h2>
+<pre>GetDataPoint($ind, $default) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$ind</h4></div>
+<div class="subelement argument"><h4>$default</h4></div>
+</div></div>
+</div>
+<a id="method_GetDataPointsIterator"></a><div class="element clickable method public method_GetDataPointsIterator" data-toggle="collapse" data-target=".method_GetDataPointsIterator .collapse">
+<h2>GetDataPointsIterator()
+        </h2>
+<pre>GetDataPointsIterator() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetDescriptionAttr"></a><div class="element clickable method public method_GetDescriptionAttr" data-toggle="collapse" data-target=".method_GetDescriptionAttr .collapse">
+<h2>Получение описание</h2>
+<pre>GetDescriptionAttr($attr, $default) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$attr</h4></div>
+<div class="subelement argument"><h4>$default</h4></div>
+</div></div>
+</div>
+<a id="method_GetDescriptionIterator"></a><div class="element clickable method public method_GetDescriptionIterator" data-toggle="collapse" data-target=".method_GetDescriptionIterator .collapse">
+<h2>GetDescriptionIterator()
+        </h2>
+<pre>GetDescriptionIterator() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetDimension"></a><div class="element clickable method public method_GetDimension" data-toggle="collapse" data-target=".method_GetDimension .collapse">
+<h2>GetDimension()
+        </h2>
+<pre>GetDimension($ind, $default) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$ind</h4></div>
+<div class="subelement argument"><h4>$default</h4></div>
+</div></div>
+</div>
+<a id="method_GetDimensionsIterator"></a><div class="element clickable method public method_GetDimensionsIterator" data-toggle="collapse" data-target=".method_GetDimensionsIterator .collapse">
+<h2>GetDimensionsIterator()
+        </h2>
+<pre>GetDimensionsIterator() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_GetHeaderAttr"></a><div class="element clickable method public method_GetHeaderAttr" data-toggle="collapse" data-target=".method_GetHeaderAttr .collapse">
+<h2>Получение аттрибута заголовка</h2>
+<pre>GetHeaderAttr(string $attr, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает значение аттрибута заголовка с именем <var>$attr</var>. В случае отсутствия вернётся <var>$default</var>
+Имя аттрибута приводится к нижнему регистру</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attr</h4>
+<code>string</code><p>имя аттрибута. Приводится к нижнему регистру (т.е. 'key' и 'KEY' -- одинаковые ключи)</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, которое вернётся в случае отсутствия аттрибута с именем <var>$attr</var></p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>значение аттрибута заголовка (т.е. <var>string</var>) или <var>$default</var> в случае отсутствия аттрибута заголовка</div>
+</div></div>
+</div>
+<a id="method_GetHeaderIterator"></a><div class="element clickable method public method_GetHeaderIterator" data-toggle="collapse" data-target=".method_GetHeaderIterator .collapse">
+<h2>Получение итератора на начало массива заголовков</h2>
+<pre>GetHeaderIterator() : <a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></code>итератор на начало массива заголовков</div>
+</div></div>
+</div>
+<a id="method__DebugPrintAll"></a><div class="element clickable method public method__DebugPrintAll" data-toggle="collapse" data-target=".method__DebugPrintAll .collapse">
+<h2>_DebugPrintAll()
+        </h2>
+<pre>_DebugPrintAll() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method__DebugPrintCodelists"></a><div class="element clickable method public method__DebugPrintCodelists" data-toggle="collapse" data-target=".method__DebugPrintCodelists .collapse">
+<h2>_DebugPrintCodelists()
+        </h2>
+<pre>_DebugPrintCodelists() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method__DebugPrintData"></a><div class="element clickable method public method__DebugPrintData" data-toggle="collapse" data-target=".method__DebugPrintData .collapse">
+<h2>_DebugPrintData()
+        </h2>
+<pre>_DebugPrintData() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method__DebugPrintDescription"></a><div class="element clickable method public method__DebugPrintDescription" data-toggle="collapse" data-target=".method__DebugPrintDescription .collapse">
+<h2>_DebugPrintDescription()
+        </h2>
+<pre>_DebugPrintDescription() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method__DebugPrintDimensions"></a><div class="element clickable method public method__DebugPrintDimensions" data-toggle="collapse" data-target=".method__DebugPrintDimensions .collapse">
+<h2>_DebugPrintDimensions()
+        </h2>
+<pre>_DebugPrintDimensions() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method__DebugPrintHeader"></a><div class="element clickable method public method__DebugPrintHeader" data-toggle="collapse" data-target=".method__DebugPrintHeader .collapse">
+<h2>_DebugPrintHeader()
+        </h2>
+<pre>_DebugPrintHeader() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>__construct()
+        </h2>
+<pre>__construct($filename) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$filename</h4></div>
+</div></div>
+</div>
+<a id="method_AddCodeList"></a><div class="element clickable method protected method_AddCodeList" data-toggle="collapse" data-target=".method_AddCodeList .collapse">
+<h2>Добавление списка значений</h2>
+<pre>AddCodeList(\SdmxCodeList $codelist) : <a href="../classes/SdmxData.html">\SdmxData</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Имя списка в массиве не зависит от регистра!</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$codelist</h4>
+<code><a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></code><p>добавляемый список</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxData.html">\SdmxData</a></code>сам объект</div>
+</div></div>
+</div>
+<a id="method_AddDataPoint"></a><div class="element clickable method protected method_AddDataPoint" data-toggle="collapse" data-target=".method_AddDataPoint .collapse">
+<h2>AddDataPoint()
+        </h2>
+<pre>AddDataPoint(\SdmxDataPoint $point) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$point</h4></div>
+</div></div>
+</div>
+<a id="method_AddDimension"></a><div class="element clickable method protected method_AddDimension" data-toggle="collapse" data-target=".method_AddDimension .collapse">
+<h2>AddDimension()
+        </h2>
+<pre>AddDimension($dim) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$dim</h4></div>
+</div></div>
+</div>
+<a id="method_ParseCodeLists"></a><div class="element clickable method protected method_ParseCodeLists" data-toggle="collapse" data-target=".method_ParseCodeLists .collapse">
+<h2>Парсинг списков значений размерностей</h2>
+<pre>ParseCodeLists(\XmlDataArray $arr) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Парсит массив <var>XmlDataArray</var>. В том числе перемещает внутренний указатель на элемент сразу после окончания заголовков.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arr</h4>
+<code><a href="../classes/XmlDataArray.html">\XmlDataArray</a></code><p>уже расперсенный sdmx-файл, внутренний указатель которого указывает на элемент перед началом списков значений (или на первом теге)</p>
+</div>
+</div></div>
+</div>
+<a id="method_ParseData"></a><div class="element clickable method protected method_ParseData" data-toggle="collapse" data-target=".method_ParseData .collapse">
+<h2>ParseData()
+        </h2>
+<pre>ParseData(\XmlDataArray $arr) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$arr</h4></div>
+</div></div>
+</div>
+<a id="method_ParseDescription"></a><div class="element clickable method protected method_ParseDescription" data-toggle="collapse" data-target=".method_ParseDescription .collapse">
+<h2>ParseDescription()
+        </h2>
+<pre>ParseDescription(\XmlDataArray $arr) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$arr</h4></div>
+</div></div>
+</div>
+<a id="method_ParseHeader"></a><div class="element clickable method protected method_ParseHeader" data-toggle="collapse" data-target=".method_ParseHeader .collapse">
+<h2>Парсинг заголовков</h2>
+<pre>ParseHeader(\XmlDataArray $arr) : void</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Парсит массив <var>XmlDataArray</var>. В том числе перемещает внутренний указатель на элемент сразу после окончания заголовков.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arr</h4>
+<code><a href="../classes/XmlDataArray.html">\XmlDataArray</a></code><p>уже расперсенный sdmx-файл, внутренний указатель которого указывает на элемент перед началом заголовков (или на первом теге)</p>
+</div>
+</div></div>
+</div>
+<a id="method_SetCodeList"></a><div class="element clickable method protected method_SetCodeList" data-toggle="collapse" data-target=".method_SetCodeList .collapse">
+<h2>Установка списка значений</h2>
+<pre>SetCodeList(string $name, \SdmxCodeList $val) : <a href="../classes/SdmxData.html">\SdmxData</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>имя списка (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$val</h4>
+<code><a href="../classes/SdmxCodelist.html">\SdmxCodelist</a></code><p>добавляемый список</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxData.html">\SdmxData</a></code>сам объект</div>
+</div></div>
+</div>
+<a id="method_SetDescriptionAttr"></a><div class="element clickable method protected method_SetDescriptionAttr" data-toggle="collapse" data-target=".method_SetDescriptionAttr .collapse">
+<h2>SetDescriptionAttr()
+        </h2>
+<pre>SetDescriptionAttr($attr, $val) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument"><h4>$attr</h4></div>
+<div class="subelement argument"><h4>$val</h4></div>
+</div></div>
+</div>
+<a id="method_SetHeaderAttr"></a><div class="element clickable method protected method_SetHeaderAttr" data-toggle="collapse" data-target=".method_SetHeaderAttr .collapse">
+<h2>Установка аттрибута заголовка</h2>
+<pre>SetHeaderAttr(string $attr, string $val) : <a href="../classes/SdmxData.html">\SdmxData</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Устанавливает аттрибут заголовка <var>$attr</var>. Имя заголовка (<var>$attr</var>) не зависит от регистра (т.е. 'Key', 'KEY' и 'key' -- один и тот же заголовок)</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attr</h4>
+<code>string</code><p>имя аттрибута (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$val</h4>
+<code>string</code><p>новое значение аттрибута</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxData.html">\SdmxData</a></code>сам объект</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_codelists"> </a><div class="element clickable property protected property_codelists" data-toggle="collapse" data-target=".property_codelists .collapse">
+<h2></h2>
+<pre>$codelists : <a href="SdmxCodelist.html#%5CSdmxCodelist">\SdmxCodelist[]</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Массив <var>SdmxCodelist</var>'ов в форме <var>['&lt;имя списка>' => new SdmxCodelist()]</var>
+ключи в массиве хранятся в нижнем регистре (вне зависимости от того, какой у них там на самом деле регистр)</p></div></div></div>
+</div>
+<a id="property_data"> </a><div class="element clickable property protected property_data" data-toggle="collapse" data-target=".property_data .collapse">
+<h2></h2>
+<pre>$data </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_description"> </a><div class="element clickable property protected property_description" data-toggle="collapse" data-target=".property_description .collapse">
+<h2></h2>
+<pre>$description : string[]</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>По сути ещё один header. Массив хранится в виде <var>['&lt;имя описания>' => '&lt;значение>']</var>, причём имя регистронезависимо (всегда приводится к нижнему регистру)
+Вообще, в теге <var>description</var> может быть несколько тегов <var>indicator</var>, однако здесь считается, что он может быть только один.
+Вложенные описания выглядят как</p></div></div></div>
+</div>
+<a id="property_dimensions"> </a><div class="element clickable property protected property_dimensions" data-toggle="collapse" data-target=".property_dimensions .collapse">
+<h2></h2>
+<pre>$dimensions </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="property_header"> </a><div class="element clickable property protected property_header" data-toggle="collapse" data-target=".property_header .collapse">
+<h2></h2>
+<pre>$header : string[]</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Массив заголовков файла в виде <var>['&lt;имя>' => '&lt;значение>']</var>. В случае тега <var>Sender</var> имя будет выглядеть как <var>'sender::name'</var>
+Все ключи приводятся к нижнему регистру.</p></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2012-12-28T00:01:24+04:00.<br></footer></div>
+</div>
+</body>
+</html>

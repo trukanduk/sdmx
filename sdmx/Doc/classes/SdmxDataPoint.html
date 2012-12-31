@@ -1,0 +1,450 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+<meta charset="utf-8">
+<title>SdmxParse » \SdmxDataPoint</title>
+<meta name="author" content="Mike van Riel">
+<meta name="description" content="">
+<link href="../css/template.css" rel="stylesheet" media="all">
+<script src="../js/jquery-1.7.1.min.js" type="text/javascript"></script><script src="../js/jquery-ui-1.8.2.custom.min.js" type="text/javascript"></script><script src="../js/jquery.mousewheel.min.js" type="text/javascript"></script><script src="../js/bootstrap.js" type="text/javascript"></script><script src="../js/template.js" type="text/javascript"></script><script src="../js/prettify/prettify.min.js" type="text/javascript"></script><link rel="shortcut icon" href="../img/favicon.ico">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../img/apple-touch-icon-114x114.png">
+</head>
+<body>
+<div class="navbar navbar-fixed-top">
+<div class="navbar-inner"><div class="container">
+<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></a><a class="brand" href="../index.html">SdmxParse</a><div class="nav-collapse"><ul class="nav">
+<li class="dropdown">
+<a href="#api" class="dropdown-toggle" data-toggle="dropdown">
+                                    API Documentation <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a>Packages</a></li>
+<li><a href="../packages/Default.html"><i class="icon-folder-open"></i> Default</a></li>
+<li><a href="../packages/sdmx.html"><i class="icon-folder-open"></i> sdmx</a></li>
+</ul>
+</li>
+<li class="dropdown" id="charts-menu">
+<a href="#charts" class="dropdown-toggle" data-toggle="dropdown">
+                                    Charts <b class="caret"></b></a><ul class="dropdown-menu"><li><a href="../graph_class.html"><i class="icon-list-alt"></i> Class hierarchy diagram</a></li></ul>
+</li>
+<li class="dropdown" id="reports-menu">
+<a href="#reports" class="dropdown-toggle" data-toggle="dropdown">
+                                    Reports <b class="caret"></b></a><ul class="dropdown-menu">
+<li><a href="../errors.html"><i class="icon-remove-sign"></i> Errors 
+                <span class="label label-info">49</span></a></li>
+<li><a href="../markers.html"><i class="icon-map-marker"></i> Markers 
+                <ul></ul></a></li>
+<li><a href="../deprecated.html"><i class="icon-stop"></i> Deprecated elements 
+                <span class="label label-info">0</span></a></li>
+</ul>
+</li>
+</ul></div>
+</div></div>
+<div class="go_to_top"><a href="#___" style="color: inherit">Back to top  <i class="icon-upload icon-white"></i></a></div>
+</div>
+<div id="___" class="container">
+<noscript><div class="alert alert-warning">
+                            Javascript is disabled; several features are only available
+                            if Javascript is enabled.
+                        </div></noscript>
+<div class="row">
+<div class="span4">
+<span class="btn-group visibility" data-toggle="buttons-checkbox"><button class="btn public active" title="Show public elements">Public</button><button class="btn protected" title="Show protected elements">Protected</button><button class="btn private" title="Show private elements">Private</button><button class="btn inherited active" title="Show inherited elements">Inherited</button></span><div class="btn-group view pull-right" data-toggle="buttons-radio">
+<button class="btn details" title="Show descriptions and method names"><i class="icon-list"></i></button><button class="btn simple" title="Show only method names"><i class="icon-align-justify"></i></button>
+</div>
+<ul class="side-nav nav nav-list">
+<li class="nav-header">
+<i class="icon-custom icon-method"></i> Methods
+                    <ul>
+<li class="method public "><a href="#method_GetAttr" title="GetAttr :: Получение конкретного аттрибута"><span class="description">Получение конкретного аттрибута</span><pre>GetAttr()</pre></a></li>
+<li class="method public "><a href="#method_GetAttributesIterator" title="GetAttributesIterator :: Получение итератора аттрибутов"><span class="description">Получение итератора аттрибутов</span><pre>GetAttributesIterator()</pre></a></li>
+<li class="method public "><a href="#method_GetDimension" title="GetDimension :: Получение значения размерности"><span class="description">Получение значения размерности</span><pre>GetDimension()</pre></a></li>
+<li class="method public "><a href="#method_GetDimensionsIterator" title="GetDimensionsIterator :: Итератор массива размерностей"><span class="description">Итератор массива размерностей</span><pre>GetDimensionsIterator()</pre></a></li>
+<li class="method public "><a href="#method_GetProperty" title="GetProperty :: Получение свойства"><span class="description">Получение свойства</span><pre>GetProperty()</pre></a></li>
+<li class="method public "><a href="#method_GetTime" title="GetTime :: Получение времени"><span class="description">Получение времени</span><pre>GetTime()</pre></a></li>
+<li class="method public "><a href="#method_GetValue" title="GetValue :: Получение значения"><span class="description">Получение значения</span><pre>GetValue()</pre></a></li>
+<li class="method public "><a href="#method_IsDimensionsFilled" title="IsDimensionsFilled :: Правильность заполнения размерностей"><span class="description">Правильность заполнения размерностей</span><pre>IsDimensionsFilled()</pre></a></li>
+<li class="method public "><a href="#method_Parse" title="Parse :: Создание элемента из XmlDataArray"><span class="description">Создание элемента из XmlDataArray</span><pre>Parse()</pre></a></li>
+<li class="method public "><a href="#method___construct" title="__construct :: Конструктор"><span class="description">Конструктор</span><pre>__construct()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="method protected "><a href="#method_FillDimensions" title="FillDimensions :: Заполнение массива размерностей значениями"><span class="description">Заполнение массива размерностей значениями</span><pre>FillDimensions()</pre></a></li>
+<li class="method protected "><a href="#method_SetAttr" title="SetAttr :: Установка аттрибута"><span class="description">Установка аттрибута</span><pre>SetAttr()</pre></a></li>
+<li class="method protected "><a href="#method_SetAttrsArray" title="SetAttrsArray :: Установка массива аттрибутов"><span class="description">Установка массива аттрибутов</span><pre>SetAttrsArray()</pre></a></li>
+<li class="method protected "><a href="#method_SetDimension" title="SetDimension :: Установка размерности"><span class="description">Установка размерности</span><pre>SetDimension()</pre></a></li>
+<li class="method protected "><a href="#method_SetDimensionsArray" title="SetDimensionsArray :: Установка массива размерностей"><span class="description">Установка массива размерностей</span><pre>SetDimensionsArray()</pre></a></li>
+<li class="method protected "><a href="#method_SetTime" title="SetTime :: Установка времени"><span class="description">Установка времени</span><pre>SetTime()</pre></a></li>
+<li class="method protected "><a href="#method_SetValue" title="SetValue :: Устаноска значения"><span class="description">Устаноска значения</span><pre>SetValue()</pre></a></li>
+</ul>
+</li>
+<li class="nav-header">
+<i class="icon-custom icon-property"></i> Properties
+                    <ul></ul>
+</li>
+<li class="nav-header protected">» Protected
+                    <ul>
+<li class="property protected "><a href="#property_attributes" title="$attributes :: Аттрибуты объекта"><span class="description"></span><pre>$attributes</pre></a></li>
+<li class="property protected "><a href="#property_dimensions" title="$dimensions :: Описние размерностей"><span class="description"></span><pre>$dimensions</pre></a></li>
+<li class="property protected "><a href="#property_dimsFilled" title="$dimsFilled :: Вид массива $dimensions"><span class="description"></span><pre>$dimsFilled</pre></a></li>
+<li class="property protected "><a href="#property_time" title="$time :: Время"><span class="description"></span><pre>$time</pre></a></li>
+<li class="property protected "><a href="#property_value" title="$value :: Значение в ячейке"><span class="description"></span><pre>$value</pre></a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="span8">
+<a id="\SdmxDataPoint"></a><ul class="breadcrumb">
+<li>
+<a href="../index.html"><i class="icon-custom icon-class"></i></a><span class="divider">\</span>
+</li>
+<li><a href="../namespaces/global.html">global</a></li>
+<li class="active">
+<span class="divider">\</span><a href="../classes/SdmxDataPoint.html">SdmxDataPoint</a>
+</li>
+</ul>
+<div class="element class">
+<p class="short_description">Ячейка таблицы</p>
+<div class="details">
+<div class="long_description"><p>Класс по семантике - "ячейка таблицы". Название <var>SdmxDataPoint</var> дано потому что эту ячейку можно предстаавить как точку со значением в N-мерном пространстве.
+Хранит в себе значения "координат" во всех размерностях, так же некие аттрибуты, год (всё-таки статистические данные) и, наконец, значение ячейки</p></div>
+<table class="table table-bordered">
+<tr>
+<th>package</th>
+<td><a href="../packages/sdmx.html">sdmx</a></td>
+</tr>
+<tr>
+<th>version</th>
+<td>1.1</td>
+</tr>
+</table>
+<h3>
+<i class="icon-custom icon-method"></i> Methods</h3>
+<a id="method_GetAttr"></a><div class="element clickable method public method_GetAttr" data-toggle="collapse" data-target=".method_GetAttr .collapse">
+<h2>Получение конкретного аттрибута</h2>
+<pre>GetAttr(string $attr, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает аттрибут по его имени, если такой аттрибут не был найден, вернётся <var>$default</var>
+Имя аттрибута не зависит от регистра (т.е. <var>'attr'</var> и <var>'ATTR'</var> относятся к  одному аттрибуту)</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attr</h4>
+<code>string</code><p>имя аттрибута (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, возвращаемое при отсутствии аттрибута</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>значение аттрибута (<var>string</var>) или <var>$default</var></div>
+</div></div>
+</div>
+<a id="method_GetAttributesIterator"></a><div class="element clickable method public method_GetAttributesIterator" data-toggle="collapse" data-target=".method_GetAttributesIterator .collapse">
+<h2>Получение итератора аттрибутов</h2>
+<pre>GetAttributesIterator() : <a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает итератор на начало массива аттрибутов</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></code>итератор на начало массива аттрибутов</div>
+</div></div>
+</div>
+<a id="method_GetDimension"></a><div class="element clickable method public method_GetDimension" data-toggle="collapse" data-target=".method_GetDimension .collapse">
+<h2>Получение значения размерности</h2>
+<pre>GetDimension(string $name, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает элемент массива я индексом <var>$name</var>, будь то строка или <var>SdmxCodelistInstance</var>
+Имя размерности не зависит от регистра</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>имя нужной размерности (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, возвращаемое в случае ненахождения размерности</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>Объект <var>SdmxCodelistInstance</var>, строку-имя значения или <var>$default<var> в случае отсутствия размерности</div>
+</div></div>
+</div>
+<a id="method_GetDimensionsIterator"></a><div class="element clickable method public method_GetDimensionsIterator" data-toggle="collapse" data-target=".method_GetDimensionsIterator .collapse">
+<h2>Итератор массива размерностей</h2>
+<pre>GetDimensionsIterator() : <a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает итератор на начало массива размерностей точки</p></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="http://php.net/manual/en/class.arrayiterator.php">\ArrayIterator</a></code>итератор на начало массива</div>
+</div></div>
+</div>
+<a id="method_GetProperty"></a><div class="element clickable method public method_GetProperty" data-toggle="collapse" data-target=".method_GetProperty .collapse">
+<h2>Получение свойства</h2>
+<pre>GetProperty(string $property, mixed $default) : mixed</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Возвращает свойство ячейки. Свойства (в порядке уменьшения приоритета): значение ('value'), время ('time'), размерность (имя размерности) или аттрибут (имя аттрибута)
+имя свойства не зависит от регистра</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$property</h4>
+<code>string</code><p>имя свойства (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$default</h4>
+<code>mixed</code><p>значение, возвращаемое в случае отсутствия свойства</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>mixed</code>значение свойства</div>
+</div></div>
+</div>
+<a id="method_GetTime"></a><div class="element clickable method public method_GetTime" data-toggle="collapse" data-target=".method_GetTime .collapse">
+<h2>Получение времени</h2>
+<pre>GetTime() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>время, к которому относится данный объект</div>
+</div></div>
+</div>
+<a id="method_GetValue"></a><div class="element clickable method public method_GetValue" data-toggle="collapse" data-target=".method_GetValue .collapse">
+<h2>Получение значения</h2>
+<pre>GetValue() : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>string</code>значение объекта (ячейки, которой соотвествуюет объект)</div>
+</div></div>
+</div>
+<a id="method_IsDimensionsFilled"></a><div class="element clickable method public method_IsDimensionsFilled" data-toggle="collapse" data-target=".method_IsDimensionsFilled .collapse">
+<h2>Правильность заполнения размерностей</h2>
+<pre>IsDimensionsFilled() </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"></div></div></div>
+</div>
+<a id="method_Parse"></a><div class="element clickable method public method_Parse" data-toggle="collapse" data-target=".method_Parse .collapse">
+<h2>Создание элемента из XmlDataArray</h2>
+<pre>Parse(\XmlDataArray $arr, <a href="SdmxDimension.html#%5CSdmxDimension">\SdmxDimension[]</a> $dimensions) : <a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></pre>
+<div class="labels"><span class="label">Static</span></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>"Достаёт" элемент из объекта <var>XmlDataArray</var> и перемещает его внутренний указатель.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$arr</h4>
+<code><a href="../classes/XmlDataArray.html">\XmlDataArray</a></code><p>объект с обработанным xml-файлом и курсором перед тегом (или на самом теге) с началом объекта</p>
+</div>
+<div class="subelement argument">
+<h4>$dimensions</h4>
+<code><a href="SdmxDimension.html#%5CSdmxDimension">\SdmxDimension[]</a></code><p>массив разверностей в форме <var>['<имя размерности>' => new SdmxDimension()]</var> Гарантируется, что массив не будет изменён</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></code>новый экземпляр класса</div>
+</div></div>
+</div>
+<a id="method___construct"></a><div class="element clickable method public method___construct" data-toggle="collapse" data-target=".method___construct .collapse">
+<h2>Конструктор</h2>
+<pre>__construct(string $value, string $time, <a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a> $dimensions, string[] $attrs) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>После создания объекта нет никаких способов его изменить извне.
+Гарантируется, что входный массивы <var>$dimensions</var> и <var>$attrs</var> не будут изменены</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><p>значение ячейки</p>
+</div>
+<div class="subelement argument">
+<h4>$time</h4>
+<code>string</code><p>время ячейки (некий параметр)</p>
+</div>
+<div class="subelement argument">
+<h4>$dimensions</h4>
+<code><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></code><p>массив размерностей в виде <var>['<имя размерности>' => new SdmxCodelistInstance()]</var></p>
+</div>
+<div class="subelement argument">
+<h4>$attrs</h4>
+<code>string[]</code><p>массив аттрибутов в виде <var>['<имя аттрибута' => '<значение аттрибута>']</var></p>
+</div>
+</div></div>
+</div>
+<a id="method_FillDimensions"></a><div class="element clickable method protected method_FillDimensions" data-toggle="collapse" data-target=".method_FillDimensions .collapse">
+<h2>Заполнение массива размерностей значениями</h2>
+<pre>FillDimensions(<a href="SdmxDimension.html#%5CSdmxDimension">\SdmxDimension[]</a> $dimensions) : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Функция берёт принимает на вход массив <var>$dimensions</var> вида <var>['&lt;имя размерности>' => new SdmxDimension()]</var> (такой массив должен быть в <var>SdmxData</var>)
+Возвращает <var>true</var>, если всё прошло успешно, иначе остаются элементы со строками в качестве значений.
+Если какая-то размерность есть в массиве <var>$dimensions</var>, но нет в точке, то эта размерность будет присвоена объекту (будет взято значение размерности по умолчанию).
+Если в объекте была размерность, которой нет в массиве <var>$dimensions</var>, элемент этой размерности в объекте не будет изменён и останется строкой.
+Если  объекте какая-то размерность была заполнена, она не будет перезаписана
+<b>Функция не изменяет массив<b></p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dimensions</h4>
+<code><a href="SdmxDimension.html#%5CSdmxDimension">\SdmxDimension[]</a></code><p>массив размерностей файла</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code>bool</code><var>true</var> в случае успеха, иначе <var>false</var></div>
+</div></div>
+</div>
+<a id="method_SetAttr"></a><div class="element clickable method protected method_SetAttr" data-toggle="collapse" data-target=".method_SetAttr .collapse">
+<h2>Установка аттрибута</h2>
+<pre>SetAttr(string $attr, string $val) : <a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Устанавливает аттрибут <var>$name</var>. Имя аттрибута не зависит от регистра (т.е. имена <var>'attr'</var>, <var>'Attr'</var> и <var>'ATTR'</var> отвечают за один аттрибут)</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attr</h4>
+<code>string</code><p>имя изменяемого аттрибута (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$val</h4>
+<code>string</code><p>новое значение аттрибута</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></code>сам объект</div>
+</div></div>
+</div>
+<a id="method_SetAttrsArray"></a><div class="element clickable method protected method_SetAttrsArray" data-toggle="collapse" data-target=".method_SetAttrsArray .collapse">
+<h2>Установка массива аттрибутов</h2>
+<pre>SetAttrsArray(string[] $attrs) : <a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Гарантируется, что входной массив <var>$attrs</var> не изменится</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$attrs</h4>
+<code>string[]</code><p>Массив аттрибутов в форме <var>['<имя аттрибута>' => '<значение аттрибута>']</var></p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></code>объект-родитель</div>
+</div></div>
+</div>
+<a id="method_SetDimension"></a><div class="element clickable method protected method_SetDimension" data-toggle="collapse" data-target=".method_SetDimension .collapse">
+<h2>Установка размерности</h2>
+<pre>SetDimension(string $name, mixed $dim) : <a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$name</h4>
+<code>string</code><p>имя размерности (не зависит от регистра)</p>
+</div>
+<div class="subelement argument">
+<h4>$dim</h4>
+<code>mixed</code><p>имя значения (строка) или экземпляр <var>SdmxCodelistInstance</var></p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></code>сам объект</div>
+</div></div>
+</div>
+<a id="method_SetDimensionsArray"></a><div class="element clickable method protected method_SetDimensionsArray" data-toggle="collapse" data-target=".method_SetDimensionsArray .collapse">
+<h2>Установка массива размерностей</h2>
+<pre>SetDimensionsArray(<a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a> $dimensions) : <a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"><p>Гарантируется, что входной массив <var>$dimensions</var> не будет изменён.</p></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$dimensions</h4>
+<code><a href="SdmxCodelist.html#%5CSdmxCodelistInstance">\SdmxCodelistInstance[]</a></code><p>массив размерностей в виде <var>['<имя размерности>' => new SdmxCodelistInstance()]</var></p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></code>объект-родитель</div>
+</div></div>
+</div>
+<a id="method_SetTime"></a><div class="element clickable method protected method_SetTime" data-toggle="collapse" data-target=".method_SetTime .collapse">
+<h2>Установка времени</h2>
+<pre>SetTime(string $time) </pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$time</h4>
+<code>string</code><p>новое время, относящееся к объекту</p>
+</div>
+</div></div>
+</div>
+<a id="method_SetValue"></a><div class="element clickable method protected method_SetValue" data-toggle="collapse" data-target=".method_SetValue .collapse">
+<h2>Устаноска значения</h2>
+<pre>SetValue(string $value) : <a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description">
+<div class="long_description"></div>
+<h3>Parameters</h3>
+<div class="subelement argument">
+<h4>$value</h4>
+<code>string</code><p>@value новое значение</p>
+</div>
+<h3>Returns</h3>
+<div class="subelement response">
+<code><a href="../classes/SdmxDataPoint.html">\SdmxDataPoint</a></code>сам объект</div>
+</div></div>
+</div>
+<h3>
+<i class="icon-custom icon-property"></i> Properties</h3>
+<a id="property_attributes"> </a><div class="element clickable property protected property_attributes" data-toggle="collapse" data-target=".property_attributes .collapse">
+<h2></h2>
+<pre>$attributes : string[]</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Просто ассоциативный массив с аттрибутами точки</p></div></div></div>
+</div>
+<a id="property_dimensions"> </a><div class="element clickable property protected property_dimensions" data-toggle="collapse" data-target=".property_dimensions .collapse">
+<h2></h2>
+<pre>$dimensions : mixed[]</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Массив имеет вид: <var>['&lt;имя размерности>' => new SdmxCodelistInstance()]</var>,
+однако есть второй временный вариант, <var>['&lt;имя размерности' => '&lt;имя значения>']</var>, который останется в случае ошибки при поиске нужной размерности,
+то есть если при заполнении объекта не будет найдена какая-то размерность, то соответствующей этой размерности элемент массива будет строкой с названием значения.</p></div></div></div>
+</div>
+<a id="property_dimsFilled"> </a><div class="element clickable property protected property_dimsFilled" data-toggle="collapse" data-target=".property_dimsFilled .collapse">
+<h2></h2>
+<pre>$dimsFilled : bool</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Если <var>true</var>, то массив <var>$this->dimensions</var> имеет верную форму (<var>['&lt;имя размерности>' => new SdmxCodelistInstance()]</var>)</p></div></div></div>
+</div>
+<a id="property_time"> </a><div class="element clickable property protected property_time" data-toggle="collapse" data-target=".property_time .collapse">
+<h2></h2>
+<pre>$time : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>Видимо, речь о годе. Хотя в принципе это всё равно строка -- может быть чем угодно</p></div></div></div>
+</div>
+<a id="property_value"> </a><div class="element clickable property protected property_value" data-toggle="collapse" data-target=".property_value .collapse">
+<h2></h2>
+<pre>$value : string</pre>
+<div class="labels"></div>
+<div class="row collapse"><div class="detail-description"><div class="long_description"><p>собственно, значение, хранящееся в ячейке таблицы</p></div></div></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><footer class="span12">
+            Template is built using <a href="http://twitter.github.com/bootstrap/">Twitter Bootstrap 2</a> and icons provided by <a href="http://glyphicons.com/">Glyphicons</a>.<br>
+            Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor 2.0.0a12</a> and<br>
+            generated on 2012-12-28T00:01:24+04:00.<br></footer></div>
+</div>
+</body>
+</html>
