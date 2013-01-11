@@ -72,7 +72,7 @@
 		 * @param SimpleXMLElement $headers новый объект с заголовками
 		 * @return SdmxData объект-хозяин метода
 		 */
-		protected function SetHeaders(SimpleXMLElement $headers) {
+		function SetHeaders(SimpleXMLElement $headers) {
 			$this->headers = $headers;
 			return $this;
 		}
@@ -111,7 +111,7 @@
 		 * @param SimpleXMLElement $description новый объект с описанием
 		 * @return SdmxData объект-хозяин метода
 		 */
-		protected function SetDescription(SimpleXMLElement $description) {
+		function SetDescription(SimpleXMLElement $description) {
 			$this->description = $description;
 			return $this;
 		}
