@@ -9,6 +9,7 @@
 	 * @version 0.1
 	 */
 
+	require_once('SdmxAxis.php');
 	/**
 	 * Sdmx-объект
 	 *
@@ -128,17 +129,177 @@
 		}
 
 		/**
+		 * Массив осей
+		 *
+		 * В массиве хранятся все оси файла (т.е. аттрибуты и размерности)
+		 * Массив имеет формат <var>['&lt;id оси>' => &lt;SdmxAxis>]</var>
+		 * @var SdmxAxis[]
+		 */
+		protected $axes = array();
+
+		/**
+		 * Получение итератора на начало списка осей
+		 *
+		 * @return ArrayIterator итератор на начало массива осей
+		 */
+		function GetAxesIterator() {
+			return new ArrayIterator($this->axes);
+		}
+
+		/**
+		 * Добавление оси
+		 *
+		 * @param SdmxAxis $axis обавляемая ось
+		 * @return SdmxData объект-хозяин метода
+		 */
+		function AddAxis(SdmxAxis $axis) {
+			$this->axes[$axis->GetId()] = $axis;
+			return $this;
+		}
+
+		/**
+		 * Получение оси
+		 *
+		 * @param string $id идентификатор оси
+		 * @param mixed $default возвращается в случае отсутствия оси
+		 * @return mixed искомая ось (т.е. <var>SdmxAxis</var>) или <var>$default</var> в случае её отсутствия
+		 */
+		function GetAxis($id, $default = false) {
+			if (isset($this->axes[$id]))
+				return $this->axes[$id];
+			else
+				return $default;
+		}
+
+		/**
+		 * Добавление значения аттрибута
+		 *
+		 * Метод добавляет к оси <strong>аттрибута</strong> значение + создаёт её, если таковой не было
+		 *
+		 * @param string $axisId идентификатор оси
+		 * @param string $value значение
+		 * @return SdmxData объект-хозяин метода
+		 */
+		protected function AddAttributeValue($axisId, $value) {
+			if ($this->GetAxis($axisId, false) === false)
+				$this->AddAxis(SdmxAxis::CreateAttributeAxis($axisId));
+			$this->GetAxis($axisId)->SetValue($value, $value);
+			return $this;
+		}
+
+		/**
+		 * Добавление размерности
+		 *
+		 * Метод добавляет новый dimension и обрабатывает его codelist (т.е. список его значений)
+		 * @param SimpleXMLElement $xml объект со всем файлом
+		 * @param SimpleXMLElement $dim объект, соответствующий dimension'у
+		 * @return SdmxData объект-хозяин метода
+		 */
+		protected function AddDimension(SimpleXMLElement $xml, SimpleXMLElement $dim) {
+			// создадим новый axis, если его не было (в случае dimension'ов это трудно)
+			$axis = SdmxAxis::CreateDimensionAxis(strval($dim['value']), strval($dim->Name));
+
+			// найдём нужный codelist
+			foreach ($xml->CodeLists->children('structure', true)->CodeList as $child) {
+				if ($child->GetName() != 'CodeList')
+					continue;
+
+				if (strval($child->attributes()->id) == $dim['value']) {
+					$codelist = $child;
+					break;
+				}
+			}
+
+			// если не нашли, то вообще говоря нужно лезть в стандартные, но это потом.
+			// ************************************************************************************ STUB
+			if ( ! isset($codelist)) {
+				echo "Codelist {$dim['value']} wasn't found!\n";
+				return $this;
+			}
+
+			// добавим все значения
+			foreach ($codelist->Code as $val) {
+				$axis->SetValue(strval($val->attributes()->value), strval($val->Description));
+			}
+
+			$this->AddAxis($axis);
+			return $this;
+		}
+
+		/**
+		 * Обработка всех размерностей
+		 *
+		 * Метод достаёт из данного файла все размерности (в т.ч. заполняет их списки значений)
+		 *
+		 * @param SimpleXMLElemet $xml весь файл
+		 * @return SdmxData объект-хозяин метода
+		 */
+		protected function ParseDimensions(SimpleXMLElement $xml) {
+			foreach ($xml->Description->Indicator->Dimensions->Dimension as $dim) {
+				$this->AddDimension($xml, $dim);
+			}
+			return $this;
+		}
+
+		protected function ParseAttributes(SimpleXMLElement $xml) {
+			foreach ($xml->DataSet->children('generic', true)->Series as $cell) {
+				$this->AddAttributeValue('time', strval($cell->Obs->Time));
+				foreach ($cell->Attributes->Value as $attr)
+					$this->AddAttributeValue(strval($attr->attributes()->concept), strval($attr->attributes()->value));
+			}
+		}
+
+		/**
 		 * Конструктор
 		 * 
 		 * @param string $filename Имя файла
 		 */
 		function __construct($filename) {
-			$this->SetRawXml(simplexml_load_file($filename));
+			// Обнаружим файл
+			$xml = new SimpleXMLElement($filename, 0, true);
+			$this->SetRawXml($xml);
 
-			$this->ParseHeaders($this->GetRawXml()->GenericData->Header)
-			     ->ParseDescription($this->GetRawXml()->GenericData->Description);
+			// выделим из него заголовки и описание
+			$this->ParseHeaders($xml->Header)
+			     ->ParseDescription($xml->Description);
 
-			// STUB
+			// Теперь - выделим все оси.
+			$this->ParseDimensions($xml)
+			     ->ParseAttributes($xml);
+		}
+
+		function __DebugPrintAxes() {
+			echo "Axes:<br>\n";
+			for ($it = $this->GetAxesIterator(); $it->valid(); $it->next()) {
+				$it->current()->__DebugPrint();
+			}
+			echo "<br>\n";
 		}
 	}
+
+	$text = <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<foo xmlns:structure="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/structure">
+	<structure:bar id="bar.1">
+		<structure:baz>
+			блаблабла
+		</structure:baz>
+	</structure:bar>
+	<baz id="sdaf">ololo</baz>
+</foo>
+XML;
+	/*
+	$xml = new SimpleXMLElement($text);
+	$node = $xml->children('structure', true)->bar->baz;
+	echo $node;
+	die();
+	foreach ($node as $bar) {
+		echo "$bar {$bar['id']}<br>";
+		echo $bar->attributes()->id;
+		echo $bar['id'];
+	}
+	die();
+	*/
+	$sdmx = new SdmxData('sdmx.1.xml');
+	$sdmx->__DebugPrintAxes();
 ?>

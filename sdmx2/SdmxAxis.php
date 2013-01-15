@@ -12,7 +12,7 @@
 	 */
 
 	/**
-	 * Размерность базы
+	 * Ось (размерность) базы
 	 *
 	 * Описывает одну из размерностей базы данных.
 	 * Содержит в себе идентификатор (для быстрого доступа), название на человеческом языке и набор строк-значений
@@ -21,6 +21,34 @@
 	 * @version 0.1
 	 */
 	class SdmxAxis implements IteratorAggregate {
+		/**
+		 * Тип оси
+		 *
+		 * Тип оси (размерность/аттрибут). Сделан скорее для дебага)
+		 * @var string
+		 */
+		protected $type = 'unknown';
+
+		/**
+		 * Получение типа оси
+		 *
+		 * @return string тип оси
+		 */
+		function GetType() {
+			return $this->type;
+		}
+
+		/**
+		 * Установка типа оси
+		 *
+		 * @param string $type новый тип оси
+		 * @return SdmxAxis объект-хозяин метода
+		 */
+		function SetType($type) {
+			$this->type = $type;
+			return $this;
+		}
+
 		/**
 		 * Имя размерности
 		 *
@@ -96,7 +124,7 @@
 		 * @return ArrayIterator итератор на начало массива значений размерности
 		 */
 		function GetValuesIterator() {
-			return ArrayIterator($this->values);
+			return new ArrayIterator($this->values);
 		}
 
 		/**
@@ -105,7 +133,7 @@
 		 * @return ArrayIterator итератор на начало массива значений размерности
 		 */
 		function GetIterator() {
-			return ArrayIterator($this->values);
+			return new ArrayIterator($this->values);
 		}
 
 		/**
@@ -175,10 +203,35 @@
 		 * @return SdmxAxis новый экземпляр класса
 		 */
 		static function CreateAttributeAxis($id) {
-			$ret = new Self();
+			$ret = new self();
 			$ret->SetId($id)
-			    ->SetName($id);
+			    ->SetName($id)
+			    ->SetType('attribute');
 			return $ret;
+		}
+
+		/**
+		 * Конструктор для размерностей
+		 *
+		 * Создаёт новый объект с заданным <var>$id</var> и таким же именем
+		 *
+		 * @param string $id идентификатор новой оси и оно же -- его имя
+		 * @return SdmxAxis новый экземпляр класса
+		 */
+		static function CreateDimensionAxis($id, $name) {
+			$ret = new self();
+			$ret->SetId($id)
+			    ->SetName($name)
+			    ->SetType('dimension');
+			return $ret;
+		}
+
+		function __DebugPrint() {
+			echo "Id: '{$this->GetId()}', Type: '{$this->GetType()}', Name: '{$this->GetName()}', Values count: {$this->GetValuesCount()}<br>\n";
+			echo "[ ";
+			for ($it = $this->GetValuesIterator(); $it->valid(); $it->next())
+				echo "({$it->key()}, {$it->current()}) ";
+			echo "]<br>\n";
 		}
 	}
 ?>
