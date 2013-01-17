@@ -2,8 +2,10 @@
 	/**
 	 * Файл содержит описание координаты по одной оси
 	 *
+	 * @todo сортировки?
+	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
-	 * @version 0.1
+	 * @version 0.2
 	 * @package sdmx
 	 */
 
@@ -15,7 +17,7 @@
 	 * Класс описывает координату какой-то ячейки по одной из осей
 	 *
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 0.2
 	 */
 	class SdmxCoordinate {
 		/**
@@ -24,7 +26,7 @@
 		 * Просто значение. На человеческом языке, чтобы можно было вывести
 		 * @var string
 		 */
-		protected $value;
+		protected $value = '';
 
 		/**
 		 * Получение значения координаты
@@ -77,7 +79,7 @@
 		 * Сырое значение, используемое внутри документа (id значения в Codelist)
 		 * @var string
 		 */
-		protected $rawValue;
+		protected $rawValue = '';
 
 		/**
 		 * Получение сырого значения
@@ -121,6 +123,19 @@
 		}
 
 		/**
+		 * Получение идентификатора оси
+		 *
+		 * @param mixed $default значение по умолчанию (если ось не установлена)
+		 * @return string идентификатор оси (строка) или <var>$default</var>
+		 */
+		function GetAxisId($default = false) {
+			if (is_a($this->GetAxis(), SdmxAxis))
+				return $this->GetAxis()->GetId();
+			else
+				return $default;
+		}
+
+		/**
 		 * Установка оси
 		 *
 		 * @param SdmxAxis $axis новая ось
@@ -149,6 +164,10 @@
 			$this->SetAxis($axis, false)
 			     ->SetRawValue($rawValue, false)
 			     ->UpdateValue($defaultValue);
+		}
+
+		function __DebugPrint() {
+			echo "({$this->GetAxisId('')}: {$this->GetRawValue()}, {$this->GetValue()})";
 		}
 	}
 ?>

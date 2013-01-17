@@ -6,7 +6,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 0.2
 	 */
 
 	require_once('SdmxAxis.php');
@@ -18,7 +18,7 @@
 	 * @todo размерности
 	 * @todo dataSet
 	 *
-	 * @version 0.1
+	 * @version 0.2
 	 * @package sdmx
 	 */
 	class SdmxData {

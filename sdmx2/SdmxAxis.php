@@ -5,10 +5,11 @@
 	 * @todo стандартные имена размерностей
 	 * @todo стандартные размерности
 	 * @todo конструкторы размерностей
+	 * @todo сортировка?
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 0.2
 	 */
 
 	/**
@@ -18,7 +19,7 @@
 	 * Содержит в себе идентификатор (для быстрого доступа), название на человеческом языке и набор строк-значений
 	 *
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 0.2
 	 */
 	class SdmxAxis implements IteratorAggregate {
 		/**
@@ -55,7 +56,7 @@
 		 * Идентификатор размерности на человеческом языке
 		 * @var string
 		 */
-		protected $name;
+		protected $name = '';
 
 		/**
 		 * Получение имени
@@ -86,7 +87,7 @@
 		 *
 		 * @var string
 		 */
-		protected $id;
+		protected $id = '';
 
 		/**
 		 * Получение идентификатора
