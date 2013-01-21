@@ -4,12 +4,10 @@
 	 *
 	 * @todo стандартные имена размерностей
 	 * @todo стандартные размерности
-	 * @todo конструкторы размерностей
-	 * @todo сортировка?
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.2
+	 * @version 0.3
 	 */
 
 	/**
@@ -19,7 +17,7 @@
 	 * Содержит в себе идентификатор (для быстрого доступа), название на человеческом языке и набор строк-значений
 	 *
 	 * @package sdmx
-	 * @version 0.2
+	 * @version 0.3
 	 */
 	class SdmxAxis implements IteratorAggregate {
 		/**
@@ -110,6 +108,86 @@
 		}
 
 		/**
+		 * Массив приоритетов значений
+		 *
+		 * Маленький приоритет при сортировке стоит раньше (т.е. приоритет с возрастанием числа уменьшается)
+		 * Необходимо для сортировки. Компаратор по сути возвращает разницу приоритетов.
+		 * У каждого значения на оси есть свой приоритет (выставляется по ходу добавления, чем позже вставлен, тем больше приоритет)
+		 * Массив имеет вид <var>['&lt;сырое значение>' => &lt;приоритет>]</var>
+		 *
+		 * @var int[]
+		 */
+		protected $valuesPriorities = array();
+
+		/**
+		 * Получение приоритета значения
+		 *
+		 * Метод возвращает приоритет значения по "сырому" значению
+		 *
+		 * @param string $rawValue сырое значение
+		 * @return int приоритет значения. Если такое значение отсутствовало, вернётся <var>-1</var>
+		 */
+		function GetPriority($rawValue) {
+			if (isset($this->valuesPriorities[$rawValue]))
+				return $this->valuesPriorities[$rawValue];
+			else
+				return -1;
+		}
+
+		/**
+		 * Максимальное значение приоритета
+		 *
+		 * Для добавления новых приоритетов необходимо знать мексимальный текущий приоритет
+		 *
+		 * @var int
+		 */
+		protected $maxPrior = 0;
+
+		/**
+		 * обновление приоритетов
+		 *
+		 * Обновляет приоритеты в сответствии с их позицией в массиве
+		 * Записывает в ячейку с приориетом конкретного значения его порядковый номер в массиве значений
+		 *
+		 * @return SdmxAxis объект-хозяин метода
+		 */
+		function UpdatePriorities() {
+			$this->maxPrior = 0;
+			$this->valuesPriorities = array();
+			foreach ($this->values as $rawValue => $value)
+				$this->AddPriority($rawValue);
+			return $this;
+		}
+
+		/**
+		 * Добавление приоритета
+		 *
+		 * Добавляет приоритет, инкрементирует значение приоритета.
+		 * Если приоритет уще существовал, то не трогаем его
+		 *
+		 * @param string $rawValue "сырое" значение, приоритет которому надо выставить
+		 * @return SdmxAxis объект-хозяин метода
+		 */
+		function AddPriority($rawValue) {
+			if ( ! isset($this->valuesPriorities[$rawValue]))
+				$this->valuesPriorities[$rawValue] = $this->maxPrior++;
+			return $this;
+		}
+
+		/**
+		 * Сравнение двух значений
+		 *
+		 * Сравнивает значения по их приоритету
+		 *
+		 * @param string $rawValue1 первое сравниваемое значение
+		 * @param string $rawValue2 второе сравниваемое значение
+		 * @return int отрицательное, если первое стоит раньше второго, <var>0</var> при равенстве приоритетов, положительное, если второе больше 
+		 */
+		function ComparePriorities($rawValue1, $rawValue2) {
+			return ($this->GetPriority($rawValue1) - $this->GetPriority($rawValue2));
+		}
+
+		/**
 		 * Массив значений размерности
 		 *
 		 * Массив со всевозмодными значениями в форме <var>['&lt;сырое значение>' => '&lt;конечное значение>']</var>
@@ -126,6 +204,15 @@
 		 */
 		function GetValuesIterator() {
 			return new ArrayIterator($this->values);
+		}
+
+		/**
+		 * Получение итератора на массив приоритетов
+		 *
+		 * @return ArrayIterator Итератор на начало массива приоритетов 
+		 */
+		function GetPrioritiesIterator() {
+			return new ArrayIterator($this->valuesPriorities);
 		}
 
 		/**
@@ -152,14 +239,24 @@
 		}
 
 		/**
-		 * Установка значения
+		 * Добавление значения
+		 *
+		 * Если "сырое" значение дублируется, то ничего не меняется (ни приоритет, ни само значение)
 		 * 
 		 * @param string $rawValue сырое значение (индекс в массиве, см. структуру $this->values)
 		 * @param string $value "нормальное" значение
 		 * @return SdmxDimension бъект-владелец метода
 		 */
-		function SetValue($rawValue, $value) {
+		function AddValue($rawValue, $value) {
+			if (isset($this->values[$rawValue]))
+				return $this;
+
+			// само значение
 			$this->values[$rawValue] = $value;
+
+			// теперь приоритет (если был -- не трогаем)
+			$this->AddPriority($rawValue);
+
 			return $this;
 		}
 
@@ -186,6 +283,25 @@
 		 */
 		function GetValuesCount() {
 			return count($this->values);
+		}
+
+		/**
+		 * Сортировка значений
+		 *
+		 * Сортирует массив значений по "сырым" значениям, используя переданную функцию <var>$cmp</var>
+		 * По умолчанию $cmp -- стандартная операция сортировки строк
+		 * Функция также полностью перераспределяет приоритеты
+		 *
+		 * @param callable $cmp Оператор сравнения -- int $cmp(mixed $a, mixed $b)
+		 */
+		function SortValues($cmp = null) {
+			// осортим сам массив
+			if ( ! $cmp) 
+				ksort($this->values);
+			else
+				uksort($this->values, $cmp);
+
+			// теперь переставим приоритеты
 		}
 
 		/**
@@ -229,9 +345,9 @@
 
 		function __DebugPrint() {
 			echo "Id: '{$this->GetId()}', Type: '{$this->GetType()}', Name: '{$this->GetName()}', Values count: {$this->GetValuesCount()}<br>\n";
-			echo "[ ";
+			echo "Values: [ ";
 			for ($it = $this->GetValuesIterator(); $it->valid(); $it->next())
-				echo "({$it->key()}, {$it->current()}) ";
+				echo "(raw={$it->key()}, val={$it->current()}, prior={$this->GetPriority($it->key())}) ";
 			echo "]<br>\n";
 		}
 	}

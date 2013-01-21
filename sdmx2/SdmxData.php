@@ -183,7 +183,7 @@
 		protected function AddAttributeValue($axisId, $value) {
 			if ($this->GetAxis($axisId, false) === false)
 				$this->AddAxis(SdmxAxis::CreateAttributeAxis($axisId));
-			$this->GetAxis($axisId)->SetValue($value, $value);
+			$this->GetAxis($axisId)->AddValue($value, $value);
 			return $this;
 		}
 
@@ -219,7 +219,7 @@
 
 			// добавим все значения
 			foreach ($codelist->Code as $val) {
-				$axis->SetValue(strval($val->attributes()->value), strval($val->Description));
+				$axis->AddValue(strval($val->attributes()->value), strval($val->Description));
 			}
 
 			$this->AddAxis($axis);

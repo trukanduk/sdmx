@@ -2,10 +2,8 @@
 	/**
 	 * Файл содержит описание координаты по одной оси
 	 *
-	 * @todo сортировки?
-	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
-	 * @version 0.2
+	 * @version 0.3
 	 * @package sdmx
 	 */
 
@@ -17,7 +15,7 @@
 	 * Класс описывает координату какой-то ячейки по одной из осей
 	 *
 	 * @package sdmx
-	 * @version 0.2
+	 * @version 0.3
 	 */
 	class SdmxCoordinate {
 		/**
@@ -148,6 +146,24 @@
 			if ($updateValue)
 				$this->UpdateValue($defaultValue);
 			return $this;
+		}
+
+		/**
+		 * Операция сравнения двух координат
+		 *
+		 * Сравнивает две координаты на одной оси (!), возвращает отрицательно значение,
+		 * если первое меньше, положительное число, если второе больше и ноль при равенстве.
+		 *
+		 * @throws Exception если координаты из разных осей
+		 * @param SdmxCoordinate $coord1 Первая координата
+		 * @param SdmxCoordinate $coord2 Вторая координата
+		 * @return int отрицательное, если первое меньше, положительное, если второе меньше, ноль при равенстве
+		 */
+		static function Compare(SdmxCoordinate $coord1, SdmxCoordinate $coord2) {
+			if ($coord1->GetAxis() !== $coord2->GetAxis())
+				throw new Exception('Coordinates in different axes!');
+
+			return $coord1->GetAxis()->Compare($coord1->GetRawValue(), $coord2->GetRawValue());
 		}
 
 		/**
