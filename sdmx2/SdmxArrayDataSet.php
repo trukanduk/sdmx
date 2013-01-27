@@ -1,27 +1,161 @@
 <?php
 	/**
-	 * Файл содержит описание интерфейса <var>ISdmxDataSet</var> и сопутствующее
+	 * Содержит описание класса <var>SdmxArrayDataSet</var>.
 	 *
-	 * @todo split, срезы и прочее и прочее.
-	 *
+	 * Простейшая реализация <var>ISdmxDataSet</var>.
+	 * 
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 1.0
 	 */
 
-	require_once('SdmxAxis.php');
+	require_once('ISdmxDataSet.php');
 	require_once('SdmxDataPoint.php');
+	require_once('SdmxAxis.php');
 
 	/**
-	 * Интерфейс для многомерных массивов данных
+	 * Итератор по осям с определённой "фиксированностью"
 	 *
-	 * Не описана полная функциональность, в идеале предполагается несколько реализаций,
-	 * возможно, соптимизированных для разных типов запросов
+	 * @see SdmxArrayDataSet::axesValues
+	 * @package sdmx
+	 * @version 1.0
+	 */
+	class SdmxArrayDataSetFixedAxesIterator implements Iterator {
+		/**
+		 * Множество
+		 *
+		 * @var SdmxArrayDataSet
+		 */
+		protected $dataSet;
+
+		/**
+		 * Получение множества точек
+		 *
+		 * @return SdmxArrayDataSet множество точек
+		 */
+		function GetDataSet() {
+			return $this->dataSet;
+		}
+
+		/**
+		 * Итератор на массив осей в множестве
+		 * 
+		 * @var ArrayIterator
+		 */
+		protected $axesIterator;
+
+		/**
+		 * Указывает ли внутренний итератор на правильную ось
+		 *
+		 * @return bool
+		 */
+		protected function IsCorrectIterator() {
+			return ($this->dataSet->IsAxisFixed($this->axesIterator->key()) == $this->areAxesFixed);
+		}
+
+		/**
+		 * "Фиксированность" рассматриваемых осей
+		 * 
+		 * Итератор прыгает по осям со значением <var>SdmxArrayAxis::IsFixed()</var>, равным <var>$areAxesFixed</var>
+		 * 
+		 * @var bool
+		 */
+		protected $areAxesFixed;
+
+		/**
+		 * Текущее значение
+		 *
+		 * @return SdmxAxis текущая "подходящая" ось
+		 */
+		function current() {
+			return $this->axesIterator->current();
+		}
+
+		/**
+		 * Идентификатор оси
+		 *
+		 * @return scalar идентификатор оси
+		 */
+		function key() {
+			return $this->axesIterator->key();
+		}
+
+		/**
+		 * Следующее значение итератора
+		 *
+		 * @return void
+		 */
+		function next() {
+			if ( ! $this->axesIterator->valid()) 
+				return;
+
+			$this->axesIterator->next();
+
+			while ($this->axesIterator->valid() && $this->IsCorrectIterator())
+				$this->axesIterator->next();
+		}
+
+		/**
+		 * Первое значение
+		 *
+		 * @return void
+		 */
+		function rewind() {
+			$this->axesIterator->rewind();
+			if ( ! $this->IsCorrectIterator())
+				$this->next();
+		}
+
+		/**
+		 * Рабочий ли итератор
+		 *
+		 * @return bool
+		 */
+		function valid() {
+			return $this->axesIterator->valid();
+		}
+
+		/**
+		 * Конструктор
+		 *
+		 * @param SdmxArrayDataSet $dataSet родительское множество точек
+		 * @param bool $fixType мы будем прыгать по фиксированным или нефиксированным осям?
+		 */
+		function __construct(SdmxArrayDataSet $dataSet, $fixType) {
+			$this->dataSet = $dataSet;
+			$this->areAxesFixed = $fixType;
+			$this->axesIterator = $dataSet->GetAxesIterator();
+		}
+	}
+	/**
+	 * Простейший DataSet
+	 *
+	 * Класс реализовывает простейший <var>DataSet</var>, состоящий из одного массива.
+	 * Не соптимизирован ни для каких типов запросов.
 	 *
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 1.0
 	 */
-	interface ISdmxDataSet {
+	class SdmxArrayDataSet implements ISdmxDataSet, IteratorAggregate {
+		/**
+		 * Массив осей
+		 * 
+		 * @var SdmxAxis[]
+		 */
+		protected $axes = array();
+
+		/**
+		 * Массив значений осей
+		 * 
+		 * В множестве могут не использоваться все возможные значения.
+		 * Массив имеет вид: <var>['axisId' => ['value1', 'value2', ...] ]</var>, где 'value1', 'value2' и т.д. --
+		 * реально используемые в множестве значения.
+		 * Если у какой-то оси только одно значение, то эта ось обзывается "фиксированной"
+		 *
+		 * @var string
+		 */
+		protected $axesValues = array();
+
 		/**
 		 * Получение оси
 		 *
@@ -29,7 +163,12 @@
 		 * @param mixed $default значение по умолчанию -- в случае отсутствия искомой оси
 		 * @return mixed искомая ось (<var>SdmxAxis</var>) или <var>$default</var>.
 		 */
-		function GetAxis($axisId, $default = false);
+		function GetAxis($axisId, $default = false) {
+			if (isset($this->axes[$axisId]))
+				return $this->axes[$axisId];
+			else
+				return $default;
+		}
 
 		/**
 		 * Добавление новой оси
@@ -41,14 +180,20 @@
 		 * @param SdmxAxis $axis новая ось
 		 * @return ISdmxDataSet объект-хозяин объекта
 		 */
-		function AddAxis(SdmxAxis $axis);
+		function AddAxis(SdmxAxis $axis) {
+			$this->axes[$axis->GetId()] = $axis;
+			$this->axesValues[$axis->GetId()] = array();
+			return $this;
+		}
 
 		/**
 		 * Получение итератора на массив осей
 		 *
 		 * @return Iterator итератор на массив осей
 		 */
-		function GetAxesIterator();
+		function GetAxesIterator() {
+			return new ArrayIterator($this->axes);
+		}
 
 		/**
 		 * Фиксированна ли ось
@@ -59,21 +204,32 @@
 		 * @param mixed $default значение, которое будет возвращено в случае отсутствия оси
 		 * @return mixed В случае наличия оси -- <var>bool</var> или <var>$default</var> в случае её отсутствия
 		 */
-		function IsAxisFixed($axisId, $default = false);
+		function IsAxisFixed($axisId, $default = false) {
+			if (isset($this->axesValues[$axisId]))
+				return (count($this->axesValues[$axisId]) == 1);
+			else
+				return $default;
+		}
 
 		/**
 		 * Получение итератора на массив фиксированных осей
 		 *
 		 * @return Iterator итератор на фиксированные оси
 		 */
-		function GetFixedAxesIterator();
+		function GetFixedAxesIterator() {
+			return new SdmxArrayDataSetFixedAxesIterator($this, true);
+		}
 
 		/**
 		 * Получение итератора на массив нефиксированных осей
 		 *
 		 * @return Iterator итератор на нефиксированные оси
 		 */
-		function GetUnfixedAxesIterator();
+		function GetUnfixedAxesIterator() {
+			return new SdmxArrayDataSetFixedAxesIterator($this, false);
+		}
+
+		protected $points = array();
 
 		/**
 		 * Получение итератора на массив значений оси
@@ -83,9 +239,14 @@
 		 *
 		 * @param string $axisId идентификатор оси
 		 * @param mixed $defаult Значение, которое вернётся в случае отсутствия оси
-		 * @return Iterator итератор на массив со значениями оси
+		 * @return mixed либо <var>Iterator</var> -- итератор на массив со значениями оси, либо <var>$default</var> при ошибке
 		 */
-		function GetValuesIterator($axisId, $default = false);
+		function GetValuesIterator($axisId, $default = false) {
+			if (isset($this->axesValues[$axisId]))
+				return new ArrayIterator($this->axesValues[$axisId]);
+			else
+				return $default
+		}
 
 		/**
 		 * Получение количества значений оси
@@ -94,7 +255,12 @@
 		 * @param mixed $default значение, которое вернётся при отсутствии оси
 		 * @return mixed Количество значений (<var>int</var>) или <var>$default</var> в случае отсутствия таковой
 		 */
-		function GetValuesCount($axisId, $default = false);
+		function GetValuesCount($axisId, $default = false) {
+			if (isset($this->axesValues[$axisId]))
+				return count($this->axesValues[$axisId]);
+			else
+				return $default	
+		}
 
 		/**
 		 * Добавление точки

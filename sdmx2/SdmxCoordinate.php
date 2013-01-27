@@ -155,15 +155,15 @@
 		 * если первое меньше, положительное число, если второе больше и ноль при равенстве.
 		 *
 		 * @throws Exception если координаты из разных осей
-		 * @param SdmxCoordinate $coord1 Первая координата
-		 * @param SdmxCoordinate $coord2 Вторая координата
+		 * @param SdmxCoordinate $fisrt Первая координата
+		 * @param SdmxCoordinate $second Вторая координата
 		 * @return int отрицательное, если первое меньше, положительное, если второе меньше, ноль при равенстве
 		 */
-		static function Compare(SdmxCoordinate $coord1, SdmxCoordinate $coord2) {
-			if ($coord1->GetAxis() !== $coord2->GetAxis())
+		static function Compare(SdmxCoordinate $first, SdmxCoordinate $first) {
+			if ($first->GetAxis() !== $second->GetAxis())
 				throw new Exception('Coordinates in different axes!');
 
-			return $coord1->GetAxis()->Compare($coord1->GetRawValue(), $coord2->GetRawValue());
+			return $first->GetAxis()->Compare($first->GetRawValue(), $first->GetRawValue());
 		}
 
 		/**

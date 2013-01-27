@@ -179,12 +179,12 @@
 		 *
 		 * Сравнивает значения по их приоритету
 		 *
-		 * @param string $rawValue1 первое сравниваемое значение
-		 * @param string $rawValue2 второе сравниваемое значение
+		 * @param string $first первое сравниваемое значение
+		 * @param string $second второе сравниваемое значение
 		 * @return int отрицательное, если первое стоит раньше второго, <var>0</var> при равенстве приоритетов, положительное, если второе больше 
 		 */
-		function ComparePriorities($rawValue1, $rawValue2) {
-			return ($this->GetPriority($rawValue1) - $this->GetPriority($rawValue2));
+		function ComparePriorities($first, $second) {
+			return ($this->GetPriority($first) - $this->GetPriority($second));
 		}
 
 		/**
@@ -289,19 +289,22 @@
 		 * Сортировка значений
 		 *
 		 * Сортирует массив значений по "сырым" значениям, используя переданную функцию <var>$cmp</var>
-		 * По умолчанию $cmp -- стандартная операция сортировки строк
+		 * По умолчанию $cmp -- стандартная операция <strong>натуральной</strong> сортировки строк
 		 * Функция также полностью перераспределяет приоритеты
 		 *
 		 * @param callable $cmp Оператор сравнения -- int $cmp(mixed $a, mixed $b)
+		 * @return SdmxAxis объект-хозяин метода
 		 */
 		function SortValues($cmp = null) {
 			// осортим сам массив
 			if ( ! $cmp) 
-				ksort($this->values);
+				ksort($this->values, SORT_NATURAL);
 			else
 				uksort($this->values, $cmp);
 
 			// теперь переставим приоритеты
+			$this->UpdatePriorities();
+			return $this;
 		}
 
 		/**

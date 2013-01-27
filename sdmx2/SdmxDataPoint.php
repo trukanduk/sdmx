@@ -109,6 +109,33 @@
 		}
 
 		/**
+		 * Сравнение двух объектов
+		 *
+		 * Сравнивает два объекта и возвращает отрицательное значение, если первый элемент меньше второго
+		 * ноль, если они равны и положительное, если второй меньше первого
+		 * Необязательный параметр <var>$axesConpareOrder</var> задаёт порядок осей для сравнения (состоит из идентификаторов осей).
+		 * Например, если <var>$axesCompareOrder == ['year', 'month']</var>, то сначала объекты будут сравниваться по координате <var>'year'</var>,
+		 * при равенстве -- по координате 'month'. По умолчанию берётся порядок следования осей в первом объекте (однако так делать не рекомендуется)
+		 *
+		 * @param SdmxDataPoint $first первый объект
+		 * @param SdmxDataPoint $second второй объект
+		 * @param string[] $axesCompareOrder массив с идентификаторами осей в порядке сравнения
+		 * @return int отрицательное значение, если первый объект меньше второго, ноль при равенстве и положительное число, если второй меньше первого
+		 */
+		static function Compare(SdmxDataPoint $first, SdmxDataPoint $second, $axesCompareOrder = null) {
+			$ret = 0;
+			// У нас есть два случая: если у нас задан массив или если не задан.
+			if (is_array($axesCompareOrder) && count($axesCompareOrder) > 0)
+				for ($it = new ArrayIterator($axesCompareOrder); $ret == 0 && $it->valid(); $it->next())
+					$ret = SdmxCoordinate::Compare($first->GetCoordinate($it->current()), $second->GetCoordinate($it->current()));
+			else
+				for ($it = $first->GetCoordinatesIterator(); $ret == 0 && $it->valid(); $it->next())
+					$ret = SdmxCoordinate::Compare($it->current(), $second->GetCoordinate($it->key()));
+
+			return $ret;
+		}
+
+		/**
 		 * Конструктор
 		 *
 		 * Создаёт пустой объект (есть возможность проинициализировать значение)
