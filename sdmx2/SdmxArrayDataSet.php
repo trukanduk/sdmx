@@ -6,10 +6,11 @@
 	 * 
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 0.2
 	 */
 
 	require_once('ISdmxDataSet.php');
+	require_once('SdmxCoordinate.php');
 	require_once('SdmxDataPoint.php');
 	require_once('SdmxAxis.php');
 
@@ -18,7 +19,7 @@
 	 *
 	 * @see SdmxArrayDataSet::axesValues
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 0.2
 	 */
 	class SdmxArrayDataSetFixedAxesIterator implements Iterator {
 		/**
@@ -181,8 +182,31 @@
 		 * @return ISdmxDataSet объект-хозяин объекта
 		 */
 		function AddAxis(SdmxAxis $axis) {
+			if (count($this->points) > 0)
+				throw new Exception('Нельзя добавлять оси в непустое множество!');
 			$this->axes[$axis->GetId()] = $axis;
 			$this->axesValues[$axis->GetId()] = array();
+			return $this;
+		}
+
+		/**
+		 * Добавление значения оси
+		 * 
+		 * Добавляет значение оси, а также обнвляет состояние оси (фиксированная/нефиксированная)
+		 * Не проверяет сущетвование оси в множестве.
+		 *
+		 * @param string $axisId идентификатор оси
+		 * @param string $value "сырое" значение
+		 * @return объект-хозяин метода
+		 */
+		protected function AddAxisValue($axisId, $value) {
+			foreach ($this->axesValues[$axisId] as $val)
+				if ($val === $value)
+					return $this;
+
+			$this->axesValues[$axisId][] = $values;
+			if (count($this->axesValues[$axisId]) === 2)
+				$this->unfixedAxesCount++;
 			return $this;
 		}
 
@@ -193,6 +217,40 @@
 		 */
 		function GetAxesIterator() {
 			return new ArrayIterator($this->axes);
+		}
+
+		/**
+		 * Получение количества осей
+		 *
+		 * @return int Количество осей
+		 */
+		function GetAxesCount() {
+			return count($this->axes);
+		}
+
+		/**
+		 * Количество нефиксированных осей
+		 *
+		 * @var int
+		 */
+		protected $unfixedAxesCount = 0;
+
+		/**
+		 * Получение количества фиксированных осей
+		 *
+		 * @return int количество фиксированных осей множества
+		 */ 
+		function GetFixedAxesCount() {
+			return $this->GetAxesCount() - $this->unfixedAxesCount;
+		}
+
+		/**
+		 * Получение количества нефиксированных осей
+		 *
+		 * @return int количество нефиксированных осей множества
+		 */ 
+		function GetUnfixedAxesCount() {
+			return $this->unfixedAxesCount;
 		}
 
 		/**
@@ -245,7 +303,7 @@
 			if (isset($this->axesValues[$axisId]))
 				return new ArrayIterator($this->axesValues[$axisId]);
 			else
-				return $default
+				return $default;
 		}
 
 		/**
@@ -272,7 +330,25 @@
 		 * @param SdmxDataPoint $point дабавляемая точка
 		 * @return ISdmxDataSet объект-хозяин метода
 		 */
-		function AddPoint(SdmxDataPoint $point);
+		function AddPoint(SdmxDataPoint $point) {
+			// Проверим оси. Точка должна иметь координаты по всем осям (и только по ним)
+			foreach ($point as $axisId => $coord) {
+				if ( ! $this->GetAxis($axisId, false) || $this->GetAxis($axisId) !== $coord->GetAxis())
+					throw new Exception('Точки должны иметь координаты всех осей множества и никаких других!');
+			}
+
+			if ($this->GetAxesCount() !== $point->GetCoordinatesCount())
+				throw new Exception('Точки должны иметь координаты всех осей множества и никаких других!');
+
+			// Теперь загоним точку в множество
+			$this->points[] = $point;
+
+			foreach ($point as $axisId => $coord) {
+				$this->AddAxisValue($axisId, $coord->GetRawValue());
+			}
+
+			return $this;
+		}
 
 		/**
 		 * Сортирует точки и возвращает итератор
@@ -284,14 +360,18 @@
 		 * @param string[] $axesOrder массив с приоритетами осей при сравнении (или <var>null</var>, чтобы использовать очерёдность добавления осей)
 		 * @return Iterator итератор на множество значений (эквивалентно вызову <var>GetPointsIterator()</var>)
 		 */
-		function SortPoints($axesOrder = null);
+		function SortPoints($axesOrder = null) {
+			throw new Exception('SdmxArrayDataSet::SortPoints(): STUB!');
+		}
 
 		/**
 		 * Получение итератора на массив точек
 		 *
 		 * @return Iterator итератор на множество точек
 		 */
-		function GetPointsIterator();
+		function GetPointsIterator() {
+			return new ArrayIterator($this->points);
+		}
 
 		/**
 		 * Получение среза по оси
@@ -303,8 +383,12 @@
 		 * @param string $axisId идентификатор оси, по которой произойдёт деление
 		 * @return ISdmxDataSet[] массив с множествами
 		 */
-		function GetSlice($axisId);
+		function GetSlice($axisId) {
+			throw new Exception('SdmxArrayDataSet::GetSlice(): STUB!');
+		}
 
-		function __DebugPrint();
+		function __DebugPrint() {
+			throw new Exception('SdmxArrayDataSet::__DebugPrint(): STUB!');
+		}
 	}
 ?>

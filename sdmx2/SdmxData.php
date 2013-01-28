@@ -270,36 +270,13 @@
 
 		function __DebugPrintAxes() {
 			echo "Axes:<br>\n";
-			for ($it = $this->GetAxesIterator(); $it->valid(); $it->next()) {
-				$it->current()->__DebugPrint();
+			foreach ($this->GetAxesIterator() as $axis) {
+				$axis->__DebugPrint();
 			}
 			echo "<br>\n";
 		}
 	}
 
-	$text = <<<XML
-<?xml version="1.0" encoding="utf-8"?>
-<foo xmlns:structure="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/structure">
-	<structure:bar id="bar.1">
-		<structure:baz>
-			блаблабла
-		</structure:baz>
-	</structure:bar>
-	<baz id="sdaf">ololo</baz>
-</foo>
-XML;
-	/*
-	$xml = new SimpleXMLElement($text);
-	$node = $xml->children('structure', true)->bar->baz;
-	echo $node;
-	die();
-	foreach ($node as $bar) {
-		echo "$bar {$bar['id']}<br>";
-		echo $bar->attributes()->id;
-		echo $bar['id'];
-	}
-	die();
-	*/
 	$sdmx = new SdmxData('sdmx.1.xml');
 	$sdmx->__DebugPrintAxes();
 ?>

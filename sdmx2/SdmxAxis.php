@@ -349,8 +349,9 @@
 		function __DebugPrint() {
 			echo "Id: '{$this->GetId()}', Type: '{$this->GetType()}', Name: '{$this->GetName()}', Values count: {$this->GetValuesCount()}<br>\n";
 			echo "Values: [ ";
-			for ($it = $this->GetValuesIterator(); $it->valid(); $it->next())
-				echo "(raw={$it->key()}, val={$it->current()}, prior={$this->GetPriority($it->key())}) ";
+			//for ($it = $this->GetValuesIterator(); $it->valid(); $it->next())
+			foreach ($this->GetValuesIterator() as $key => $value)
+				echo "(raw={$key}, val={$value}, prior={$this->GetPriority($key)}) ";
 			echo "]<br>\n";
 		}
 	}

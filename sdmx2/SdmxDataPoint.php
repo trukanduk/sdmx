@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 1.0
 	 */
 
 	require_once('SdmxCoordinate.php');
@@ -15,7 +15,7 @@
 	 * Содержит значение и набор координат (по которым можно пройтись итератором)
 	 *
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 1.0
 	 */
 	class SdmxDataPoint implements IteratorAggregate {
 		/**
@@ -109,6 +109,15 @@
 		}
 
 		/**
+		 * Получение количества координат
+		 *
+		 * @return int количество координат
+		 */
+		function GetCoordinatesCount() {
+			return count($this->coordinates);
+		}
+
+		/**
 		 * Сравнение двух объектов
 		 *
 		 * Сравнивает два объекта и возвращает отрицательное значение, если первый элемент меньше второго
@@ -146,8 +155,8 @@
 		}
 
 		function __DebugPrint() {
-			for ($it = $this->GetIterator(); $it->valid(); $it->next())
-				$it->current()->__DebugPrint();
+			foreach ($this->GetCoordinatesIterator() as $coord)
+				$coord->__DebugPrint();
 		}
 	}
 ?>
