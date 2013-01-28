@@ -6,7 +6,7 @@
 	 * 
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.2
+	 * @version 0.3
 	 */
 
 	require_once('ISdmxDataSet.php');
@@ -19,7 +19,7 @@
 	 *
 	 * @see SdmxArrayDataSet::axesValues
 	 * @package sdmx
-	 * @version 0.2
+	 * @version 1.0
 	 */
 	class SdmxArrayDataSetFixedAxesIterator implements Iterator {
 		/**
@@ -135,9 +135,9 @@
 	 * Не соптимизирован ни для каких типов запросов.
 	 *
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 0.3
 	 */
-	class SdmxArrayDataSet implements ISdmxDataSet, IteratorAggregate {
+	class SdmxArrayDataSet implements ISdmxDataSet {
 		/**
 		 * Массив осей
 		 * 
@@ -204,7 +204,7 @@
 				if ($val === $value)
 					return $this;
 
-			$this->axesValues[$axisId][] = $values;
+			$this->axesValues[$axisId][] = $value;
 			if (count($this->axesValues[$axisId]) === 2)
 				$this->unfixedAxesCount++;
 			return $this;
@@ -317,7 +317,7 @@
 			if (isset($this->axesValues[$axisId]))
 				return count($this->axesValues[$axisId]);
 			else
-				return $default	
+				return $default;
 		}
 
 		/**
@@ -374,6 +374,15 @@
 		}
 
 		/**
+		 * Получение итератора на массив точек
+		 *
+		 * @return Iterator итератор на массив точек
+		 */
+		function GetIterator() {
+			return new ArrayIterator($this->points);
+		}
+
+		/**
 		 * Получение среза по оси
 		 *
 		 * Возвращает ассоциативный массив вида <var>['&lt;сырое значение>' => ISdmxDataSet()]</var>, где в качестве индексов
@@ -387,8 +396,53 @@
 			throw new Exception('SdmxArrayDataSet::GetSlice(): STUB!');
 		}
 
+		/**
+		 * Очистка множества
+		 *
+		 * Удаляет все точки и все оси из множества (но если есть какие-то специфичные параметры, то они остаются)
+		 *
+		 * @return ISdmxDataSet объект-хозяин метода
+		 */
+		function Clear() {
+			$this->axesValues = array();
+			$this->axes = array();
+			$this->points = array();
+			$this->unfixedAxesCount = 0;
+			return $this;
+		}
+
+		function __DebugPrintAxes($printValues = true) {
+			echo "Axes: <br>\n";
+			foreach ($this->GetAxesIterator() as $axis) {
+				$axis->__DebugPrint();
+				if ($printValues) {
+					echo "Used values: [";
+					foreach ($this->GetValuesIterator($axis->GetId()) as $val)
+						echo "$val, ";
+					echo "] <br>\n";
+				}
+				if ($this->IsAxisFixed($axis->GetId()))
+					echo "FIXED<br>\n";
+				else
+					echo "UNFIXED<br>\n";
+			}
+			echo "<br>\n";
+			return $this;
+		}
+
+		function __DebugPrintPoints() {
+			echo "Points: <br>\n";
+			foreach ($this->GetPointsIterator() as $point) {
+				$point->__DebugPrint();
+			}
+			echo "<br>\n";
+			return $this;
+		}
+
 		function __DebugPrint() {
-			throw new Exception('SdmxArrayDataSet::__DebugPrint(): STUB!');
+			$this->__DebugPrintAxes()
+			     ->__DebugPrintPoints();
+			return $this;
 		}
 	}
 ?>

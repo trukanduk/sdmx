@@ -6,10 +6,14 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.2
+	 * @version 0.3
 	 */
 
 	require_once('SdmxAxis.php');
+	require_once('SdmxDataPoint.php');
+	require_once('ISdmxDataSet.php');
+	require_once('SdmxArrayDataSet.php');
+
 	/**
 	 * Sdmx-объект
 	 *
@@ -18,7 +22,7 @@
 	 * @todo размерности
 	 * @todo dataSet
 	 *
-	 * @version 0.2
+	 * @version 0.3
 	 * @package sdmx
 	 */
 	class SdmxData {
@@ -213,7 +217,7 @@
 			// если не нашли, то вообще говоря нужно лезть в стандартные, но это потом.
 			// ************************************************************************************ STUB
 			if ( ! isset($codelist)) {
-				echo "Codelist {$dim['value']} wasn't found!\n";
+				echo "Codelist {$dim['value']} wasn't found!<br>\n";
 				return $this;
 			}
 
@@ -231,7 +235,7 @@
 		 *
 		 * Метод достаёт из данного файла все размерности (в т.ч. заполняет их списки значений)
 		 *
-		 * @param SimpleXMLElemet $xml весь файл
+		 * @param SimpleXMLElement $xml весь файл
 		 * @return SdmxData объект-хозяин метода
 		 */
 		protected function ParseDimensions(SimpleXMLElement $xml) {
@@ -241,12 +245,95 @@
 			return $this;
 		}
 
+		/**
+		 * Обработка всех аттрибутов
+		 *
+		 * Достаёт из точек их аттрибуты и загоняет их как ось
+		 *
+		 * @param SimpleXMLElement $xml весь файл
+		 * @return SdmxData объект-хозяин метода
+		 */
 		protected function ParseAttributes(SimpleXMLElement $xml) {
 			foreach ($xml->DataSet->children('generic', true)->Series as $cell) {
 				$this->AddAttributeValue('time', strval($cell->Obs->Time));
 				foreach ($cell->Attributes->Value as $attr)
 					$this->AddAttributeValue(strval($attr->attributes()->concept), strval($attr->attributes()->value));
 			}
+			return $this;
+		}
+
+		/**
+		 * Множество точек
+		 *
+		 * @var ISdmxDataSet
+		 */
+		protected $dataSet;
+
+		/**
+		 * Получение множества точек
+		 *
+		 * @return ISdmxDataSet множество точек
+		 */
+		function GetDataSet() {
+			return $this->dataSet;
+		}
+
+		/**
+		 * Формирование DataSet'а
+		 *
+		 * Метод парсит файл и вынимает оттуда DataSet (оси должны быть проинициализированы)
+		 *
+		 * @param SimpleXMLElement $xml файл
+		 * @param ISdmxDataSet $dataSet Пустое множество (ISdmxDataSet), которое будет использоваться в качестве множества в файле
+		 * @return SdmxData объект-хозяин метода
+		 */
+		protected function InitDataSet(SimpleXMLElement $xml, ISdmxDataSet $dataSet) {
+			// для начала перенесём dataSet
+			$this->dataSet = $dataSet;
+			$this->dataSet->Clear();
+
+			// заполним оси
+			foreach ($this->GetAxesIterator() as $axis)
+				$this->dataSet->AddAxis($axis);
+
+			// Теперь точки
+			foreach ($xml->DataSet->children('generic', true)->Series as $rawPoint)
+				$this->ParseDataPoint($rawPoint);
+
+			return $this;
+		}
+
+		/**
+		 * Формирование ячейки таблицы
+		 *
+		 * Парсит данный кусок с табличкой и загоняет получившуюся точку в dataSet
+		 * 
+		 * @param SimpleXMLElement $rawPoint xml, соответствующий интересуемой ячейке
+		 * @return SdmxData объект-хозяин метода
+		 */
+		protected function ParseDataPoint(SimpleXMLElement $rawPoint) {
+			// создадаим точку, сразу заполним значение
+			$point = new SdmxDataPoint($rawPoint->Obs->ObsValue->attributes()->value);
+
+			// найдём и загоним все оси
+			foreach ($rawPoint->SeriesKey->Value as $dim) {
+				$axis = $this->GetAxis(strval($dim->attributes()->concept));
+				$point->AddCoordinate(new SdmxCoordinate($axis, strval($dim->attributes()->value)));
+			}
+
+			foreach ($rawPoint->Attributes->Value as $attr) {
+				$axis = $this->GetAxis(strval($attr->attributes()->concept));
+				$point->AddCoordinate(new SdmxCoordinate($axis, strval($attr->attributes()->value)));
+			}
+
+			$point->AddCoordinate(new SdmxCoordinate($this->GetAxis('time'), strval($rawPoint->Obs->Time)));
+
+			// *******************************************************************************************************
+			// ЗДЕСЬ НАДО ОБРАБАТЫВАТЬ ОСИ СО СТАНДАРТЫМИ ЗНАЧЕНИЯМИ (НАПР., OKSM)
+
+			// добавим точку в множество
+			$this->dataSet->AddPoint($point);
+			return $this;
 		}
 
 		/**
@@ -266,6 +353,9 @@
 			// Теперь - выделим все оси.
 			$this->ParseDimensions($xml)
 			     ->ParseAttributes($xml);
+
+			// Собственно, массив с данными.
+			$this->InitDataSet($xml, new SdmxArrayDataSet());
 		}
 
 		function __DebugPrintAxes() {
@@ -274,9 +364,21 @@
 				$axis->__DebugPrint();
 			}
 			echo "<br>\n";
+			return $this;
+		}
+
+		function __DebugPrintDataSet() {
+			echo "DataSet: <br>\n";
+			$this->dataSet->__DebugPrint(true);
+		}
+
+		function __DebugPrint() {
+			$this->__DebugPrintAxes();
+			echo "SDMX DATA: <br>\n";
+			$this->dataSet->__DebugPrint(true);
 		}
 	}
 
 	$sdmx = new SdmxData('sdmx.1.xml');
-	$sdmx->__DebugPrintAxes();
+	$sdmx->__DebugPrint();
 ?>

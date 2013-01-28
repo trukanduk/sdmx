@@ -2,11 +2,9 @@
 	/**
 	 * Файл содержит описание интерфейса <var>ISdmxDataSet</var> и сопутствующее
 	 *
-	 * @todo split, срезы и прочее и прочее.
-	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 0.2
 	 */
 
 	require_once('SdmxAxis.php');
@@ -19,9 +17,9 @@
 	 * возможно, соптимизированных для разных типов запросов
 	 *
 	 * @package sdmx
-	 * @version 0.1
+	 * @version 0.2
 	 */
-	interface ISdmxDataSet {
+	interface ISdmxDataSet extends IteratorAggregate {
 		/**
 		 * Получение оси
 		 *
@@ -160,6 +158,17 @@
 		 */
 		function GetSlice($axisId);
 
+		/**
+		 * Очистка множества
+		 *
+		 * Удаляет все точки и все оси из множества (но если есть какие-то специфичные параметры, то они остаются)
+		 *
+		 * @return ISdmxDataSet объект-хозяин метода
+		 */
+		function Clear();
+
+		function __DebugPrintAxes($printValues = true);
+		function __DebugPrintPoints();
 		function __DebugPrint();
 	}
 ?>

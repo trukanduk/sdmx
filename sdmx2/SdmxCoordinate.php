@@ -3,7 +3,7 @@
 	 * Файл содержит описание координаты по одной оси
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
-	 * @version 0.3
+	 * @version 1.0
 	 * @package sdmx
 	 */
 
@@ -15,7 +15,7 @@
 	 * Класс описывает координату какой-то ячейки по одной из осей
 	 *
 	 * @package sdmx
-	 * @version 0.3
+	 * @version 1.0
 	 */
 	class SdmxCoordinate {
 		/**
@@ -141,7 +141,7 @@
 		 * @param string $defaultValue новое значение координаты в случае неуспешного обновления 
 		 * @return SdmxCoordinate объект-хозяин метода
 		 */
-		function SetAxis(SdxmAxis $axis, $updateValue = false, $defaultValue = '') {
+		function SetAxis(SdmxAxis $axis, $updateValue = false, $defaultValue = '') {
 			$this->axis = $axis;
 			if ($updateValue)
 				$this->UpdateValue($defaultValue);
@@ -183,7 +183,8 @@
 		}
 
 		function __DebugPrint() {
-			echo "({$this->GetAxisId('')}: {$this->GetRawValue()}, {$this->GetValue()})";
+			echo "({$this->GetAxisId('')}: {$this->GetRawValue()}, {$this->GetValue()}) ";
+			return $this;
 		}
 	}
 ?>

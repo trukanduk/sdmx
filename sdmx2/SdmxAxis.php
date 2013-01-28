@@ -7,7 +7,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.3
+	 * @version 1.0
 	 */
 
 	/**
@@ -17,7 +17,7 @@
 	 * Содержит в себе идентификатор (для быстрого доступа), название на человеческом языке и набор строк-значений
 	 *
 	 * @package sdmx
-	 * @version 0.3
+	 * @version 1.0
 	 */
 	class SdmxAxis implements IteratorAggregate {
 		/**
@@ -353,6 +353,7 @@
 			foreach ($this->GetValuesIterator() as $key => $value)
 				echo "(raw={$key}, val={$value}, prior={$this->GetPriority($key)}) ";
 			echo "]<br>\n";
+			return $this;
 		}
 	}
 ?>

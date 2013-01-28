@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.0.1
 	 */
 
 	require_once('SdmxCoordinate.php');
@@ -15,7 +15,7 @@
 	 * Содержит значение и набор координат (по которым можно пройтись итератором)
 	 *
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.0.1
 	 */
 	class SdmxDataPoint implements IteratorAggregate {
 		/**
@@ -83,7 +83,7 @@
 		 * @param SdmxCoordinate $coord добавляемая координата
 		 * @return SdmxDataPoint объект-хозяин метода
 		 */
-		function AddCoordinate(SdmxCoordinate $cord) {
+		function AddCoordinate(SdmxCoordinate $coord) {
 			$this->coordinates[$coord->GetAxisId('')] = $coord;
 			return $this;
 		}
@@ -155,8 +155,11 @@
 		}
 
 		function __DebugPrint() {
+			echo "Coordinates: [";
 			foreach ($this->GetCoordinatesIterator() as $coord)
 				$coord->__DebugPrint();
+			echo "] Value: {$this->GetValue()}<br>\n";
+			return $this;
 		}
 	}
 ?>
