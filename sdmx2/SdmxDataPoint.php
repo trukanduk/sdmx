@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
 
 	require_once('SdmxCoordinate.php');
@@ -15,7 +15,7 @@
 	 * Содержит значение и набор координат (по которым можно пройтись итератором)
 	 *
 	 * @package sdmx
-	 * @version 1.0.1
+	 * @version 1.0.2
 	 */
 	class SdmxDataPoint implements IteratorAggregate {
 		/**

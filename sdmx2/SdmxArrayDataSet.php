@@ -6,7 +6,7 @@
 	 * 
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.3
+	 * @version 1.0
 	 */
 
 	require_once('ISdmxDataSet.php');

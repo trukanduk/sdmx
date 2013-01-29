@@ -3,7 +3,7 @@
 	 * Файл содержит описание координаты по одной оси
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
-	 * @version 1.0
+	 * @version 1.0.1
 	 * @package sdmx
 	 */
 
@@ -15,7 +15,7 @@
 	 * Класс описывает координату какой-то ячейки по одной из осей
 	 *
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.0.1
 	 */
 	class SdmxCoordinate {
 		/**

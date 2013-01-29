@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.2
+	 * @version 1.0
 	 */
 
 	require_once('SdmxAxis.php');
@@ -17,7 +17,7 @@
 	 * возможно, соптимизированных для разных типов запросов
 	 *
 	 * @package sdmx
-	 * @version 0.2
+	 * @version 1.0
 	 */
 	interface ISdmxDataSet extends IteratorAggregate {
 		/**
