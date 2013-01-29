@@ -124,7 +124,8 @@
 		 * ноль, если они равны и положительное, если второй меньше первого
 		 * Необязательный параметр <var>$axesConpareOrder</var> задаёт порядок осей для сравнения (состоит из идентификаторов осей).
 		 * Например, если <var>$axesCompareOrder == ['year', 'month']</var>, то сначала объекты будут сравниваться по координате <var>'year'</var>,
-		 * при равенстве -- по координате 'month'. По умолчанию берётся порядок следования осей в первом объекте (однако так делать не рекомендуется)
+		 * при равенстве -- по координате <var>'month'</var>. По умолчанию берётся порядок следования осей в
+		 * первом объекте (однако так делать не рекомендуется). Гарантируется, что массив не будет изменён
 		 *
 		 * @param SdmxDataPoint $first первый объект
 		 * @param SdmxDataPoint $second второй объект
@@ -134,12 +135,13 @@
 		static function Compare(SdmxDataPoint $first, SdmxDataPoint $second, $axesCompareOrder = null) {
 			$ret = 0;
 			// У нас есть два случая: если у нас задан массив или если не задан.
-			if (is_array($axesCompareOrder) && count($axesCompareOrder) > 0)
+			if (is_array($axesCompareOrder) && count($axesCompareOrder) > 0) {
 				for ($it = new ArrayIterator($axesCompareOrder); $ret == 0 && $it->valid(); $it->next())
 					$ret = SdmxCoordinate::Compare($first->GetCoordinate($it->current()), $second->GetCoordinate($it->current()));
-			else
+			} else {
 				for ($it = $first->GetCoordinatesIterator(); $ret == 0 && $it->valid(); $it->next())
 					$ret = SdmxCoordinate::Compare($it->current(), $second->GetCoordinate($it->key()));
+			}
 
 			return $ret;
 		}

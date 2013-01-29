@@ -159,11 +159,11 @@
 		 * @param SdmxCoordinate $second Вторая координата
 		 * @return int отрицательное, если первое меньше, положительное, если второе меньше, ноль при равенстве
 		 */
-		static function Compare(SdmxCoordinate $first, SdmxCoordinate $first) {
+		static function Compare(SdmxCoordinate $first, SdmxCoordinate $second) {
 			if ($first->GetAxis() !== $second->GetAxis())
 				throw new Exception('Coordinates in different axes!');
 
-			return $first->GetAxis()->Compare($first->GetRawValue(), $first->GetRawValue());
+			return $first->GetAxis()->ComparePriorities($first->GetRawValue(), $second->GetRawValue());
 		}
 
 		/**

@@ -255,7 +255,7 @@
 		 */
 		protected function ParseAttributes(SimpleXMLElement $xml) {
 			foreach ($xml->DataSet->children('generic', true)->Series as $cell) {
-				$this->AddAttributeValue('time', strval($cell->Obs->Time));
+				$this->AddAttributeValue('Time', strval($cell->Obs->Time));
 				foreach ($cell->Attributes->Value as $attr)
 					$this->AddAttributeValue(strval($attr->attributes()->concept), strval($attr->attributes()->value));
 			}
@@ -326,7 +326,7 @@
 				$point->AddCoordinate(new SdmxCoordinate($axis, strval($attr->attributes()->value)));
 			}
 
-			$point->AddCoordinate(new SdmxCoordinate($this->GetAxis('time'), strval($rawPoint->Obs->Time)));
+			$point->AddCoordinate(new SdmxCoordinate($this->GetAxis('Time'), strval($rawPoint->Obs->Time)));
 
 			// *******************************************************************************************************
 			// ЗДЕСЬ НАДО ОБРАБАТЫВАТЬ ОСИ СО СТАНДАРТЫМИ ЗНАЧЕНИЯМИ (НАПР., OKSM)
@@ -340,8 +340,9 @@
 		 * Конструктор
 		 * 
 		 * @param string $filename Имя файла
+		 * @param ISdmxDataSet 
 		 */
-		function __construct($filename) {
+		function __construct($filename, $dataSetInstance = null) {
 			// Обнаружим файл
 			$xml = new SimpleXMLElement($filename, 0, true);
 			$this->SetRawXml($xml);
@@ -355,7 +356,10 @@
 			     ->ParseAttributes($xml);
 
 			// Собственно, массив с данными.
-			$this->InitDataSet($xml, new SdmxArrayDataSet());
+			if (is_a($dataSetInstance, ISdmxDataSet))
+				$this->InitDataSet($xml, $dataSetInstance);
+			else
+				$this->InitDataSet($xml, new SdmxArrayDataSet());
 		}
 
 		function __DebugPrintAxes() {
@@ -379,6 +383,27 @@
 		}
 	}
 
-	$sdmx = new SdmxData('sdmx.1.xml');
+	// Новый объект
+	$sdmx = new SdmxData('sdmx.1.xml', new SdmxArrayDataSet());
+
+	// Очерёдность осей при сортировке
+	$cmpArr = array('Time', 'U.M.VID_UGLYA');
+
+	// отсортируем множество точек
+	$sdmx->GetDataSet()->SortPoints($cmpArr);
+
+	// выведем всё (исключительно дебаг)
 	$sdmx->__DebugPrint();
+
+	// Теперь возьмём срез по оси типа угля
+	echo "<br>\n<h3>GETTING SLICE:</h3><br>\n";
+
+	// мы имеем массив вида [$val => $subset], где $val -- очередное значение оси, а $subset -- IDataSet, в
+	// котором содержатся все элементы родительского dataSet'а со значением координаты (координаты той оси,
+	// по которой брался срез), равным $val.
+	foreach ($sdmx->GetDataSet()->GetSlice('U.M.VID_UGLYA') as $val => $subset) {
+		echo "SLICE VALUE: $val:<br>\n";
+		$subset->__DebugPrint();
+	}
+	
 ?>

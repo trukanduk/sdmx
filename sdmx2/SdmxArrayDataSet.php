@@ -57,7 +57,7 @@
 		/**
 		 * "Фиксированность" рассматриваемых осей
 		 * 
-		 * Итератор прыгает по осям со значением <var>SdmxArrayAxis::IsFixed()</var>, равным <var>$areAxesFixed</var>
+		 * Итератор прыгает по осям со значением <var>SdmxArrayAxis::IsAxisFixed()</var>, равным <var>$areAxesFixed</var>
 		 * 
 		 * @var bool
 		 */
@@ -361,7 +361,60 @@
 		 * @return Iterator итератор на множество значений (эквивалентно вызову <var>GetPointsIterator()</var>)
 		 */
 		function SortPoints($axesOrder = null) {
-			throw new Exception('SdmxArrayDataSet::SortPoints(): STUB!');
+			if ($axesOrder) {
+				$compareOrder = array();
+				foreach ($axesOrder as $axisId) {
+					if ( ! $this->IsAxisFixed(true))
+						$compareOrder[] = $axisId;
+				}
+			} else {
+				$compareOrder = array();
+				foreach ($this->GetAxesIterator() as $axisId => $axis)
+					$compareOrder[] = $axisId;
+			}
+
+			$this->QuickSortPoints(0, count($this->points), $compareOrder);
+			return new ArrayIterator($this->points);
+		}
+
+		/**
+		 * Сортировка точек
+		 *
+		 * Сортирует подмассив точек в множестве
+		 *
+		 * @param int $beginInd начальный элемент
+		 * @param int $endInd индекс последнего эл-та + 1
+		 * @param string[] $axesOrder оси, по которым надо сравнивать точки (в т.ч. их последовательность)
+		 * @return void
+		 */
+		protected function QuickSortPoints($beginInd, $endInd, $axesOrder) {
+			if ($endInd - $beginInd < 2)
+				return;
+
+			$left = $beginInd;
+			$right = $endInd - 1;
+
+			$central = $this->points[($beginInd + $endInd - 1)/2];
+			while ($left <= $right) {
+				while ($left < $right && SdmxDataPoint::Compare($this->points[$left], $central, $axesOrder) < 0)
+					++$left;
+				while ($left < $right && SdmxDataPoint::Compare($central, $this->points[$right], $axesOrder) < 0)
+					--$right;
+
+				if ($left <= $right) {
+					$tmp = $this->points[$left];
+					$this->points[$left] = $this->points[$right];
+					$this->points[$right] = $tmp;
+					++$left;
+					--$right;
+				}
+			}
+
+			if ($left < $endInd)
+				$this->QuickSortPoints($beginInd, $left, $axesOrder);
+			if ($right > $beginInd)
+				$this->QuickSortPoints($right, $endInd, $axesOrder);
+			return;
 		}
 
 		/**
@@ -393,7 +446,23 @@
 		 * @return ISdmxDataSet[] массив с множествами
 		 */
 		function GetSlice($axisId) {
-			throw new Exception('SdmxArrayDataSet::GetSlice(): STUB!');
+			// Если вдруг такой оси нет
+			if ( ! $this->GetAxis($axisId, false))
+				return array();
+
+			// А теперь сформируем наш массив
+			$ret = array();
+			foreach ($this->axesValues[$axisId] as $axisValue) {
+				$ret[$axisValue] = new SdmxArrayDataSet();
+				foreach ($this->GetAxesIterator() as $axis)
+					$ret[$axisValue]->AddAxis($axis);
+			}
+
+			foreach ($this->points as $point) {
+				$ret[$point->GetCoordinate($axisId)->GetRawValue()]->AddPoint($point);
+			}
+
+			return $ret;
 		}
 
 		/**
