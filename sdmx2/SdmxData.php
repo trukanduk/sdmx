@@ -220,8 +220,8 @@
 			if ( ! isset($codelist)) {
 				//echo "Codelist {$dim['value']} wasn't found!<br>\n";
 
-				if ( ! SdmxAxisLoader::LoadAxis($axis)) {
-					echo "Размерность {$dim['value']} не найдена или не может быть проинициализирована!";
+				if ( ! SdmxAxisLoader::LoadAxisValues($axis)) {
+					echo "Размерность {$dim['value']} не найдена или не может быть проинициализирована!<br>\n";
 				}
 			} else {
 				// добавим все значения
@@ -260,8 +260,15 @@
 		protected function ParseAttributes(SimpleXMLElement $xml) {
 			foreach ($xml->DataSet->children('generic', true)->Series as $cell) {
 				$this->AddAttributeValue('Time', strval($cell->Obs->Time));
-				foreach ($cell->Attributes->Value as $attr)
+				if ( ! SdmxAxisLoader::LoadAxisName($this->GetAxis('Time')))
+					echo "Невозможно проинициализировать имя оси Time!<br>\n";
+
+				foreach ($cell->Attributes->Value as $attr) {
 					$this->AddAttributeValue(strval($attr->attributes()->concept), strval($attr->attributes()->value));
+					if ( ! SdmxAxisLoader::LoadAxisName($this->GetAxis(strval($attr->attributes()->concept))))
+						echo "Невозможно проинициализировать имя оси {$attr->attributes()->concept}!<br>\n";
+				}
+
 			}
 			return $this;
 		}
@@ -391,7 +398,7 @@
 	}
 
 	// Новый объект
-	$sdmx = new SdmxData('sdmx.3.xml', new SdmxArrayDataSet());
+	$sdmx = new SdmxData('sdmx.2.xml', new SdmxArrayDataSet());
 
 	// Очерёдность осей при сортировке
 	//$cmpArr = array('Time', 'U.M.VID_UGLYA');

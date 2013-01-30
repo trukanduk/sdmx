@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<CodeLists
- xmlns:structure="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/structure">
-	<structure:CodeList id="OKSM">
-		<structure:Name xml:lang="ru">Страна</structure:Name>
-		<structure:DefaultValue xml:lang="ru">RUS</structure:DefaultValue>
-		<structure:Code value="RUS">
-			<structure:Description xml:lang="ru">Российская Федерация</structure:Description>
-		</structure:Code>
-		<structure:Code value="ENG">
-			<structure:Description xml:lang="ru">Великобритания</structure:Description>
-		</structure:Code>
-	</structure:CodeList>
-</CodeLists>
+<AxisData>
+	<CodeLists>
+		<CodeList id="OKSM">
+			<Name xml:lang="ru">Страна</Name>
+			<DefaultValue xml:lang="ru">RUS</DefaultValue>
+			<Code value="RUS">
+				<Description xml:lang="ru">Российская Федерация</Description>
+			</Code>
+			<Code value="ENG">
+				<Description xml:lang="ru">Великобритания</Description>
+			</Code>
+		</CodeList>
+	</CodeLists>
+	<AttributeNames>
+		<Attribute id="EI">
+			<Name xml:lang="ru">единица измерения</Name>
+		</Attribute>
+		<Attribute id="PERIOD">
+			<Name xml:lang="ru">период</Name>
+		</Attribute>
+		<Attribute id="Time">
+			<Name xml:lang="ru">год</Name>
+		</Attribute>
+	</AttributeNames>
+</AxisData>
