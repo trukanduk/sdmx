@@ -1,6 +1,6 @@
 <?php
 	/**
-	 * Файл содержит описание интерфейса <var>ISdmxDataSet</var> и сопутствующее
+	 * Описание интерфейса <var>ISdmxDataSet</var> и сопутствующее
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx

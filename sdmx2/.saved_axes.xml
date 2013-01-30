@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeLists
+ xmlns:structure="http://www.SDMX.org/resources/SDMXML/schemas/v1_0/structure">
+	<structure:CodeList id="OKSM">
+		<structure:Name xml:lang="ru">Страна</structure:Name>
+		<structure:DefaultValue xml:lang="ru">RUS</structure:DefaultValue>
+		<structure:Code value="RUS">
+			<structure:Description xml:lang="ru">Российская Федерация</structure:Description>
+		</structure:Code>
+		<structure:Code value="ENG">
+			<structure:Description xml:lang="ru">Великобритания</structure:Description>
+		</structure:Code>
+	</structure:CodeList>
+</CodeLists>

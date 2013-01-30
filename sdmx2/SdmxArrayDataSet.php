@@ -128,14 +128,15 @@
 			$this->axesIterator = $dataSet->GetAxesIterator();
 		}
 	}
+	
 	/**
-	 * Простейший DataSet
+	 * Простейший одномерный DataSet
 	 *
 	 * Класс реализовывает простейший <var>DataSet</var>, состоящий из одного массива.
 	 * Не соптимизирован ни для каких типов запросов.
 	 *
 	 * @package sdmx
-	 * @version 0.3
+	 * @version 1.0
 	 */
 	class SdmxArrayDataSet implements ISdmxDataSet {
 		/**

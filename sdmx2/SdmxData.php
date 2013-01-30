@@ -6,13 +6,14 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 0.3
+	 * @version 1.0
 	 */
 
 	require_once('SdmxAxis.php');
 	require_once('SdmxDataPoint.php');
 	require_once('ISdmxDataSet.php');
 	require_once('SdmxArrayDataSet.php');
+	require_once('SdmxAxisLoader.php');
 
 	/**
 	 * Sdmx-объект
@@ -22,7 +23,7 @@
 	 * @todo размерности
 	 * @todo dataSet
 	 *
-	 * @version 0.3
+	 * @version 1.0
 	 * @package sdmx
 	 */
 	class SdmxData {
@@ -217,13 +218,16 @@
 			// если не нашли, то вообще говоря нужно лезть в стандартные, но это потом.
 			// ************************************************************************************ STUB
 			if ( ! isset($codelist)) {
-				echo "Codelist {$dim['value']} wasn't found!<br>\n";
-				return $this;
-			}
+				//echo "Codelist {$dim['value']} wasn't found!<br>\n";
 
-			// добавим все значения
-			foreach ($codelist->Code as $val) {
-				$axis->AddValue(strval($val->attributes()->value), strval($val->Description));
+				if ( ! SdmxAxisLoader::LoadAxis($axis)) {
+					echo "Размерность {$dim['value']} не найдена или не может быть проинициализирована!";
+				}
+			} else {
+				// добавим все значения
+				foreach ($codelist->Code as $val) {
+					$axis->AddValue(strval($val->attributes()->value), strval($val->Description));
+				}
 			}
 
 			$this->AddAxis($axis);
@@ -328,8 +332,11 @@
 
 			$point->AddCoordinate(new SdmxCoordinate($this->GetAxis('Time'), strval($rawPoint->Obs->Time)));
 
-			// *******************************************************************************************************
-			// ЗДЕСЬ НАДО ОБРАБАТЫВАТЬ ОСИ СО СТАНДАРТЫМИ ЗНАЧЕНИЯМИ (НАПР., OKSM)
+			// Теперь те, которые не объявлены в точке (взять значения по умолчанию), например, OKSM
+			foreach ($this->GetAxesIterator() as $axisId => $axis) {
+				if ($point->GetCoordinate($axisId, false) === false)
+					$point->AddCoordinate(new SdmxCoordinate($axis, $axis->GetDefaultRawValue()));
+			}
 
 			// добавим точку в множество
 			$this->dataSet->AddPoint($point);
@@ -384,17 +391,17 @@
 	}
 
 	// Новый объект
-	$sdmx = new SdmxData('sdmx.1.xml', new SdmxArrayDataSet());
+	$sdmx = new SdmxData('sdmx.3.xml', new SdmxArrayDataSet());
 
 	// Очерёдность осей при сортировке
-	$cmpArr = array('Time', 'U.M.VID_UGLYA');
+	//$cmpArr = array('Time', 'U.M.VID_UGLYA');
 
 	// отсортируем множество точек
-	$sdmx->GetDataSet()->SortPoints($cmpArr);
+	//$sdmx->GetDataSet()->SortPoints($cmpArr);
 
 	// выведем всё (исключительно дебаг)
 	$sdmx->__DebugPrint();
-
+	die();
 	// Теперь возьмём срез по оси типа угля
 	echo "<br>\n<h3>GETTING SLICE:</h3><br>\n";
 
@@ -405,5 +412,5 @@
 		echo "SLICE VALUE: $val:<br>\n";
 		$subset->__DebugPrint();
 	}
-	
+
 ?>

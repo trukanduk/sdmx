@@ -1,13 +1,13 @@
 <?php
 	/**
-	 * Файл содержит описание класса <var>SdmxDimension</var> -- класс размерности базы
+	 * Описание класса <var>SdmxDimension</var> -- класс размерности базы
 	 *
 	 * @todo стандартные имена размерностей
 	 * @todo стандартные размерности
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.1
 	 */
 
 	/**
@@ -17,7 +17,7 @@
 	 * Содержит в себе идентификатор (для быстрого доступа), название на человеческом языке и набор строк-значений
 	 *
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.1
 	 */
 	class SdmxAxis implements IteratorAggregate {
 		/**
@@ -257,6 +257,10 @@
 			// теперь приоритет (если был -- не трогаем)
 			$this->AddPriority($rawValue);
 
+			// Если самый крутой -- выставим в качестве значения по умолчанию
+			if ($this->GetPriority($rawValue) == 0)
+				$this->SetDefaultRawValue($rawValue);
+
 			return $this;
 		}
 
@@ -270,7 +274,8 @@
 		 * @return SdmxDimension объект-хозяин метода
 		 */
 		function UnsetValue($rawValue) {
-			unset($this->values[$rawValue]);
+			if (isset($this->values[$rawValue]))
+				unset($this->values[$rawValue]);
 			return $this;
 		}
 
@@ -283,6 +288,35 @@
 		 */
 		function GetValuesCount() {
 			return count($this->values);
+		}
+
+		/**
+		 * Значегие по умолчанию
+		 *
+		 * Значение оси, которое присваивается точке при отсутствии значения по оси (см. OKSM)
+		 * Если не было выставлено специально, таковым считается первый добавленный элемент
+		 * @var string
+		 */
+		protected $defaultRawValue;
+
+		/**
+		 * Получение сырого значения по умолчанию
+		 *
+		 * @return string сырое значение
+		 */
+		function GetDefaultRawValue() {
+			return $this->defaultRawValue;
+		}
+
+		/**
+		 * Установка сырого значения по умолчанию
+		 *
+		 * @param string $rawValue сырое значение, которое будет выставлено в качестве значения по умолчанию
+		 * @return SdmxAxis объект-хозяин метода
+		 */
+		function SetDefaultRawValue($rawValue) {
+			$this->defaultRawValue = $rawValue;
+			return $this;
 		}
 
 		/**
