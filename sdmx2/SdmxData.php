@@ -6,7 +6,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.1
 	 */
 
 	require_once('SdmxAxis.php');
@@ -20,10 +20,7 @@
 	 *
 	 * Основной класс по работе с Sdmx-файлами.
 	 *
-	 * @todo размерности
-	 * @todo dataSet
-	 *
-	 * @version 1.0
+	 * @version 1.1
 	 * @package sdmx
 	 */
 	class SdmxData {
@@ -130,7 +127,7 @@
 		 * @return SdmxData объект-хозяин метода
 		 */
 		protected function ParseDescription(SimpleXMLElement $xml) {
-			return $this->GetDescription($xml);
+			return $this->SetDescription($xml);
 		}
 
 		/**
@@ -198,9 +195,10 @@
 		 * Метод добавляет новый dimension и обрабатывает его codelist (т.е. список его значений)
 		 * @param SimpleXMLElement $xml объект со всем файлом
 		 * @param SimpleXMLElement $dim объект, соответствующий dimension'у
+		 * @param string $savedAxesFile Путь до файла с сохранёнными осями (см. SdmxAxisLoader)
 		 * @return SdmxData объект-хозяин метода
 		 */
-		protected function AddDimension(SimpleXMLElement $xml, SimpleXMLElement $dim) {
+		protected function AddDimension(SimpleXMLElement $xml, SimpleXMLElement $dim, $savedAxesFile) {
 			// создадим новый axis, если его не было (в случае dimension'ов это трудно)
 			$axis = SdmxAxis::CreateDimensionAxis(strval($dim['value']), strval($dim->Name));
 
@@ -220,7 +218,7 @@
 			if ( ! isset($codelist)) {
 				//echo "Codelist {$dim['value']} wasn't found!<br>\n";
 
-				if ( ! SdmxAxisLoader::LoadAxisValues($axis)) {
+				if ( ! SdmxAxisLoader::LoadAxisValues($axis, $savedAxesFile)) {
 					echo "Размерность {$dim['value']} не найдена или не может быть проинициализирована!<br>\n";
 				}
 			} else {
@@ -240,11 +238,12 @@
 		 * Метод достаёт из данного файла все размерности (в т.ч. заполняет их списки значений)
 		 *
 		 * @param SimpleXMLElement $xml весь файл
+		 * @param string $savedAxesFile Путь до файла с сохранёнными осями (см. SdmxAxisLoader)
 		 * @return SdmxData объект-хозяин метода
 		 */
-		protected function ParseDimensions(SimpleXMLElement $xml) {
+		protected function ParseDimensions(SimpleXMLElement $xml, $savedAxesFile) {
 			foreach ($xml->Description->Indicator->Dimensions->Dimension as $dim) {
-				$this->AddDimension($xml, $dim);
+				$this->AddDimension($xml, $dim, $savedAxesFile);
 			}
 			return $this;
 		}
@@ -255,17 +254,18 @@
 		 * Достаёт из точек их аттрибуты и загоняет их как ось
 		 *
 		 * @param SimpleXMLElement $xml весь файл
+		 * @param string $savedAxesFile Файл с сохранёнными осями (см. SdmxAxisLoader)
 		 * @return SdmxData объект-хозяин метода
 		 */
-		protected function ParseAttributes(SimpleXMLElement $xml) {
+		protected function ParseAttributes(SimpleXMLElement $xml, $savedAxesFile) {
 			foreach ($xml->DataSet->children('generic', true)->Series as $cell) {
 				$this->AddAttributeValue('Time', strval($cell->Obs->Time));
-				if ( ! SdmxAxisLoader::LoadAxisName($this->GetAxis('Time')))
+				if ( ! SdmxAxisLoader::LoadAxisName($this->GetAxis('Time'), $savedAxesFile))
 					echo "Невозможно проинициализировать имя оси Time!<br>\n";
 
 				foreach ($cell->Attributes->Value as $attr) {
 					$this->AddAttributeValue(strval($attr->attributes()->concept), strval($attr->attributes()->value));
-					if ( ! SdmxAxisLoader::LoadAxisName($this->GetAxis(strval($attr->attributes()->concept))))
+					if ( ! SdmxAxisLoader::LoadAxisName($this->GetAxis(strval($attr->attributes()->concept)), $savedAxesFile))
 						echo "Невозможно проинициализировать имя оси {$attr->attributes()->concept}!<br>\n";
 				}
 
@@ -354,11 +354,16 @@
 		 * Конструктор
 		 * 
 		 * @param string $filename Имя файла
+		 * @param string $savedAxesFile Путь к файлу с сохранёнными осями (см. SdmxAxisLoader)
 		 * @param ISdmxDataSet 
 		 */
-		function __construct($filename, $dataSetInstance = null) {
+		function __construct($filename, $savedAxesFile = '.saved_axes.xml', $dataSetInstance = null) {
 			// Обнаружим файл
 			$xml = new SimpleXMLElement($filename, 0, true);
+			
+			if ( ! $xml)
+				return false;
+
 			$this->SetRawXml($xml);
 
 			// выделим из него заголовки и описание
@@ -366,8 +371,8 @@
 			     ->ParseDescription($xml->Description);
 
 			// Теперь - выделим все оси.
-			$this->ParseDimensions($xml)
-			     ->ParseAttributes($xml);
+			$this->ParseDimensions($xml, $savedAxesFile)
+			     ->ParseAttributes($xml, $savedAxesFile);
 
 			// Собственно, массив с данными.
 			if (is_a($dataSetInstance, ISdmxDataSet))
@@ -396,9 +401,9 @@
 			$this->dataSet->__DebugPrint(true);
 		}
 	}
-
+	/*
 	// Новый объект
-	$sdmx = new SdmxData('sdmx.2.xml', new SdmxArrayDataSet());
+	$sdmx = new SdmxData('files/sdmx.1.xml', '.saved_axes.xml', new SdmxArrayDataSet());
 
 	// Очерёдность осей при сортировке
 	//$cmpArr = array('Time', 'U.M.VID_UGLYA');
@@ -419,5 +424,6 @@
 		echo "SLICE VALUE: $val:<br>\n";
 		$subset->__DebugPrint();
 	}
+	*/
 
 ?>

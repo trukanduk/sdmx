@@ -14,13 +14,13 @@
 	</CodeLists>
 	<AttributeNames>
 		<Attribute id="EI">
-			<Name xml:lang="ru">единица измерения</Name>
+			<Name xml:lang="ru">Единица измерения</Name>
 		</Attribute>
 		<Attribute id="PERIOD">
-			<Name xml:lang="ru">период</Name>
+			<Name xml:lang="ru">Период</Name>
 		</Attribute>
 		<Attribute id="Time">
-			<Name xml:lang="ru">год</Name>
+			<Name xml:lang="ru">Год</Name>
 		</Attribute>
 	</AttributeNames>
 </AxisData>

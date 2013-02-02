@@ -6,7 +6,7 @@
 	 * 
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.1
 	 */
 
 	require_once('ISdmxDataSet.php');
@@ -19,7 +19,7 @@
 	 *
 	 * @see SdmxArrayDataSet::axesValues
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.1
 	 */
 	class SdmxArrayDataSetFixedAxesIterator implements Iterator {
 		/**
@@ -92,7 +92,7 @@
 
 			$this->axesIterator->next();
 
-			while ($this->axesIterator->valid() && $this->IsCorrectIterator())
+			while ($this->axesIterator->valid() && ! $this->IsCorrectIterator())
 				$this->axesIterator->next();
 		}
 
@@ -308,6 +308,21 @@
 		}
 
 		/**
+		 * Получение первого значения (используемого) оси
+		 *
+		 * Функция возвращает первое значение. Имеет смысл, когда оно единственно
+		 *
+		 * @param string $axisId Идентификатор оси, значение которой необходимо вернуть
+		 * @param mixed $default Значение, которое будет возвращено в случае отсутствия такой оси
+		 * @return mixed первое сырое значение оси (<var>string</var>) или <var>$default</var>, если она не была найдена
+		 */
+		function GetFirstValue($axisId, $default = false) {
+			if (isset($this->axesValues[$axisId]) && count($this->axesValues[$axisId]) > 0)
+				return $this->axesValues[$axisId][0];
+			else
+				return $default;
+		}
+		/**
 		 * Получение количества значений оси
 		 *
 		 * @param string $axisId идентификатор оси
@@ -351,6 +366,7 @@
 			return $this;
 		}
 
+		
 		/**
 		 * Сортирует точки и возвращает итератор
 		 * 
@@ -425,6 +441,21 @@
 		 */
 		function GetPointsIterator() {
 			return new ArrayIterator($this->points);
+		}
+
+		/**
+		 * Получение первой точки множества
+		 *
+		 * Функция возвращает первую точку множества. Имеет смысл, когда она единственная
+		 *
+		 * @param mixed $default значение, которое будет возвращено в случае отсутствия точек в множестве
+		 * @return SdmxDataPoint первая точка множества (или <var>$default</var>, если множество пусто)
+		 */
+		function GetFirstPoint($default = false) {
+			if (count($this->points) > 0)
+				return $this->points[0];
+			else
+				return $default;
 		}
 
 		/**

@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.1
 	 */
 
 	require_once('SdmxAxis.php');
@@ -13,11 +13,11 @@
 	/**
 	 * Интерфейс для многомерных массивов данных
 	 *
-	 * Не описана полная функциональность, в идеале предполагается несколько реализаций,
+	 * В идеале предполагается несколько реализаций,
 	 * возможно, соптимизированных для разных типов запросов
 	 *
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 1.1
 	 */
 	interface ISdmxDataSet extends IteratorAggregate {
 		/**
@@ -107,6 +107,17 @@
 		function GetValuesIterator($axisId, $default = false);
 
 		/**
+		 * Получение первого значения (используемого) оси
+		 *
+		 * Функция возвращает первое значение. Имеет смысл, когда оно единственно
+		 *
+		 * @param string $axisId Идентификатор оси, значение которой необходимо вернуть
+		 * @param mixed $default Значение, которое будет возвращено в случае отсутствия такой оси
+		 * @return mixed первое сырое значение оси (<var>string</var>) или <var>$default</var>, если она не была найдена
+		 */
+		function GetFirstValue($axisId, $default = false);
+
+		/**
 		 * Получение количества значений оси
 		 *
 		 * @param string $axisId идентификатор оси
@@ -148,6 +159,16 @@
 		 * @return Iterator итератор на множество точек
 		 */
 		function GetPointsIterator();
+
+		/**
+		 * Получение первой точки множества
+		 *
+		 * Функция возвращает первую точку множества. Имеет смысл, когда она единственная
+		 *
+		 * @param mixed $default значение, которое будет возвращено в случае отсутствия точек в множестве
+		 * @return SdmxDataPoint первая точка множества (или <var>$default</var>, если множество пусто)
+		 */
+		function GetFirstPoint($default = false);
 
 		/**
 		 * Получение среза по оси
