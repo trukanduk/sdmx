@@ -61,12 +61,12 @@
 		 *
 		 * Получает новое значение по оси и сырому значению
 		 *
-		 * @param string $default Значение по умолчанию в случае ошибки
+		 * @param string $defaultValue Значение по умолчанию в случае ошибки
 		 * @return SdmxCoordinate объект-хозяин метода
 		 */
-		function UpdateValue($default = '') {
+		function UpdateValue($defaultValue = '') {
 			if (is_a($this->GetAxis(), SdmxAxis))
-				$this->SetValue($this->GetAxis()->GetValue($rawValue), $defaultValue);
+				$this->SetValue($this->GetAxis()->GetValue($this->rawValue, $defaultValue));
 			else
 				$this->SetValue($defaultValue);
 			return $this;

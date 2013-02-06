@@ -6,7 +6,7 @@
 	 * 
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.1
+	 * @version 1.2
 	 */
 
 	require_once('ISdmxDataSet.php');
@@ -19,7 +19,7 @@
 	 *
 	 * @see SdmxArrayDataSet::axesValues
 	 * @package sdmx
-	 * @version 1.1
+	 * @version 1.2
 	 */
 	class SdmxArrayDataSetFixedAxesIterator implements Iterator {
 		/**
@@ -322,6 +322,22 @@
 			else
 				return $default;
 		}
+
+		/**
+		 * Получение значения оси по индексу
+		 *
+		 * @param string $axisId идентификатор оси
+		 * @param int $ind индекс значения
+		 * @param mixed $default значение, которое будет возвращено в случае ошибки
+		 * @return mixed "сырое" значение оси или <var>$default</var> в случае ошибки
+		 */
+		function GetValueByIndex($axisId, $ind, $default = false) {
+			if (isset($this->axesValues[$axisId]) && isset($this->axesValues[$axisId][$ind]))
+				return $this->axesValues[$axisId][$ind];
+			else
+				return $default;
+		}
+		
 		/**
 		 * Получение количества значений оси
 		 *
@@ -373,9 +389,10 @@
 		 * Сортирует точки в множестве. Если массив <var>$axesOrder</var> задан, то будет задан приоритет осей при сортировке
 		 * (т.е. сначала будет сравниваться ось, стоящая раньше в массиве, при равенстве -- далее). Если не задан, то он будет
 		 * сформирован сам в соответствии с последовательностью добавления осей в объект
+		 * При взятии срезов гарантируется, что сортироваться подмножества будут так же, как отсортировано исходное множество
 		 *
 		 * @param string[] $axesOrder массив с приоритетами осей при сравнении (или <var>null</var>, чтобы использовать очерёдность добавления осей)
-		 * @return Iterator итератор на множество значений (эквивалентно вызову <var>GetPointsIterator()</var>)
+		 * @return ISdmxDataSet Отсортированное множество точек (в данном случае -- оно само.)
 		 */
 		function SortPoints($axesOrder = null) {
 			if ($axesOrder) {
@@ -391,7 +408,7 @@
 			}
 
 			$this->QuickSortPoints(0, count($this->points), $compareOrder);
-			return new ArrayIterator($this->points);
+			return $this;
 		}
 
 		/**
@@ -413,6 +430,8 @@
 
 			$central = $this->points[($beginInd + $endInd - 1)/2];
 			while ($left <= $right) {
+				// global $DEBUG;
+				// echo $DEBUG . ' ';
 				while ($left < $right && SdmxDataPoint::Compare($this->points[$left], $central, $axesOrder) < 0)
 					++$left;
 				while ($left < $right && SdmxDataPoint::Compare($central, $this->points[$right], $axesOrder) < 0)
@@ -479,8 +498,10 @@
 		 */
 		function GetSlice($axisId) {
 			// Если вдруг такой оси нет
-			if ( ! $this->GetAxis($axisId, false))
+			if ($this->GetAxis($axisId, false) === false) {
+				echo "$axisId <br>";
 				return array();
+			}
 
 			// А теперь сформируем наш массив
 			$ret = array();

@@ -50,7 +50,7 @@
 					$.ajax({'url': 'action.php',
 						    'data': 'act=get_file_list&dir=sdmx2\\files',
 				            'type': 'GET',
-				            'timeout': 3000,
+				            'timeout': 10000,
 				            'success': function(data) {
 				            	$("#tab_1_content_div").html(data).fadeIn(400);
 				            	$("#tab_1_wait_div").fadeOut(400);
@@ -72,7 +72,7 @@
 					$.ajax({'url': 'action.php',
 						    'data': 'act=get_axes&file=' + $("#tab_1_filename_input").html(),
 						    'type': 'GET',
-						    'timeout': 5000,
+						    'timeout': 10000,
 						    'success': function(data) {
 						    	$("#tab_2_content_div").html(data).fadeIn(400);
 				            	$("#tab_2_wait_div").fadeOut(400);
@@ -105,7 +105,7 @@
 					$.ajax({'url': 'action.php',
 						    'data': 'act=get_table&file=' + $("#tab_1_filename_input").html() + ajax_query,
 						    'type': 'GET',
-						    'timeout': 5000,
+						    'timeout': 100000,
 						    'success': function(data) {
 						    	$("#tab_3_content_div").html(data).fadeIn(400);
 						    	$("#tab_3_wait_div").fadeOut(400);
@@ -293,7 +293,7 @@
 			</div>
 			<div id="tab_3" class="submain_div">
 				<div id="tab_3_control_div">
-					<a id="tab_3_fullsize_ref" class="ref">В полном размере</a>
+					<a id="tab_3_fullsize_ref" class="ref" target="_blank">В полном размере</a>
 				</div>
 				<div id="tab_3_content_div" class="content_div"></div>
 				<div id="tab_3_wait_div" class="wait_div">

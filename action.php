@@ -1,5 +1,6 @@
 <?php
-	require_once('sdmx2\SdmxData.php');
+	require_once('sdmx2\\SdmxData.php');
+	require_once('sdmx2\\SdmxTableGenerator.php');
 
 	/************************************************************************************************************************************************
 		                                                                                                                                   ПЕРВЫЙ ШАГ
@@ -116,7 +117,7 @@ TR;
 	/************************************************************************************************************************************************
 		                                                                                                                                   ТРЕТИЙ ШАГ
 	 ************************************************************************************************************************************************/
-	} else if ($_GET['act'] == 'get_table') {
+	} else if ($_GET['act'] == 'get_table_') {
 		$filename = $_GET['file'];
 
 		if ( ! file_exists($filename)) {
@@ -191,8 +192,7 @@ TR;
 
 			++$axisInd;
 		}
-
-		// 
+		
 		// *******************************************
 		// Генерация горизонтальной шапки
 
@@ -292,5 +292,127 @@ HEADER_TD;
 			{$tableText}
 RET;
 		echo $ret;
+	} else if ($_GET['act'] == 'get_table') {
+		$filename = $_GET['file'];
+
+		if ( ! file_exists($filename)) {
+			sleep(4);
+			die();
+		}
+
+		try {
+			$sdmx = new SdmxData($filename, 'sdmx2\\.saved_axes.xml');
+		} catch (Exception $e) {}
+		
+		if ( ! $sdmx) {
+			sleep(4);
+			die();
+		}
+
+		$dataSet = $sdmx->GetDataSet();
+		$tableText = '<table id="tab_3_table">';
+		$headerText = strval($sdmx->GetDescription()->Indicator['name']);
+		// Сформируем три массива: $idToInd = [$axisId => $ind] ($ind из GET-запроса) и два $xAxes, $yAxes: [$axisId] -- последовательность
+		// использования осей
+		// Так же необходим размер таблицы по обеим осям ($tableWidth и $tableHeight) -- произведения всех количеств значений по каждой оси
+		$axisInd = 0;
+		$idToInd = array();
+		$xAxes = array();
+		$yAxes = array();
+		$tableWidth = 1;
+		$tableHeight = 1;
+
+		foreach ($dataSet->GetUnfixedAxesIterator() as $axisId => $axis) {
+			if ( ! isset($_GET['axis'.$axisInd])) {
+				sleep(4);
+				die();
+			}
+
+			$idToInd[$axisId] = $axisInd;
+			if ($_GET['axis'.$axisInd] == '0') {
+				$yAxes[] = $axisId;
+				$tableHeight *= $dataSet->GetValuesCount($axisId);
+			} else {
+				$xAxes[] = $axisId;
+				$tableWidth *= $dataSet->GetValuesCount($axisId);
+			}
+
+			++$axisInd;	
+		}
+
+		// Для фиксированных осей с статусом "не использовать" также хочу переменную, где они будут свормированы,
+		// чтобы запихнуть их в свойство alt ячеек
+		$fixedAxesValues = '';
+		foreach ($dataSet->GetFixedAxesIterator() as $axisId => $axis) {
+			if (! isset($_GET['axis'.$axisInd])) {
+				sleep(4);
+				die();
+			}
+
+			$idToInd[$axisId] = $axisInd;
+			if ($_GET['axis'.$axisInd] == '0') {
+				$yAxes[] = $axisId;
+			} else if ($_GET['axis'.$axisInd] == '1') {
+				$xAxes[] = $axisId;
+			} else if ($_GET['axis'.$axisInd] == '2') {
+				if ($fixedAxesValues != '')
+					$fixedAxesValues .= ', ';
+				
+				$fixedAxesValues .= $dataSet->GetAxis($axisId)->GetValue($dataSet->GetFirstValue($axisId));
+			} else if ($_GET['axis'.$axisInd] == '3') {
+				$headerText .= ", " . $dataSet->GetAxis($axisId)->GetValue($dataSet->GetFirstValue($axisId));
+			}
+
+			++$axisInd;
+		}
+
+		$cellsClasses = array('tab_3_table_header_axisname_td tab_3_table_header_td',
+			                  'tab_3_table_header_axisvalue_td tab_3_table_header_td',
+			                  'tab_3_table_header_axisvalue_td tab_3_table_header_td',
+			                  'tab_3_table_value_td');
+		foreach (new SdmxTableGenerator($dataSet, $xAxes, $yAxes) as $cell) {
+			$tableText .= '<tr>';
+			for ($cell->rewind(); $cell->valid(); $cell->next()) {
+				if ($cell->GetMergedUp() != 0 || $cell->GetMergedLeft() != 0)
+					continue;
+				$tableText .= <<<TD
+					<td class='{$cellsClasses[$cell->GetType()]}'
+					    rowspan='{$cell->GetMergedDown()}'
+					    colspan='{$cell->GetMergedRight()}'>
+							{$cell->GetValue()}
+					</td>
+TD;
+			}
+			$tableText .= '</tr>';
+		}
+		/*
+		for ($yInd = 0; $yInd < $tableHeight + count($xAxes); ++$yInd) {
+			$tableText .= "<tr class='tab_3_table_header_tr'>";
+
+			if ($yInd < count($xAxes))
+				$iter = new SdmxHeaderRowTableGenerator($dataSet, $xAxes, $yAxes, $yInd);
+			else
+				$iter = new SdmxRegularRowTableGenerator($dataSet, $xAxes, $yAxes, $yInd);
+
+					    #rowspan="{$iter->GetMergedDown()}"
+					    #colspan="{$iter->GetMergedRight()}">
+			for ($iter->rewind(); $iter->valid(); $iter->next()) {
+				if (0 && ($iter->GetMergedUp() != 0 || $iter->GetMergedLeft() != 0)) {
+					continue;
+				}
+				$tableText .= <<<TD
+					<td class="{$cellsClasses[$iter->GetType()]}">
+						{$iter->GetValue()}
+					</td>
+TD;
+			}
+			if (0 && $yInd == 20)
+				break;
+			$tableText .= '</tr>';
+		}
+		*/
+		$tableText .= '</table>';
+
+		echo $tableText;
 	}
 ?>
