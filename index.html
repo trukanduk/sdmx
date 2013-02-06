@@ -72,7 +72,7 @@
 					$.ajax({'url': 'action.php',
 						    'data': 'act=get_axes&file=' + $("#tab_1_filename_input").html(),
 						    'type': 'GET',
-						    'timeout': 10000,
+						    'timeout': 100000,
 						    'success': function(data) {
 						    	$("#tab_2_content_div").html(data).fadeIn(400);
 				            	$("#tab_2_wait_div").fadeOut(400);
