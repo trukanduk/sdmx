@@ -110,7 +110,7 @@
 				return null;
 			else
 				return new SdmxCoordinate($this->parentGenerator->GetDataSet()->GetAxis($this->parentGenerator->GetXAxis($this->GetYInd())),
-				                          $this->parentGenerator->GetDataSet()->GetValueByIndex($this->parentGenerator->GetXAxis($this->GetYInd()),
+				                          $this->parentGenerator->GetDataSet()->GetAxisValueByIndex($this->parentGenerator->GetXAxis($this->GetYInd()),
 				                         	     $this->parentGenerator->GetXAxisValueIndex($this->xInd, $this->GetYInd())));
 		}
 

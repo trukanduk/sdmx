@@ -123,7 +123,7 @@
 				return null;
 			else
 				return new SdmxCoordinate($this->parentGenerator->GetDataSet()->GetAxis($this->parentGenerator->GetYAxis($this->xInd)),
-					                      $this->parentGenerator->GetDataSet()->GetValueByIndex($this->parentGenerator->GetYAxis($this->xInd),
+					                      $this->parentGenerator->GetDataSet()->GetAxisValueByIndex($this->parentGenerator->GetYAxis($this->xInd),
 					                      	    $this->parentGenerator->GetYAxisValueIndex($this->GetCellYInd(), $this->xInd)));
 		}
 

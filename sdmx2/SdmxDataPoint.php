@@ -156,6 +156,25 @@
 			$this->SetValue($value);
 		}
 
+		/**
+		 * Создание пустой точки с координатами
+		 *
+		 * Создаёт и возвращает <var>SdmxDataPoint</var>, имеющая только данные координаты 
+		 * @param mixed $coordinates Массив координат в формате <var>[$axisId => $value, $coordinate]</var>
+		 * @return SdmxDataPoint Пустая точка с данными координатами
+		 */
+		static function ConstructEmptyPoint($coordinates) {
+			$ret = new SdmxDataPoint();
+			foreach ($coordinates as $key => $value) {
+				if (is_a($values, 'SdmxCoordinate'))
+					$ret->AddCoordinate($value);
+				else
+					$ret->AddCoordinate(new SdmxCoordinate($key, $value));
+			}
+
+			return $ret;
+		}
+
 		function __DebugPrint() {
 			echo "Coordinates: [";
 			foreach ($this->GetCoordinatesIterator() as $coord)

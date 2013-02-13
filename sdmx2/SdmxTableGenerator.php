@@ -104,7 +104,7 @@
 
 			// Если текущее значение отличается от существующего (или его не было), то обнулим нахрен всё после.
 			if (( ! isset($this->slicesValues[$colInd])) ||
-				$this->dataSet->GetValueByIndex($this->yAxes[$colInd], $valueInd) != $this->slicesValues[$colInd]) {
+				$this->dataSet->GetAxisValueByIndex($this->yAxes[$colInd], $valueInd) != $this->slicesValues[$colInd]) {
 				for ($i = $colInd + 1; $i < count($this->yAxes); ++$i) {
 					unset($this->slices[$i]);
 					unset($this->slicesValues[$i]);
@@ -112,7 +112,7 @@
 			}
 
 			// Теперь установим, какое подмножество из среза мы сейчас взяли, и, наконец, вернём его
-			$this->slicesValues[$colInd] = $this->dataSet->GetValueByIndex($this->yAxes[$colInd], $valueInd);
+			$this->slicesValues[$colInd] = $this->dataSet->GetAxisValueByIndex($this->yAxes[$colInd], $valueInd);
 			return $this->slices[$colInd][$this->slicesValues[$colInd]];
 		}
 
@@ -125,7 +125,7 @@
 			if (count($this->yAxes) == 0)
 				return $this;
 
-			$this->slices = array($this->dataSet->GetSlice($this->yAxes[0]));
+			$this->slices = array($this->dataSet->Split($this->yAxes[0]));
 			$this->slicesValues = array();
 
 			return $this;
@@ -428,7 +428,7 @@
 			if ($xInd < 0 || $xInd >= $this->cellsXCount || $axisInd >= count($this->xAxes))
 				return $default;
 			else
-				return $xInd / $this->headersXWidths[$axisInd] % $this->dataSet->GetValuesCount($this->xAxes[$axisInd]);
+				return $xInd / $this->headersXWidths[$axisInd] % $this->dataSet->GetAxisValuesCount($this->xAxes[$axisInd]);
 		}
 
 		/**
@@ -442,7 +442,7 @@
 			if ($yInd < 0 || $yInd >= $this->cellsYCount || $axisInd >= count($this->yAxes))
 				return $default;
 			else
-				return $yInd / $this->headersYHeights[$axisInd] % $this->dataSet->GetValuesCount($this->yAxes[$axisInd]);
+				return $yInd / $this->headersYHeights[$axisInd] % $this->dataSet->GetAxisValuesCount($this->yAxes[$axisInd]);
 		}
 
 		/**
@@ -518,10 +518,10 @@
 			// Проинициализируем ширины/высоты ячеек и ширину/высоту таблицы
 			if (count($xAxes) > 0) {
 				$this->headersXWidths[count($xAxes) - 1] = 1;
-				$this->cellsXCount = $this->dataSet->GetValuesCount($xAxes[0]);
+				$this->cellsXCount = $this->dataSet->GetAxisValuesCount($xAxes[0]);
 				for ($i = count($xAxes) - 1; $i > 0; --$i) {
-					$this->headersXWidths[$i - 1] = $this->headersXWidths[$i]*$this->dataSet->GetValuesCount($xAxes[$i]);
-					$this->cellsXCount *= $this->dataSet->GetValuesCount($xAxes[$i]);
+					$this->headersXWidths[$i - 1] = $this->headersXWidths[$i]*$this->dataSet->GetAxisValuesCount($xAxes[$i]);
+					$this->cellsXCount *= $this->dataSet->GetAxisValuesCount($xAxes[$i]);
 				}
 			} else {
 				$this->headersXWidths[0] = 1;
@@ -530,10 +530,10 @@
 
 			if (count($yAxes) > 0) {
 				$this->headersYHeights[count($yAxes) - 1] = 1;
-				$this->cellsYCount = $this->dataSet->GetValuesCount($yAxes[0]);
+				$this->cellsYCount = $this->dataSet->GetAxisValuesCount($yAxes[0]);
 				for ($i = count($yAxes) - 1; $i > 0; --$i) {
-					$this->headersYHeights[$i - 1] = $this->headersYHeights[$i]*$this->dataSet->GetValuesCount($yAxes[$i]);
-					$this->cellsYCount *= $this->dataSet->GetValuesCount($yAxes[$i]);
+					$this->headersYHeights[$i - 1] = $this->headersYHeights[$i]*$this->dataSet->GetAxisValuesCount($yAxes[$i]);
+					$this->cellsYCount *= $this->dataSet->GetAxisValuesCount($yAxes[$i]);
 				}
 			} else {
 				$this->headersYHeights[0] = 1;

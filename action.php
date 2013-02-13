@@ -2,7 +2,6 @@
 	require_once('sdmx2\\SdmxData.php');
 	require_once('sdmx2\\SdmxTableGenerator.php');
 
-
 	$startTime = time();
 	/************************************************************************************************************************************************
 		                                                                                                                                   ПЕРВЫЙ ШАГ
@@ -159,10 +158,10 @@ TR;
 			$idToInd[$axisId] = $axisInd;
 			if ($_GET['axis'.$axisInd] == '0') {
 				$yAxes[] = $axisId;
-				$tableHeight *= $dataSet->GetValuesCount($axisId);
+				$tableHeight *= $dataSet->GetAxisValuesCount($axisId);
 			} else {
 				$xAxes[] = $axisId;
-				$tableWidth *= $dataSet->GetValuesCount($axisId);
+				$tableWidth *= $dataSet->GetAxisValuesCount($axisId);
 			}
 
 			++$axisInd;	
@@ -186,9 +185,9 @@ TR;
 				if ($fixedAxesValues != '')
 					$fixedAxesValues .= ', ';
 				
-				$fixedAxesValues .= $dataSet->GetAxis($axisId)->GetValue($dataSet->GetFirstValue($axisId));
+				$fixedAxesValues .= $dataSet->GetAxis($axisId)->GetValue($dataSet->GetFixedAxisValue($axisId));
 			} else if ($_GET['axis'.$axisInd] == '3') {
-				$headerText .= ", " . $dataSet->GetAxis($axisId)->GetValue($dataSet->GetFirstValue($axisId));
+				$headerText .= ", " . $dataSet->GetAxis($axisId)->GetValue($dataSet->GetFixedAxisValue($axisId));
 			}
 
 			++$axisInd;

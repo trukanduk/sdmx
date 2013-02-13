@@ -7,6 +7,7 @@
 	 * @version 1.3
 	 */
 
+	require_once('SdmxAxesSystemFilter.php');
 	require_once('SdmxAxis.php');
 	require_once('SdmxDataPoint.php');
 
@@ -19,7 +20,7 @@
 	 * @package sdmx
 	 * @version 1.3
 	 */
-	interface ISdmxDataSet extends IteratorAggregate {
+	interface ISdmxDataSet {
 		/**
 		 * Получение оси
 		 *
@@ -95,6 +96,32 @@
 		function GetUnfixedAxesIterator();
 
 		/**
+		 * Получение фильтра, используемого в множестве
+		 *
+		 * @return SdmxAxesSystemFilter фильтр множества
+		 */
+		function GetFilter();
+
+		/**
+		 * Установка нового фильтра множества
+		 *
+		 * Звпрещено устанавливать фильтр на непустое множество!
+		 * @throws Exception в случае попытки отфильтровать непустое множествоы
+		 * @param SdmxAxesSystemFilter $filter новый фильтр множества
+		 * @return ISdmxDataSet изменённое множество-хозяин метода
+		 */
+		function SetFilter(SdmxAxesSystemFilter $filter);
+
+		/**
+		 * Фильтрация множества в новое множество
+		 * 
+		 * Копирует множество и применяет к нему данный фильтр
+		 * @param SdmxAxesSystemFilter $filter Новый фильтр
+		 * @return ISdmxDataSet новое множество, полученное путём фильтрации множества-хозяина метода
+		 */
+		function CopyWithFilter(SdmxAxesSystemFilter $filter);
+
+		/**
 		 * Получение итератора на массив значений оси
 		 *
 		 * Список значений какой-то оси в срезе может отличаться от полного.
@@ -104,18 +131,28 @@
 		 * @param mixed $defаult Значение, которое вернётся в случае отсутствия оси
 		 * @return Iterator итератор на массив со значениями оси
 		 */
-		function GetValuesIterator($axisId, $default = false);
+		function GetAxesValuesIterator($axisId, $default = false);
 
 		/**
-		 * Получение первого значения (используемого) оси
+		 * Получение значения фиксированной оси
 		 *
-		 * Функция возвращает первое значение. Имеет смысл, когда оно единственно
+		 * Функция возвращает единственное значение фиксиованной оси
 		 *
 		 * @param string $axisId Идентификатор оси, значение которой необходимо вернуть
-		 * @param mixed $default Значение, которое будет возвращено в случае отсутствия такой оси
+		 * @param mixed $default Значение, которое будет возвращено в случае отсутствия такой фиксированной оси или если множество пустое
 		 * @return mixed первое сырое значение оси (<var>string</var>) или <var>$default</var>, если она не была найдена
 		 */
-		function GetFirstValue($axisId, $default = false);
+		function GetFixedAxisValue($axisId, $default = false);
+
+		/**
+		 * Добавляет значение оси
+		 *
+		 * Следует отметить, что значение перед непосредственным добавлением проверяется в фильтре
+		 * @param string $axisId идентификатор оси
+		 * @param string $value добавляемое значение
+		 * @return ISdmxDataSet объект-хозяин метода
+		 */
+		function AddAxisValue($axisId, $value);
 
 		/**
 		 * Получение значения оси по индексу
@@ -125,7 +162,7 @@
 		 * @param mixed $default значение, которое будет возвращено в случае ошибки
 		 * @return mixed "сырое" значение оси или <var>$default</var> в случае ошибки
 		 */
-		function GetValueByIndex($axisId, $ind, $default = false);
+		function GetAxisValueByIndex($axisId, $ind, $default = false);
 
 		/**
 		 * Получение количества значений оси
@@ -134,7 +171,7 @@
 		 * @param mixed $default значение, которое вернётся при отсутствии оси
 		 * @return mixed Количество значений (<var>int</var>) или <var>$default</var> в случае отсутствия таковой
 		 */
-		function GetValuesCount($axisId, $default = false);
+		function GetAxisValuesCount($axisId, $default = false);
 
 		/**
 		 * Добавление точки
@@ -182,16 +219,16 @@
 		function GetFirstPoint($default = false);
 
 		/**
-		 * Получение среза по оси
+		 * Разделение множества на подмножества по оси
 		 *
-		 * Возвращает ассоциативный массив вида <var>['&lt;сырое значение>' => ISdmxDataSet()]</var>, где в качестве индексов
+		 * Возвращает ассоциативный массив вида <var>['&lt;сырое значение>' => ISdmxDataSet]</var>, где в качестве индексов
 		 * выступают все сырые значения оси с идентификатором <var>$axisId</var>, а в каждом IDataSet'е
 		 * находятся все точки из делимого множества с значением оси <var>$axisId</var>, равным индексу в массиве
 		 *
 		 * @param string $axisId идентификатор оси, по которой произойдёт деление
 		 * @return ISdmxDataSet[] массив с множествами
 		 */
-		function GetSlice($axisId);
+		function Split($axisId);
 
 		/**
 		 * Очистка множества

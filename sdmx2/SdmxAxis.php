@@ -202,7 +202,7 @@
 		 *
 		 * @return ArrayIterator итератор на начало массива значений размерности
 		 */
-		function GetValuesIterator() {
+		function GetAxesValuesIterator() {
 			return new ArrayIterator($this->values);
 		}
 
@@ -286,7 +286,7 @@
 		 *
 		 * @return int количество значений размерности
 		 */
-		function GetValuesCount() {
+		function GetAxisValuesCount() {
 			return count($this->values);
 		}
 
@@ -381,10 +381,10 @@
 		}
 
 		function __DebugPrint() {
-			echo "Id: '{$this->GetId()}', Type: '{$this->GetType()}', Name: '{$this->GetName()}', Values count: {$this->GetValuesCount()}<br>\n";
+			echo "Id: '{$this->GetId()}', Type: '{$this->GetType()}', Name: '{$this->GetName()}', Values count: {$this->GetAxisValuesCount()}<br>\n";
 			echo "Values: [ ";
-			//for ($it = $this->GetValuesIterator(); $it->valid(); $it->next())
-			foreach ($this->GetValuesIterator() as $key => $value)
+			//for ($it = $this->GetAxesValuesIterator(); $it->valid(); $it->next())
+			foreach ($this->GetAxesValuesIterator() as $key => $value)
 				echo "(raw={$key}, val={$value}, prior={$this->GetPriority($key)}) ";
 			echo "]<br>\n";
 			return $this;

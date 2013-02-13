@@ -45,7 +45,7 @@
 		protected function IsPointsIteratorCorrect() {
 			$ret = $this->pointsIterator->valid();
 			for ($axisInd = 0; $ret &&  $axisInd < $this->parentGenerator->GetXAxesCount(); ++$axisInd) {
-				$ret &= ($this->parentGenerator->GetDataSet()->GetValueByIndex($this->parentGenerator->GetXAxis($axisInd),
+				$ret &= ($this->parentGenerator->GetDataSet()->GetAxisValueByIndex($this->parentGenerator->GetXAxis($axisInd),
 					                                                           $this->parentGenerator->GetXAxisValueIndex($this->xInd, $axisInd)) ==
 				         $this->pointsIterator->current()->GetCoordinate($this->parentGenerator->GetXAxis($axisInd))->GetRawValue());
 			}

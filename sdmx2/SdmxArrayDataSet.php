@@ -128,7 +128,7 @@
 			$this->axesIterator = $dataSet->GetAxesIterator();
 		}
 	}
-	
+
 	/**
 	 * Простейший одномерный DataSet
 	 *
@@ -138,7 +138,7 @@
 	 * @package sdmx
 	 * @version 1.0
 	 */
-	class SdmxArrayDataSet implements ISdmxDataSet {
+	class SdmxArrayDataSet implements ISdmxDataSet, IteratorAggregate {
 		/**
 		 * Массив осей
 		 * 
@@ -150,13 +150,26 @@
 		 * Массив значений осей
 		 * 
 		 * В множестве могут не использоваться все возможные значения.
-		 * Массив имеет вид: <var>['axisId' => ['value1', 'value2', ...] ]</var>, где 'value1', 'value2' и т.д. --
+		 * Массив имеет вид: <var>['axisId' => ['value1' => 'value1, 'value2' => 'value2, ...] ]</var>, где 'value1', 'value2' и т.д. --
 		 * реально используемые в множестве значения.
 		 * Если у какой-то оси только одно значение, то эта ось обзывается "фиксированной"
 		 *
 		 * @var string
 		 */
 		protected $axesValues = array();
+
+
+		/**
+		 * Индексированный массив значений осей
+		 * 
+		 * В множестве могут не использоваться все возможные значения.
+		 * Массив имеет вид: <var>['axisId' => [$ind => 'value1, $ind => 'value2, ...] ]</var>, где 'value1', 'value2' и т.д. --
+		 * реально используемые в множестве значения.
+		 * Если у какой-то оси только одно значение, то эта ось обзывается "фиксированной"
+		 *
+		 * @var string
+		 */
+		protected $axesValuesByInd = array();
 
 		/**
 		 * Получение оси
@@ -187,11 +200,33 @@
 				throw new Exception('Нельзя добавлять оси в непустое множество!');
 			$this->axes[$axis->GetId()] = $axis;
 			$this->axesValues[$axis->GetId()] = array();
+			$this->axesValuesByInd[$axis->GetId()] = array();
+			$this->fixedAxesValues[$axis->GetId()] = 0;
 			return $this;
 		}
 
 		/**
-		 * Добавление значения оси
+		 * Добавляет значение оси
+		 *
+		 * Следует отметить, что значение перед непосредственным добавлением проверяется в фильтре
+		 * @param string $axisId идентификатор оси
+		 * @param string $value добавляемое значение
+		 * @return ISdmxDataSet объект-хозяин метода
+		 */
+		function AddAxisValue($axisId, $value) {
+			if ( ! $this->filter->IsAxisValueSifted($axisId, $value))
+				return $this;
+
+			if ( ! isset($this->axesValues[$axisId][$value])) {
+				$this->axesValues[$axisId][$value] = 0;
+				$this->axesValuesByInd[$axisId][] = $value;
+			}
+
+			return $this;
+		}
+
+		/**
+		 * Добавление используемого значения оси
 		 * 
 		 * Добавляет значение оси, а также обнвляет состояние оси (фиксированная/нефиксированная)
 		 * Не проверяет сущетвование оси в множестве.
@@ -200,14 +235,17 @@
 		 * @param string $value "сырое" значение
 		 * @return объект-хозяин метода
 		 */
-		protected function AddAxisValue($axisId, $value) {
-			foreach ($this->axesValues[$axisId] as $val)
-				if ($val === $value)
-					return $this;
+		protected function AddUsedAxisValue($axisId, $value) {
+			$this->AddAxisValue($axisId, $value);
 
-			$this->axesValues[$axisId][] = $value;
-			if (count($this->axesValues[$axisId]) === 2)
-				$this->unfixedAxesCount++;
+			$this->axesValues[$axisId][$value]++;
+
+			if (isset($this->fixedAxesValues[$axisId])) {
+				if ($this->fixedAxesValues[$axisId] === 0)
+					$this->fixedAxesValues[$axisId] = $value;
+				elseif ($this->fixedAxesValues[$axisId] != $value)
+					unset($this->fixedAxesValues[$axisId]);
+			}
 			return $this;
 		}
 
@@ -230,11 +268,10 @@
 		}
 
 		/**
-		 * Количество нефиксированных осей
-		 *
-		 * @var int
+		 * Массив с значениями фиксированных осей множества
+		 * @var string[] массив в виде <var>[axisId => $axisValue]</var>
 		 */
-		protected $unfixedAxesCount = 0;
+		protected $fixedAxesValues = array();
 
 		/**
 		 * Получение количества фиксированных осей
@@ -242,7 +279,7 @@
 		 * @return int количество фиксированных осей множества
 		 */ 
 		function GetFixedAxesCount() {
-			return $this->GetAxesCount() - $this->unfixedAxesCount;
+			return count($this->fixedAxesValues);
 		}
 
 		/**
@@ -251,7 +288,7 @@
 		 * @return int количество нефиксированных осей множества
 		 */ 
 		function GetUnfixedAxesCount() {
-			return $this->unfixedAxesCount;
+			return count($this->axes) - count($this->fixedAxesValues);
 		}
 
 		/**
@@ -264,8 +301,8 @@
 		 * @return mixed В случае наличия оси -- <var>bool</var> или <var>$default</var> в случае её отсутствия
 		 */
 		function IsAxisFixed($axisId, $default = false) {
-			if (isset($this->axesValues[$axisId]))
-				return (count($this->axesValues[$axisId]) == 1);
+			if (isset($this->axes[$axisId]))
+				return isset($this->fixedAxesValues[$axisId]);
 			else
 				return $default;
 		}
@@ -288,6 +325,72 @@
 			return new SdmxArrayDataSetFixedAxesIterator($this, false);
 		}
 
+		/**
+		 * Фильтр мноожества
+		 * @var SdmxAxesSystemFilter
+		 */
+		protected $filter;
+
+		/**
+		 * Получение фильтра, используемого в множестве
+		 *
+		 * @return SdmxAxesSystemFilter фильтр множества
+		 */
+		function GetFilter() {
+			return $this->filter;
+		}
+
+		/**
+		 * Установка нового фильтра множества
+		 *
+		 * Звпрещено устанавливать фильтр на непустое множество!
+		 * @throws Exception в случае попытки отфильтровать непустое множествоы
+		 * @param SdmxAxesSystemFilter $filter новый фильтр множества
+		 * @return ISdmxDataSet изменённое множество-хозяин метода
+		 */
+		function SetFilter(SdmxAxesSystemFilter $filter) {
+			if (count($this->points) > 0)
+				throw new Exception('Множество должно быть пустым!');
+
+			$this->filter = $filter;
+
+			foreach ($this->axesValuesbyInd as $axisId => &$values) {
+				foreach ($values as $ind => &$value) {
+					if ($this->filter->IsAxisValueSifted($axisId, $value)) {
+						unset($this->axesValues[$axisId][$value]);
+						unset($this->axesValuesByInd[$axisId][$ind]);
+					}
+				}
+
+			}
+
+			return $this;
+		}
+
+		/**
+		 * Фильтрация множества в новое множество
+		 * 
+		 * Копирует множество и применяет к нему данный фильтр
+		 * @param SdmxAxesSystemFilter $filter Новый фильтр
+		 * @return ISdmxDataSet новое множество, полученное путём фильтрации множества-хозяина метода
+		 */
+		function CopyWithFilter(SdmxAxesSystemFilter $filter) {
+			$ret = new SdmxArrayDataSet($filter);
+
+			foreach ($this->axesValuesByInd as $axisId => &$values) {
+				foreach ($values as $value)
+					$ret->AddAxisValue($axisId, $value);
+			}
+
+			foreach ($this->axes as $axis)
+				$ret->AddAxis($axis);
+			
+			foreach ($this->points as $point)
+				$ret->AddPoint($point);
+
+			return $ret;
+		}
+
 		protected $points = array();
 
 		/**
@@ -300,28 +403,30 @@
 		 * @param mixed $defаult Значение, которое вернётся в случае отсутствия оси
 		 * @return mixed либо <var>Iterator</var> -- итератор на массив со значениями оси, либо <var>$default</var> при ошибке
 		 */
-		function GetValuesIterator($axisId, $default = false) {
+		function GetAxesValuesIterator($axisId, $default = false) {
 			if (isset($this->axesValues[$axisId]))
-				return new ArrayIterator($this->axesValues[$axisId]);
+				return new ArrayIterator($this->axesValuesByInd[$axisId]);
 			else
 				return $default;
 		}
 
 		/**
-		 * Получение первого значения (используемого) оси
+		 * Получение значения фиксированной оси
 		 *
-		 * Функция возвращает первое значение. Имеет смысл, когда оно единственно
+		 * Функция возвращает единственное значение фиксиованной оси
 		 *
 		 * @param string $axisId Идентификатор оси, значение которой необходимо вернуть
-		 * @param mixed $default Значение, которое будет возвращено в случае отсутствия такой оси
+		 * @param mixed $default Значение, которое будет возвращено в случае отсутствия такой фиксированной оси или если множество пустое
 		 * @return mixed первое сырое значение оси (<var>string</var>) или <var>$default</var>, если она не была найдена
 		 */
-		function GetFirstValue($axisId, $default = false) {
-			if (isset($this->axesValues[$axisId]) && count($this->axesValues[$axisId]) > 0)
-				return $this->axesValues[$axisId][0];
+		function GetFixedAxisValue($axisId, $default = false) {
+			if (isset($this->fixedAxesValues[$axisId]) && $this->fixedAxesValues[$axisId] !== null)
+				return $this->fixedAxesValues[$axisId];
 			else
 				return $default;
 		}
+
+
 
 		/**
 		 * Получение значения оси по индексу
@@ -331,9 +436,9 @@
 		 * @param mixed $default значение, которое будет возвращено в случае ошибки
 		 * @return mixed "сырое" значение оси или <var>$default</var> в случае ошибки
 		 */
-		function GetValueByIndex($axisId, $ind, $default = false) {
-			if (isset($this->axesValues[$axisId]) && isset($this->axesValues[$axisId][$ind]))
-				return $this->axesValues[$axisId][$ind];
+		function GetAxisValueByIndex($axisId, $ind, $default = false) {
+			if (isset($this->axesValuesByInd[$axisId]) && isset($this->axesValuesByInd[$axisId][$ind]))
+				return $this->axesValuesByInd[$axisId][$ind];
 			else
 				return $default;
 		}
@@ -345,7 +450,7 @@
 		 * @param mixed $default значение, которое вернётся при отсутствии оси
 		 * @return mixed Количество значений (<var>int</var>) или <var>$default</var> в случае отсутствия таковой
 		 */
-		function GetValuesCount($axisId, $default = false) {
+		function GetAxisValuesCount($axisId, $default = false) {
 			if (isset($this->axesValues[$axisId]))
 				return count($this->axesValues[$axisId]);
 			else
@@ -363,6 +468,9 @@
 		 * @return ISdmxDataSet объект-хозяин метода
 		 */
 		function AddPoint(SdmxDataPoint $point) {
+			if ( ! $this->filter->IsSifted($point))
+				return $this;
+
 			// Проверим оси. Точка должна иметь координаты по всем осям (и только по ним)
 			foreach ($point as $axisId => $coord) {
 				if ( ! $this->GetAxis($axisId, false) || $this->GetAxis($axisId) !== $coord->GetAxis())
@@ -376,7 +484,7 @@
 			$this->points[] = $point;
 
 			foreach ($point as $axisId => $coord) {
-				$this->AddAxisValue($axisId, $coord->GetRawValue());
+				$this->AddUsedAxisValue($axisId, $coord->GetRawValue());
 			}
 
 			return $this;
@@ -487,7 +595,7 @@
 		}
 
 		/**
-		 * Получение среза по оси
+		 * Разделение множества на подмножества по оси
 		 *
 		 * Возвращает ассоциативный массив вида <var>['&lt;сырое значение>' => ISdmxDataSet()]</var>, где в качестве индексов
 		 * выступают все сырые значения оси с идентификатором <var>$axisId</var>, а в каждом IDataSet'е
@@ -496,7 +604,7 @@
 		 * @param string $axisId идентификатор оси, по которой произойдёт деление
 		 * @return ISdmxDataSet[] массив с множествами
 		 */
-		function GetSlice($axisId) {
+		function Split($axisId) {
 			// Если вдруг такой оси нет
 			if ($this->GetAxis($axisId, false) === false) {
 				echo "$axisId <br>";
@@ -505,7 +613,7 @@
 
 			// А теперь сформируем наш массив
 			$ret = array();
-			foreach ($this->axesValues[$axisId] as $axisValue) {
+			foreach ($this->axesValuesByInd[$axisId] as $axisValue) {
 				$ret[$axisValue] = new SdmxArrayDataSet();
 				foreach ($this->GetAxesIterator() as $axis)
 					$ret[$axisValue]->AddAxis($axis);
@@ -533,13 +641,20 @@
 			return $this;
 		}
 
+		/**
+		 * Конструктор
+		 */
+		function __construct() {
+			$this->filter = new SdmxAxesSystemFilter(array());
+		}
+
 		function __DebugPrintAxes($printValues = true) {
 			echo "Axes: <br>\n";
 			foreach ($this->GetAxesIterator() as $axis) {
 				$axis->__DebugPrint();
 				if ($printValues) {
 					echo "Used values: [";
-					foreach ($this->GetValuesIterator($axis->GetId()) as $val)
+					foreach ($this->GetAxesValuesIterator($axis->GetId()) as $val)
 						echo "$val, ";
 					echo "] <br>\n";
 				}
