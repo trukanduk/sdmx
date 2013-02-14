@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.3
+	 * @version 2.0
 	 */
 
 	require_once('SdmxAxesSystemFilter.php');
@@ -18,7 +18,7 @@
 	 * возможно, соптимизированных для разных типов запросов
 	 *
 	 * @package sdmx
-	 * @version 1.3
+	 * @version 2.0
 	 */
 	interface ISdmxDataSet {
 		/**
@@ -196,7 +196,7 @@
 		 * @param string[] $axesOrder массив с приоритетами осей при сравнении (или <var>null</var>, чтобы использовать очерёдность добавления осей)
 		 * @return ISdmxDataSet Отсортированное множество точек
 		 */
-		function SortPoints($axesOrder = null);
+		//function SortPoints($axesOrder = null);
 
 		/**
 		 * Получение итератора на массив точек
@@ -219,17 +219,17 @@
 		function GetFirstPoint($default = false);
 
 		/**
-		 * Разделение множества на подмножества по оси
+		 * Получение точки множества по координатам
 		 *
-		 * Возвращает ассоциативный массив вида <var>['&lt;сырое значение>' => ISdmxDataSet]</var>, где в качестве индексов
-		 * выступают все сырые значения оси с идентификатором <var>$axisId</var>, а в каждом IDataSet'е
-		 * находятся все точки из делимого множества с значением оси <var>$axisId</var>, равным индексу в массиве
-		 *
-		 * @param string $axisId идентификатор оси, по которой произойдёт деление
-		 * @return ISdmxDataSet[] массив с множествами
+		 * Ищет и возвращает точку с заданными координатами
+		 * Набор координат задаётся либо в виде <var>SdmxDataPoint</var> с координатами, либо в виде
+		 * массива в двух возможных вариантах: <var>[$axisId => $value, $axisId => $valueInd, $sdmxCoordinate]</var>
+		 * Индекс должен быть строго int'ом, значение -- строго строкой
+		 * Должны быть все оси, иначе ничего не будет возвращено!
+		 * @param mixed $coordinates Координаты искомой точки
+		 * @param mixed $default Значение, которое будет возвращено, если такой точки нет
 		 */
-		function Split($axisId);
-
+		function GetPoint($coordinates, $default = false);
 		/**
 		 * Очистка множества
 		 *

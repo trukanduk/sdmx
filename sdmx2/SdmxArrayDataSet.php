@@ -6,7 +6,7 @@
 	 * 
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.2
+	 * @version 2.0
 	 */
 
 	require_once('ISdmxDataSet.php');
@@ -19,7 +19,7 @@
 	 *
 	 * @see SdmxArrayDataSet::axesValues
 	 * @package sdmx
-	 * @version 1.2
+	 * @version 2.0
 	 */
 	class SdmxArrayDataSetFixedAxesIterator implements Iterator {
 		/**
@@ -202,6 +202,8 @@
 			$this->axesValues[$axis->GetId()] = array();
 			$this->axesValuesByInd[$axis->GetId()] = array();
 			$this->fixedAxesValues[$axis->GetId()] = 0;
+			if ($axis->GetAxisValuesCount() > $this->maxAxisValuesCount)
+				$this->maxAxisValuesCount = $axis->GetAxisValuesCount();
 			return $this;
 		}
 
@@ -391,7 +393,46 @@
 			return $ret;
 		}
 
+		/**
+		 * Моссив точек
+		 *
+		 * Массив точек в формате <var>[$coordinatesHash => $sdmxDataPoint]</var>
+		 * @var SdmxDataPoint[]
+		 */
 		protected $points = array();
+
+		/**
+		 * Максимальное количество значений в осях
+		 * @var int
+		 */
+		protected $maxAxisValuesCount = 0;
+
+		/**
+		 * Считает индекс точки в массиве $points
+		 *
+		 * Переменная $coordinates может быть <var>SdmxDataPoint</var>, или массивом в формате
+		 * <var>[$axisId => $value, $axisId => $valueInd]</var>
+		 * @param mixed $coordinates Координаты интересуемой точки
+		 * @return string строка-индекс точки в массиве
+		 */
+		protected function CalculatePointHash($coordinates) {
+			$ret = '';
+			if (is_a($coordinates, 'SdmxDataPoint')) {
+				foreach ($this->axes as $axisId => $axis) {
+					$ret .= "&{$coordinates->GetCoordinate($axisId)->GetRawValue()}";
+				}
+			} else {
+				foreach ($this->axes as $axisId => $axis) {
+					if (is_string($coordinates[$axisId]))
+						$ret .= "&{$coordinates[$axisId]}";
+					elseif (is_numeric($coordinates[$axisId]))
+						$ret .= "&{$this->GetAxisValueByIndex($axisId, $coordinates[$axisId])}";
+					elseif (is_a($coordinates[$axisId], 'SdmxCoordinate'))
+						$ret .= "&{$coordinates[$axisId]->GetRawValue()}";
+				}
+			}
+			return $ret;
+		}
 
 		/**
 		 * Получение итератора на массив значений оси
@@ -481,7 +522,7 @@
 				throw new Exception('Точки должны иметь координаты всех осей множества и никаких других!');
 
 			// Теперь загоним точку в множество
-			$this->points[] = $point;
+			$this->points[$this->CalculatePointHash($point)] = $point;
 
 			foreach ($point as $axisId => $coord) {
 				$this->AddUsedAxisValue($axisId, $coord->GetRawValue());
@@ -490,7 +531,6 @@
 			return $this;
 		}
 
-		
 		/**
 		 * Сортирует точки и возвращает итератор
 		 * 
@@ -502,7 +542,9 @@
 		 * @param string[] $axesOrder массив с приоритетами осей при сравнении (или <var>null</var>, чтобы использовать очерёдность добавления осей)
 		 * @return ISdmxDataSet Отсортированное множество точек (в данном случае -- оно само.)
 		 */
+		/*
 		function SortPoints($axesOrder = null) {
+			throw new Exception('SdmxArrayDataSet::Sort! stub!');
 			if ($axesOrder) {
 				$compareOrder = array();
 				foreach ($axesOrder as $axisId) {
@@ -518,6 +560,7 @@
 			$this->QuickSortPoints(0, count($this->points), $compareOrder);
 			return $this;
 		}
+		*/
 
 		/**
 		 * Сортировка точек
@@ -580,7 +623,7 @@
 		 */
 		function GetFirstPoint($default = false) {
 			if (count($this->points) > 0)
-				return $this->points[0];
+				return $this->GetPointsIterator()->current();
 			else
 				return $default;
 		}
@@ -595,35 +638,22 @@
 		}
 
 		/**
-		 * Разделение множества на подмножества по оси
+		 * Получение точки множества по координатам
 		 *
-		 * Возвращает ассоциативный массив вида <var>['&lt;сырое значение>' => ISdmxDataSet()]</var>, где в качестве индексов
-		 * выступают все сырые значения оси с идентификатором <var>$axisId</var>, а в каждом IDataSet'е
-		 * находятся все точки из делимого множества с значением оси <var>$axisId</var>, равным индексу в массиве
-		 *
-		 * @param string $axisId идентификатор оси, по которой произойдёт деление
-		 * @return ISdmxDataSet[] массив с множествами
+		 * Ищет и возвращает точку с заданными координатами
+		 * Набор координат задаётся либо в виде <var>SdmxDataPoint</var> с координатами, либо в виде
+		 * массива в двух возможных вариантах: <var>[$axisId => $value, $axisId => $valueInd]</var>
+		 * Индекс должен быть строго int'ом, значение -- строго строкой
+		 * Должны быть все оси, иначе ничего не будет возвращено!
+		 * @param mixed $coordinates Координаты искомой точки
+		 * @param mixed $default Значение, которое будет возвращено, или, если такой точки нет, то <var>$default</var>
 		 */
-		function Split($axisId) {
-			// Если вдруг такой оси нет
-			if ($this->GetAxis($axisId, false) === false) {
-				echo "$axisId <br>";
-				return array();
-			}
-
-			// А теперь сформируем наш массив
-			$ret = array();
-			foreach ($this->axesValuesByInd[$axisId] as $axisValue) {
-				$ret[$axisValue] = new SdmxArrayDataSet();
-				foreach ($this->GetAxesIterator() as $axis)
-					$ret[$axisValue]->AddAxis($axis);
-			}
-
-			foreach ($this->points as $point) {
-				$ret[$point->GetCoordinate($axisId)->GetRawValue()]->AddPoint($point);
-			}
-
-			return $ret;
+		function GetPoint($coordinates, $default = false) {
+			$hash = $this->CalculatePointHash($coordinates);
+			if (isset($this->points[$hash]))
+				return $this->points[$hash];
+			else
+				return $default;
 		}
 
 		/**
@@ -682,4 +712,5 @@
 			return $this;
 		}
 	}
+
 ?>

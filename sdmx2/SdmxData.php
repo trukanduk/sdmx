@@ -375,7 +375,7 @@
 			     ->ParseAttributes($xml, $savedAxesFile);
 
 			// Собственно, массив с данными.
-			if (is_a($dataSetInstance, ISdmxDataSet))
+			if (is_a($dataSetInstance, 'ISdmxDataSet'))
 				$this->InitDataSet($xml, $dataSetInstance);
 			else
 				$this->InitDataSet($xml, new SdmxArrayDataSet());
@@ -404,26 +404,8 @@
 	/*
 	// Новый объект
 	$sdmx = new SdmxData('files/sdmx.1.xml', '.saved_axes.xml', new SdmxArrayDataSet());
-
-	// Очерёдность осей при сортировке
-	//$cmpArr = array('Time', 'U.M.VID_UGLYA');
-
-	// отсортируем множество точек
-	//$sdmx->GetDataSet()->SortPoints($cmpArr);
-
-	// выведем всё (исключительно дебаг)
-	$sdmx->__DebugPrint();
-	die();
-	// Теперь возьмём срез по оси типа угля
-	echo "<br>\n<h3>GETTING SLICE:</h3><br>\n";
-
-	// мы имеем массив вида [$val => $subset], где $val -- очередное значение оси, а $subset -- IDataSet, в
-	// котором содержатся все элементы родительского dataSet'а со значением координаты (координаты той оси,
-	// по которой брался срез), равным $val.
-	foreach ($sdmx->GetDataSet()->GetSlice('U.M.VID_UGLYA') as $val => $subset) {
-		echo "SLICE VALUE: $val:<br>\n";
-		$subset->__DebugPrint();
-	}
+	$sdmx->__DebugPrintAxes();
+	$coordinates = array('OKSM' => 'RUS', 'U.M.VID_UGLYA' => 'code_U.M.VID_UGLYA01', 'Time' => '2006', 'EI' => 'килотонна', 'PERIOD' => 0);
+	var_dump($sdmx->GetDataSet()->GetPoint($coordinates));
 	*/
-
 ?>

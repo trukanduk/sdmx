@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 2.0
 	 */
 
 	require_once('ISdmxTableRowGenerator.php');
@@ -14,15 +14,9 @@
 	 * Генератор шапки слева
 	 *
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 2.0
 	 */
 	class SdmxTableYHeaderGenerator implements ISdmxTableRowGenerator {
-		/**
-		 * Стек срезов множества точек
-		 * @var SdmxTableGeneratorSlicesStack
-		 */
-		protected $slicesStack;
-
 		/**
 		 * Родительский итератор
 		 * @var SdmxTableGenerator
@@ -146,8 +140,6 @@
 			if ( ! $this->valid())
 				return;
 
-			if ($this->parentGenerator->GetYAxesCount() != 0)
-				$this->slicesStack->GetSubset($this->xInd, $this->parentGenerator->GetYAxisValueIndex($this->GetCellYInd(), $this->xInd));
 			$this->xInd++;
 		}
 		/**
@@ -184,9 +176,8 @@
 		 * Конструктор
 		 * @param SdmxTableGenerator $parentGenerator родительский генератор
 		 */
-		function __construct(SdmxTableGenerator $parentGenerator, SdmxTableGeneratorSlicesStack $slicesStack) {
+		function __construct(SdmxTableGenerator $parentGenerator) {
 			$this->parentGenerator = $parentGenerator;
-			$this->slicesStack = $slicesStack;
 			$this->xInd = 0;
 		}
 	}

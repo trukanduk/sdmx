@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 2.0
 	 */
 
 	require_once('ISdmxTableRowGenerator.php');
@@ -14,15 +14,9 @@
 	 * Генератор ячеек со значениями
 	 *
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 2.0
 	 */
 	class SdmxTableRegularCellsGenerator implements ISdmxTableRowGenerator {
-		/**
-		 * Стек срезов множества точек
-		 * @var SdmxTableGeneratorSlicesStack
-		 */
-		protected $slicesStack;
-
 		/**
 		 * Родительский итератор
 		 * @var SdmxTableGenerator
@@ -30,26 +24,41 @@
 		protected $parentGenerator;
 
 		/**
-		 * Итератор по подмножеству
-		 * @var Iterator
+		 * Текущие координаты ячейки
+		 * @var mixed[]
 		 */
-		protected $pointsIterator;
+		protected $coordinates = array();
 
 		/**
-		 * Проверка корректности итератора по подмножеству
-		 *
-		 * В подмножестве может отсутствовать точка, соответствующая ячейке.
-		 * Метод проверяет, соответствует ли текущая точка (текущий итератор) ячейке
-		 * @return bool
+		 * Переход к следующему набору координат
+		 * @return SdmxTableRegularCellsGenerator объект-хозяин метода
 		 */
-		protected function IsPointsIteratorCorrect() {
-			$ret = $this->pointsIterator->valid();
-			for ($axisInd = 0; $ret &&  $axisInd < $this->parentGenerator->GetXAxesCount(); ++$axisInd) {
-				$ret &= ($this->parentGenerator->GetDataSet()->GetAxisValueByIndex($this->parentGenerator->GetXAxis($axisInd),
-					                                                           $this->parentGenerator->GetXAxisValueIndex($this->xInd, $axisInd)) ==
-				         $this->pointsIterator->current()->GetCoordinate($this->parentGenerator->GetXAxis($axisInd))->GetRawValue());
+		protected function NextCoordinates() {
+			$i = $this->parentGenerator->GetXAxesCount() - 1;
+			while ($i >= 0 && ++$this->coordinates[$this->parentGenerator->GetXAxis($i)] ==
+					$this->parentGenerator->GetDataSet()->GetAxisValuesCount($this->parentGenerator->GetXAxis($i))) {
+				$this->coordinates[$this->parentGenerator->GetXAxis($i)] = 0;
+				--$i;
 			}
-			return $ret;
+			return $this;
+		}
+
+		/**
+		 * Инициализация массива координат
+		 * @return SdmxTableRegularCellsGenerator объект-хозяин метода
+		 */
+		protected function InitCoordinates() {
+			for ($i = 0; $i < $this->parentGenerator->GetXAxesCount(); ++$i)
+				$this->coordinates[$this->parentGenerator->GetXAxis($i)] = 0;
+
+			for ($i = 0; $i < $this->parentGenerator->GetYAxesCount(); ++$i)
+				$this->coordinates[$this->parentGenerator->GetYAxis($i)] = $this->parentGenerator->GetDataSet()->
+					GetAxisValueByIndex($this->parentGenerator->GetYAxis($i), $this->parentGenerator->GetYAxisValueIndex($this->GetCellYInd(), $i), 0);
+			foreach ($this->parentGenerator->GetDataSet()->GetFixedAxesIterator() as $axisId => $axis) {
+				if ( ! isset($this->coordinates[$axisId]))
+					$this->coordinates[$axisId] = $this->parentGenerator->GetDataSet()->GetAxisValueByIndex($axisId, 0, 0);
+			}
+			//echo "!!! "; var_dump($this->coordinates); echo " !!!\n"; echo "{$this->parentGenerator->GetYAxesCount()} \n";
 		}
 
 		/**
@@ -142,8 +151,21 @@
 		 * @return mixed null, SdmxCoordinate или SdmxDataPoint
 		 */
 		function GetObject() {
-			if ($this->IsPointsIteratorCorrect())
-				return $this->pointsIterator->current();
+			/*
+			$coordinates = array();
+			for ($i = 0; $i < $this->parentGenerator->GetXAxesCount(); ++$i)
+				$coordinates[$this->parentGenerator->GetXAxis($i)] = $this->parentGenerator->GetXAxisValueIndex($this->xInd, $i);
+			for ($i = 0; $i < $this->parentGenerator->GetYAxesCount(); ++$i)
+				$coordinates[$this->parentGenerator->GetYAxis($i)] = $this->parentGenerator->GetYAxisValueIndex($this->GetCellYInd(), $i);
+			foreach ($this->parentGenerator->GetDataSet()->GetFixedAxesIterator() as $axisId => $axis)
+				if ( ! isset($coordinates[$axisId]))
+					$coordinates[$axisId] = $this->parentGenerator->GetDataSet()->GetFixedAxisValue($axisId);
+			//var_dump($coordinates);
+			*/
+			//var_dump(&$this->coordinates);
+			$point = $this->parentGenerator->GetDataSet()->GetPoint(&$this->coordinates, false);
+			if ($point !== false)
+				return $point;
 			else
 				return null;
 		}
@@ -164,8 +186,7 @@
 		 * @return void
 		 */
 		function next() {
-			if ($this->IsPointsIteratorCorrect())
-				$this->pointsIterator->next();
+			$this->NextCoordinates();
 			$this->xInd++;
 		}
 		/**
@@ -174,7 +195,7 @@
 		 */
 		function rewind() {
 			$this->xInd = 0;
-			$this->pointsIterator->rewind();
+			$this->InitCoordinates();
 		}
 
 		/**
@@ -203,15 +224,11 @@
 		 * Конструктор
 		 * @param SdmxTableGenerator $parentGenerator родительский генератор
 		 */
-		function __construct(SdmxTableGenerator $parentGenerator, SdmxTableGeneratorSlicesStack $slicesStack) {
+		function __construct(SdmxTableGenerator $parentGenerator) {
 			$this->parentGenerator = $parentGenerator;
-			$this->slicesStack = $slicesStack;
-			if ( ! is_null($slicesStack->GetLastSubset()))
-				$this->pointsIterator = $slicesStack->GetLastSubset()->GetPointsIterator();
-			else
-				$this->pointsIterator = new ArrayIterator(array()); // всегда не валидный итератор. В дальнейшем такой ситуации не будет вообще
 
 			$this->xInd = 0;
+			$this->InitCoordinates();
 		}
 	}
 ?>

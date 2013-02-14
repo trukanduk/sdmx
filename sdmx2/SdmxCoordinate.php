@@ -65,7 +65,7 @@
 		 * @return SdmxCoordinate объект-хозяин метода
 		 */
 		function UpdateValue($defaultValue = '') {
-			if (is_a($this->GetAxis(), SdmxAxis))
+			if (is_a($this->GetAxis(), 'SdmxAxis'))
 				$this->SetValue($this->GetAxis()->GetValue($this->rawValue, $defaultValue));
 			else
 				$this->SetValue($defaultValue);
@@ -127,7 +127,7 @@
 		 * @return string идентификатор оси (строка) или <var>$default</var>
 		 */
 		function GetAxisId($default = false) {
-			if (is_a($this->GetAxis(), SdmxAxis))
+			if (is_a($this->GetAxis(), 'SdmxAxis'))
 				return $this->GetAxis()->GetId();
 			else
 				return $default;

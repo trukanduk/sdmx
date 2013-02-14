@@ -6,7 +6,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 2.0
 	 */
 
 	require_once('SdmxData.php');
@@ -15,161 +15,12 @@
 	require_once('SdmxTableRowGenerator.php');
 
 	/**
-	 * Стек срезов множества точек
-	 *
-	 * Служебный класс, используемый для взаимодействия итераторов таблицы.
-	 *
-	 * @package sdmx
-	 * @version 1.0
-	 */
-	class SdmxTableGeneratorSlicesStack {
-		/**
-		 * Множество точек, на основе которых генерятся срезы
-		 * @var ISdmxDataSet
-		 */
-		protected $dataSet;
-
-		/**
-		 * Получение множества точек
-		 * @return ISdmxDataSet Множество точек данного объекта
-		 */
-		function GetDataSet() {
-			return $this->dataSet;
-		}
-
-		/**
-		 * Установка множества точек
-		 * @param ISdmxDataSet $dataSet новое множество
-		 * @return SdmxTableGeneratorSlicesStack объект-хозяин метода
-		 */
-		function SetDataSet(ISdmxDataSet $dataSet) {
-			$this->dataSet = $dataSet;
-			return $this;
-		}
-
-		/**
-		 * Массив осей, отложенных по вертикали
-		 * @var string[]
-		 */
-		protected $yAxes = array();
-
-		/**
-		 * Установка массива осей
-		 *
-		 * Устанавливает весь массив осей
-		 * @param string[] новый массив осей
-		 * @return SdmxTableGeneratorSlicesStack объект-хозяин метода
-		 */
-		function SetYAxes(&$yAxes) {
-			$this->yAxes = $yAxes;
-			return $this;
-		}
-
-		/**
-		 * Массив срезов множества
-		 *
-		 * Пусть i-й ячейке массива лежит некий срез. В массиве <var>$this->slicesValues</var> в i-й ячейке лежит
-		 * значение, которое указывает на то, какое подмножество будет разбито на срезы в следующей ячейке, т.е.
-		 * в (i + 1)-й ячейке хранится срез подмножества, лежащего в ячейке <var>[i][$this->slicesValues[i]]</var>
-		 * @var ISdmxDataSet[][]
-		 */
-		protected $slices = array();
-
-		/**
-		 * Массив значений, указывающих на разбиваемые подмножества
-		 *
-		 * см. <var>$this->slices</var> (Массив срезов множества)
-		 * @var string[]
-		 */
-		protected $slicesValues = array();
-
-		/**
-		 * Получение подмножества
-		 *
-		 * Возвращает подмножество, а так же кеширует весь срез. По сути получается что-то вроде рекурсивного стека
-		 * Для понимания происходящего надо осознать, что эта функция будет вызываться последловательно на строке
-		 * Точнее писать влом
-		 * @param $colInd Индекс столбца (т.е. индекс оси в <var>$this->yAxes</var>, которую надо расхреначить)
-		 * @param $valueInd индекс значения, которое должно зафиксироваться
-		 * @return ISdmxDataSet интересующее подмножество
-		 */
-		function GetSubset($colInd, $valueInd) {
-			// получим новый срез, если его не было
-			if ( ! isset($this->slices[$colInd])) {
-				if (isset($this->slices[$colInd - 1][$this->slicesValues[$colInd - 1]]))
-					$this->slices[$colInd] = $this->slices[$colInd - 1][$this->slicesValues[$colInd - 1]]->GetSlice($this->yAxes[$colInd]);
-				else
-					$this->slices[$colInd] = array();
-			}
-
-			// Если текущее значение отличается от существующего (или его не было), то обнулим нахрен всё после.
-			if (( ! isset($this->slicesValues[$colInd])) ||
-				$this->dataSet->GetAxisValueByIndex($this->yAxes[$colInd], $valueInd) != $this->slicesValues[$colInd]) {
-				for ($i = $colInd + 1; $i < count($this->yAxes); ++$i) {
-					unset($this->slices[$i]);
-					unset($this->slicesValues[$i]);
-				}
-			}
-
-			// Теперь установим, какое подмножество из среза мы сейчас взяли, и, наконец, вернём его
-			$this->slicesValues[$colInd] = $this->dataSet->GetAxisValueByIndex($this->yAxes[$colInd], $valueInd);
-			return $this->slices[$colInd][$this->slicesValues[$colInd]];
-		}
-
-		/**
-		 * Инициализация массива срезов
-		 *
-		 * @return SdmxTableGeneratorSlicesStack объект-хозяин метода
-		 */
-		function InitSlices() {
-			if (count($this->yAxes) == 0)
-				return $this;
-
-			$this->slices = array($this->dataSet->Split($this->yAxes[0]));
-			$this->slicesValues = array();
-
-			return $this;
-		}
-
-		/**
-		 * Получение последнего нагенерированного подмножества
-		 * @return ISdmxDataSet
-		 */
-		function GetLastSubset() {
-			if (count($this->yAxes) != 0)
-				return $this->slices[count($this->slices) - 1][$this->slicesValues[count($this->slicesValues) - 1]];
-			else
-				return $this->dataSet;
-		}
-		/**
-		 * Конструктор
-		 *
-		 * @param ISdmxDataSet $dataSet множество точек
-		 * @param string[] $yAxes множество осей слева у таблицы
-		 */
-		function __construct(ISdmxDataSet $dataSet, &$yAxes) {
-			$this->dataSet = $dataSet;
-			$this->yAxes = $yAxes;
-
-			$this->InitSlices();
-		}
-
-		function __DebugPrint() {
-			echo "SLICES STACK:<br>\n";
-			for ($i = 0; $i < count($this->slicesStack); $i++) {
-				echo $this->slicesValues[$i] . ' ';
-			}
-
-		}
-	}
-
-	/**
 	 * Генератор таблиц
 	 *
 	 * Класс-итератор по строкам таблицы, сгенерированной на основе SdmxDataSet
 	 * 
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 2.0
 	 */
 	class SdmxTableGenerator implements Iterator {
 		/**
@@ -184,23 +35,6 @@
 		 */
 		function GetDataSet() {
 			return $this->dataSet;
-		}
-
-		/**
-		 * Стек срезов множества точек
-		 * @var SdmxTableGeneratorSlicesStack
-		 */
-		protected $slicesStack;
-
-		/**
-		 * Создаёт и инициализирует стек со срезами
-		 *
-		 * Вызывать после установки множества точек и массивов осей
-		 * @return SdmxTableGenerator Объект-хозяин метода
-		 */
-		function InitSlicesStack() {
-			$this->slicesStack = new SdmxTableGeneratorSlicesStack($this->dataSet, &$this->yAxes);
-			return $this;
 		}
 
 		/**
@@ -405,7 +239,7 @@
 		 */
 		function GetHeaderYHeight($xInd, $default = false) {
 			if (count($this->yAxes) == 0) {
-				if ($xInd == 0 && count($this->yAxes) != 0)
+				if ($xInd == 0 && count($this->xAxes) != 0)
 					return 1;
 				else
 					return $default;
@@ -459,7 +293,6 @@
 		 */
 		function rewind() {
 			$this->yInd = 0;
-			$this->InitSlicesStack();
 		}
 
 		/**
@@ -476,7 +309,7 @@
 		 * @return SdmxTableRowGenerator
 		 */
 		function current() {
-			return new SdmxTableRowGenerator($this, $this->slicesStack);
+			return new SdmxTableRowGenerator($this);
 		}
 
 		/**
@@ -510,7 +343,7 @@
 			}
 
 			// Проинициализируем поля
-			$this->dataSet = $dataSet->SortPoints($sortOrder);
+			$this->dataSet = $dataSet;
 			$this->xAxes = $xAxes;
 			$this->yAxes = $yAxes;
 			$this->yInd = 0;
@@ -539,9 +372,6 @@
 				$this->headersYHeights[0] = 1;
 				$this->cellsYCount = 1;
 			}
-
-			// Наконец, проинициализируем стек срезов
-			$this->InitSlicesStack();
 		}
 	}
 ?>

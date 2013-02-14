@@ -4,7 +4,7 @@
 	 *
 	 * @author Илья Уваренков <trukanduk@gmail.com>
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 2.0
 	 */
 
 	require_once('ISdmxTableRowGenerator.php');
@@ -21,15 +21,9 @@
 	 *
 	 * Итератор по ячейкам таблицы, находищимся в одной строке
 	 * @package sdmx
-	 * @version 1.0
+	 * @version 2.0
 	 */
 	class SdmxTableRowGenerator implements ISdmxTableRowGenerator {
-		/**
-		 * Стек срезов множества точек
-		 * @var SdmxTableGeneratorSlicesStack
-		 */
-		protected $slicesStack;
-
 		/**
 		 * Внутренний итератор
 		 *
@@ -63,12 +57,12 @@
 				if ($this->parentGenerator->GetYInd() < $this->parentGenerator->GetHeaderRowsCount())
 					$this->internalGenerator = new SdmxTableEdgeCellsGenerator($this->parentGenerator);
 				else
-					$this->internalGenerator = new SdmxTableYHeaderGenerator($this->parentGenerator, $this->slicesStack);
+					$this->internalGenerator = new SdmxTableYHeaderGenerator($this->parentGenerator);
 			} else {
 				if ($this->parentGenerator->GetYInd() < $this->parentGenerator->GetHeaderRowsCount())
 					$this->internalGenerator = new SdmxTableXHeaderGenerator($this->parentGenerator);
 				else
-					$this->internalGenerator = new SdmxTableRegularCellsGenerator($this->parentGenerator, $this->slicesStack);
+					$this->internalGenerator = new SdmxTableRegularCellsGenerator($this->parentGenerator);
 			}
 		}
 
@@ -235,9 +229,8 @@
 		 * @param SdmxTableGenerator $parentGenerator родительский генератор таблицы
 		 * @param SdmxTableGeneratorSlicesStack $slicesStack стек срезов множества точек
 		 */
-		function __construct(SdmxTableGenerator $parentGenerator, SdmxTableGeneratorSlicesStack $slicesStack) {
+		function __construct(SdmxTableGenerator $parentGenerator) {
 			$this->parentGenerator = $parentGenerator;
-			$this->slicesStack = $slicesStack;
 			$this->InitInternalIterator(self::FIRST_PART_ITERATOR);
 		}
 	}
