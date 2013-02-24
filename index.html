@@ -1,309 +1,1045 @@
 <html>
-	<!-- Не надо мне говорить, что я быдлокодер - это пример использования, а не готовое решение -->
-	<!-- Но вообще да, верстальщик из меня не очень :) -->
 	<head>
-		<script type="text/javascript" src="jquery.1.9.0.min.js"></script>
+		<title>SDMX parser example</title>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<link src="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+		<script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+
 		<script type="text/javascript">
-			/*
-			 * 0 -- не открыта никакая,
-			 * 1 -- выбор файла
-			 * 2 -- настройка представления
-			 * 3 -- результат
+			// массив осей (CAxis)
+			var axes = [];
+
+			// массив контейнеров (CAxesContainer)
+			var containers = [];
+
+			// тип использования оси
+			var USE_AS_NONE = 0;
+			var USE_AS_HORIZONTAL = 1;
+			var USE_AS_VERTICAL = 2;
+			var USE_AS_HEADER = 3;
+			var USE_AS_CONST_COUNT = 4;
+
+			// цвета контейнеров с осями
+			var GOOD_DIV_COLOR = '#ccffcc';
+			var BAD_DIV_COLOR = '#ffcccc';
+
+			/**
+			 * Обновление положения осей в кнтейнерах
+			 *
+			 * Устанавливает положения всех осей во всех контейнерах. жёстко, без анимации, но утсанавливает :)
+			 * @param CAxesContainer container Контейнер, вызвавший функцию
+			 * @return void
 			 */
-			var opened_tab = 0;
-
-			// Немного бесполезной красоты :)
-			function open_tab(tab, duration) {
-				if (tab == opened_tab)
-					return;
-
-				if (duration == undefined)
-					duration = 400;
-
-				if (tab > opened_tab) {
-					for (var i = opened_tab; i < tab; ++i)
-						$("div#main_div #tab_" + (i*1 + 1)).delay((i - opened_tab)*duration).slideDown(duration);
-					opened_tab = tab;
-				} else {
-					for (var i = opened_tab; i > tab; --i)
-						$("div#main_div #tab_" + i).delay((opened_tab - i)*duration).slideUp(duration);
-					opened_tab = tab;
+			function check_axes_positions(container) {			
+				for (var i = 0; i < containers.length; ++i) {
+					if (containers[i].type === container.type) {
+						//alert('sadfasdf');
+						continue;
+					}
+					for (var j = 0; j < containers[i].count; ++j) {
+						containers[i].move_axis_to_place(j, false, false);
+					}
 				}
 			}
 
-			/*
-			 * Аналогично opened_tab:
-			 * 0 -- ничего не активно
-			 * 1 -- выбор файла
-			 * 2 -- настройка представления
-			 * 3 -- результат
+			/**
+			 * Объект оси
+			 *
+			 * @var string id идентификатор оси
+			 * @var int ind индекс оси в массиве axes
+			 * @var string name имя оси
+			 * @var dict values массив значений в формате {'raw': <сфрое значение>:string,
+			 *                                             'value': <нормальное значение>:string,
+			 *                                             'selected': <используется ли значение>: bool}
+			 * @var int count количество значений
+			 * @var int selectd_count количество используемых значений
+			 * @var int use_as каким образом используется: USE_AS_NONE || USE_AS_VERTICAL || USE_AS_HORIZONTAL || USE_AS_HEADER
+			 * @var jQuery div объект в html
+			 * @var CAxesContainer|null родительский контейнер
+			 * @var bool is_happy по сути -- показатель цвета. обновлятся при обновлении контейнера
+			 *
+			 * @method CAxis create_div(jQuery parent)
+			 *     Создание div'а внутри объекта parent
+			 * @method CAxis update_div_values_count()
+			 *     Обновляет отображение количество элементов в div'е
+			 *     @return CAxis объект-хозяин
+			 * @method CAxis update_div_color()
+			 *     Обновление цвета div'а (BAD_DIV_COLOR || GOOD_DIV_COLOR) в соответствии с его "статусом"
+			 *     @reutrn CAxis объект-хозяин
+			 * @method CAxis update_div()
+			 *     Обновление всего div'а
+			 *     @return CAxis объект-хозяин
+			 * @method CAxis set_container(CAxesContainer container)
+			 *     Устанавливает контейнер (в т.ч. обновляется по этому случаю)
+			 *     @param CAxesContainer container Контейнер, в котором теперь содержится ось
+			 *     @return CAxis объект-хозяин метода
+			 * @method CAxis unset_container()
+			 *     Удаляет контейнер
+			 *     @return CAxis хозяин метода
 			 */
-			var active_step = 0;
+			function /* constuctor */ CAxis(/* plain object */ data,
+				                            /* int */ ind) {
+				var ret = {};
+				// инициализация оснвных полей
+				ret.id = data.id;
+				ret.ind = ind;
+				ret.name = data.name;
+				ret.values = [];
+				ret.count = data.count;
+				ret.selected_count = data.count;
+				ret.use_as = USE_AS_NONE;
+				ret.container = null;
+				ret.is_happy = true;
 
-			function activate_step(step) {
-				if (step == 1) {
-					$("#tab_1_content_div").hide();
-					$("#tab_1_wait_div").html('Загружается список файлов...').show();
-					$("#tab_1_submit_ref").hide();
-					$("#tab_1_filename_input").html("sdmx2\\files\\.");
-					open_tab(1);
-					$.ajax({'url': 'action.php',
-						    'data': 'act=get_file_list&dir=sdmx2\\files',
-				            'type': 'GET',
-				            'timeout': 10000,
-				            'success': function(data) {
-				            	$("#tab_1_content_div").html(data).fadeIn(400);
-				            	$("#tab_1_wait_div").fadeOut(400);
+				// инициализация значений
+				for (var i = 0; i < data.count; ++i) {
+					ret.values[i] = {"value": data[i].value,
+					                  "raw": data[i].raw,
+					                  "selected": true};
+				}
 
-								$(".filelist_element").click(function() {
-									$("#tab_1_filename_input").html("sdmx2\\files\\" + $(this).html());
-									$("#tab_1_submit_ref").show();
-							    });
-				            },
-				            'error': function() {
-						    	$("#tab_1_wait_div").html('При загрузке списка файлов произошла ошибка.');
-						    }
-				    });
-				} else if (step == 2) {
-					$("#tab_2_content_div").hide();
-					$("#tab_2_wait_div").html('Загружается список осей файла...').show();
-					$("#tab_2_submit_ref").hide();
-					open_tab(2);
-					$.ajax({'url': 'action.php',
-						    'data': 'act=get_axes&file=' + $("#tab_1_filename_input").html(),
-						    'type': 'GET',
-						    'timeout': 100000,
-						    'success': function(data) {
-						    	$("#tab_2_content_div").html(data).fadeIn(400);
-				            	$("#tab_2_wait_div").fadeOut(400);
-				            	$("#tab_2_submit_ref").fadeIn(400);
-						    },
-						    'error': function() {
-						    	$("#tab_2_wait_div").html('При загрузке осей произошла ошибка.');
-						    }
+				ret.create_div = /* CAxis */ function(/* jQuery */ parent) {
+					var axis = this;
+					// создание и инициализация div'а
+					parent.append('<div class="axis_block draggable" id="axis_block_' + axis.ind +'">' +
+						axis.name +
+						'<div class="axis_values_count" id="axis_values_count_' + axis.ind + '"></div>' +
+						'<div class="axis_toogle_valueslist" id="axis_toogle_valueslist_' + axis.ind + '">Список значений &gt;</div>' +
+						'</div>');
+					axis.div = $('#axis_block_' + axis.ind).draggable({
+						'start': function(event, ui) {
+							axis.div.css('z-index', '1');
+							if (axis.container != null) {
+								axis.container.remove(axis);
+							}
+						},
+						'drag': function(event, ui) {
+							for (var i = 0; i < USE_AS_CONST_COUNT; ++i) {
+								containers[i].count_make_hole(axis);
+							}
+						},
+						'stop': function(event, ui) {
+							axis.div.css('z-index', '0');
+							var added = false;
+							for (var i = 0; i < USE_AS_CONST_COUNT; ++i) {
+								if (containers[i].count_hole_ind(axis) != -1) {
+									containers[i].add(ret, true, containers[i].count_hole_ind(ret));
+									added = true;
+								} else {
+									containers[i].make_hole(-1);
+								}
+							}
+							if (! added) {
+								containers[0].add(ret, true);
+							}
+						}
+
 					});
-				} else if (step == 3) {
-					$("#tab_3_content_div").hide();
-					$("#tab_3_control_div").hide();
-					$("#tab_3_wait_div").html('Запрос обрабатывается...').show();
-					open_tab(3);
-					var ajax_query = '';
-					for (var i = 0; $("#tab_2_table_" + i + "_axisparam_td").length; ++i) {
-						ajax_query += '&axis' + i + '=';
-						if ($("#tab_2_table_" + i + "_axisparam_0_input").prop('checked')) {
-							ajax_query += '0';
-						} else if ($("#tab_2_table_" + i + "_axisparam_1_input").prop('checked')){
-							ajax_query += '1';
-						} else if ($("#tab_2_table_" + i + "_axisparam_2_input").length &&
-							       $("#tab_2_table_" + i + "_axisparam_2_input").prop('checked')) {
-							ajax_query += '2';
-						} else if ($("#tab_2_table_" + i + "_axisparam_3_input").length &&
-							       $("#tab_2_table_" + i + "_axisparam_3_input").prop('checked')) {
-							ajax_query += '3';
+
+					this.div.click(function() {
+						if ($('#values_changed_axis_ind').prop('value') == ret.ind) {
+							return;
+						}
+
+						if ($('#values_changed_axis_ind').prop('value') != '-1') {
+							axes[$('#values_changed_axis_ind').prop('value')].close_values_list();
+						}
+						ret.open_values_list();
+					});
+					return this;
+				}
+
+				ret.toogle_select_value = /*CAxis */ function(/* int */ ind) {
+					if (this.values[ind].selected) {
+						this.selected_count--;
+						this.values[ind].selected = false;
+					} else {
+						this.selected_count++;
+						this.values[ind].selected = true;
+					}
+				}
+
+				// Обновление количество значений в div'е
+				ret.update_div_values_count = /* CAxis */ function() {
+					this.div.find('.axis_values_count').html('значения: ' + this.selected_count + ' из ' + this.count);
+					return this;
+				}
+
+				// Обновление цвета
+				ret.update_div_color = /* CAxis */ function() {
+					this.is_happy = ! (this.selected_count != 1 && (this.use_as == USE_AS_NONE || this.use_as == USE_AS_HEADER));
+					if ( ! this.is_happy) {
+						this.div.css('background-color', BAD_DIV_COLOR);
+
+					} else {
+						this.div.css('background-color', GOOD_DIV_COLOR);
+					}
+					return this;
+				}
+
+				// обновление всего div'а
+				ret.update_div = /* CAxis */ function() {
+					this.update_div_values_count()
+					    .update_div_color();
+					this.div.show();
+					return this;
+				}
+
+				// Добавление в контейнер (низкоуровневая функция)
+				ret.set_container = /* CAxis */ function(/* CAxesContainer */ container) {
+					this.use_as = container.type;
+					this.container = container;
+					this.update_div();
+				} 
+
+				ret.unset_container = /* CAxis */ function() {
+					this.use_as = USE_AS_NONE;
+					this.container = null;
+					this.update_div();
+				}
+
+				ret.to_json_obj = /* CAxis */ function() {
+					var obj = {'id': this.id,
+					           'count': this.count,
+					           'selected_count': this.selected_count,
+					           'use_as': this.use_as,
+					           'values': this.values};
+					return obj;
+				}
+
+				ret.open_values_list = /* CAxis */ function() {
+					var text = '<h3>' + this.name + '</h3>';
+					$('#values_changed_axis_ind').attr('value', this.ind);
+					for (var i = 0; i < this.count; ++i) {
+						text += '<div class="axis_value_checkbox_container" id="axis_value_checkbox_container_' + i + '">';
+						text += '<input type="hidden" class="axis_values_index" value="' + i + '">';
+						text += '<input type="checkbox"' +
+						                'id="axis_value_' + i + '"' +
+						                'class="axis_value_checkbox"' +	
+						                (this.values[i].selected ? 'checked' : '') + ' />';
+						text += this.values[i].value + '</div>';
+					}
+					$('#axes_values_container').html(text);
+					$('#axes_values_div').show().animate({'width': '300'});
+
+					var axis = this;
+					$('.axis_value_checkbox').click(function() {
+						var div = $('#' + this.id).parent();
+						axis.toogle_select_value(div.children('.axis_values_index').attr('value'));
+						axis.update_div();
+					});
+
+					return this;
+				}
+
+				ret.close_values_list = /* CAxis */ function() {
+					$('#axes_values_div').animate({'width': '0'});
+					$('#values_changed_axis_ind').attr('value', this.ind);
+				}
+
+				// создадим div
+				ret.create_div($('#axes_container'));
+				ret.update_div();
+				return ret;
+			}
+
+			/**
+			 * Контейнер для хранения осей
+			 *
+			 * @var int type Тип контейнера (константы USE_AS_*)
+			 * @var jQuery div контейнер в html
+			 * @var jQuery parent_div объект DOM, относительно которого надо считать смещение
+			 * @var int count количество осей в контейнере
+			 * @var int hole_index индекс дыры. если дыры нет, то поле равно -1
+			 *
+			 * @method CAxesContainer move_axis_to_place(int index, [bool hole_offset = false, [bool animate = true]])
+			 *     Перемещает ось с индексом index на правильную пзицию
+			 *     @param int index индекс оси, которую надо переместить
+			 *     @param bool hole_offset надо ли учитывать дыру при вычислении позиции
+			 *     @param bool animate надо ли анимировать переход
+			 *     @return CAxesContainer хозяин метода
+			 * @method CAxesContainer add(CAxis axis, [bool animate = true, [int index = this.count]])
+			 *     Добавление оси в контейнер
+			 *     @param CAxis axis добавляемая ось
+			 *     @param bool animate указывает, надо ли анимировать добавление
+			 *     @param int index индекс, которым должна обладать новая ось
+			 *         Если не указан, то ось будет добавлена в конец
+			 *     @return CAxesContainer объект-хозяин метода
+			 * @method int find(CAxis axis)
+			 *     Получение индекса оси в 
+			 *     @param CAxis искомая ось
+			 *     @return int индекс оси в массиве или -1, если такой оси нет в контейнере
+			 * @method CAxesContainer remove(CAxis axis, [int index = this.find(axis)])
+			 *     удаление оси из массива
+			 *     @param CAxis axis Удаляемая ось
+			 *     @param int index Индекс удаляемой оси (по умолчанию находится сама)
+			 *     @return CAxesContainer Объект-хозяин метода
+			 * @method PlaneObject get_position()
+			 *     Возвращает координаты контейнера относительно parent_div
+			 *     @return PlaneObject {left: <left>, top: <top>}
+			 */
+			function /* constructor */ CAxesContainer(/* int */ type,
+				                                      /* jQuery */ div,
+				                                      /* jQuery */ parent_div) {
+				var ret = {};
+				ret.type = type;
+				ret.div = div;
+				ret.parent_div = parent_div;
+				ret.count = 0;
+				ret.hole_ind = -1;
+
+				ret.move_axis_to_place = /* CAxesContainer */ function(/* int */ index,
+					                                                   /* bool */ hole_offset /* = false */,
+					                                                   /* bool */ animate /* = true */) {
+					if (typeof hole_offset == 'undefined') {
+						hole_offset = false;
+					}
+					if (typeof animate == 'undefined') {
+						animate = true;
+					}
+
+					var jquery_pos_setter = '';
+					if (animate) {
+						jquery_pos_setter = 'animate';
+					} else {
+						jquery_pos_setter = 'css';
+					}
+
+					//$('#informer').html(this.count + ' ' + index);
+					this[index].div[jquery_pos_setter]({'left': this.get_left_pos(index, hole_offset),
+				                                        'top': this.get_top_pos(index, hole_offset)});
+				}
+
+				ret.add = /* CAxesContainer */ function(/* CAxis */ axis, 
+					                                    /* bool */ animate /* = true */,
+					                                    /* int */ index /* = ret.count */) {
+					if (typeof index == 'undefined' || index > this.count) {
+						index = this.count;
+					}
+					if (typeof animate == 'undefined') {
+						animate = true;
+					}
+
+					for (var i = this.count - 1; i >= index; --i) {
+						this[i + 1] = this[i];
+					}
+
+					this[index] = axis;
+					this.count++;
+
+					for (var i = 0; i < this.count; ++i) {
+						this.move_axis_to_place(i, false, animate);
+					}
+
+					this[index].set_container(this);
+
+					var cont = this;
+					if (animate) {
+						this.div.animate({'width': this.get_div_width(),
+				        	              'height': this.get_div_height()},
+				            	          {'step': function() {
+				                	           check_axes_positions(cont);
+				                    	  }
+				    	});
+				    } else {
+				    	this.div.css({'width': this.get_div_width(),
+				        	          'height': this.get_div_height()});
+				    }
+
+					return this;
+				}
+
+				ret.find = /* int */ function(/* CAxis */ axis) {
+					for (var i = 0; i < this.count; ++i) {
+						if (this[i] === axis) {
+							return i;
 						}
 					}
-					$.ajax({'url': 'action.php',
-						    'data': 'act=get_table&file=' + $("#tab_1_filename_input").html() + ajax_query,
-						    'type': 'GET',
-						    'timeout': 100000,
-						    'success': function(data) {
-						    	$("#tab_3_content_div").html(data).fadeIn(400);
-						    	$("#tab_3_wait_div").fadeOut(400);
-						    	$("#tab_3_fullsize_ref").attr('href', 'action.php?act=get_table&file=' + $("#tab_1_filename_input").html() + ajax_query);
-						    	$("#tab_3_control_div").show();
-						    },
-						    'error': function() {
-						    	$("#tab_3_wait_div").html('При обработке запроса произошла ошибка.');
-						    }
-					});
+					return -1;
 				}
+
+				ret.remove = /* CAxesContainer */ function(/* CAxis */ axis,
+					                                       /* int */ index /* = this.find(axis) */) {
+					if (typeof index == 'undefined') {
+						index = this.find(axis);
+					}
+
+					this[index].unset_container();
+
+					this.count--;
+					for (var i = index; i < this.count; ++i) {
+						this[i] = this[i + 1];
+					}
+
+					delete this[this.count];
+				}
+
+				ret.count_make_hole = /* CAxesContainer */ function(/* CAxis */ axis, /* bool */ animate /* = true */) {
+					this.make_hole(this.count_hole_ind(axis), animate);
+					return this;
+				}
+
+				ret.get_position = /* {left: int, top: int} */ function() {
+					return {left: this.div.offset().left - this.parent_div.offset().left,
+						    top: this.div.offset().top - this.parent_div.offset().top};
+				}
+
+				ret.get_axes_ids_array = /* array */ function() {
+					var ret = [];
+					for (var i = 0; i < this.count; ++i) {
+						ret[i] = this[i].id;
+					}
+					return ret;
+				}
+
+				return ret;
+			}
+
+			/*
+			 * Горизонтальный контейнер для хранения осей
+			 *
+			 * @extends CAxesContainer
+			 * @var int hole_size размер дыры (по горизнтали, конечно)
+			 * @method int get_left_pos(int index, [bool hole_offset = false])
+			 *     Получение координаты left для оси с индексом index
+			 *     @param int index индекс оси
+			 *     @param bool hole_offset надо ли учитывать дыру
+			 *     @return int координата left
+			 * @method int get_top_pos(int index, [bool hole_offset = false])
+			 *     Получение координаты top для оси с индексом index
+			 *     @param int index индекс оси
+			 *     @param bool hole_offset надо ли учитывать дыру
+			 *     @return int координата top
+			 * @method int get_div_width([bool hole_offset = false])
+			 *     Получение ширины div'а
+			 *     @param bool hole_offset надо ли учитывать дыру
+			 *     @return int ширина, которая должна быть у div'а
+			 * @method int get_div_height([bool hole_offset = false])
+			 *     Получение высоты div'а
+			 *     @param int hole_offset надо ли учитывать дыру
+			 *     @return int высота div'а
+			 * @method int count_hole_ind(CAxis axis)
+			 *     Высчитывает индекс дыры
+			 *     @param CAxis axis ось
+			 *     @return int индекс или -1
+			 * @method CAxesContainer make_hole(int index, bool animate = true)
+			 *     Делает дырку с индексом index
+			 *     @param int index индекс дырки
+			 *     @param bool animate надо ли анимировать
+			 *     @return CAxesContainer объект-хозяин метода
+			 * @method CAxesContainer count_make_hole(CAxis axis, bool animate = true)
+			 *     Делает дырку на нужном месте :)
+			 *     @param CAxis axis ось, под которую надо попытаться выделить дырку
+			 *     @param bool animate надо ли анимировать
+			 *     @return CAxesContainer объект-хозяин метода
+			 */
+			function /* constructor */ CHorizontalAxesContainer(/* int */ type,
+				                                                /* jQuery */ div,
+				                                                /* jQuery */ parent_div) {
+				var ret = CAxesContainer(type, div, parent_div);
+
+			 	ret.hole_size = 100;
+
+				ret.get_left_pos = /* int */ function(/* int */ index,
+					                                  /* bool */ hole_offset /* = false */) {
+					if (typeof hole_offset == 'undefined') {
+						hole_offset = false
+					}
+					return this.get_position().left + this.div.css('padding-left').slice(0, -2)*1 +
+					       index*(axes[0].div.css('width').slice(0, -2)*1 + axes[0].div.css('margin-left').slice(0, -2)*1 +
+					              axes[0].div.css('margin-right').slice(0, -2)*1) + axes[0].div.css('margin-left').slice(0, -2)*1 +
+					       (hole_offset ? this.hole_size : 0);
+				}
+
+				ret.get_top_pos = /* int */ function(/* int */ index,
+					                                 /* bool */ hole_offset /* = false */) {
+					return this.get_position().top + this.div.css('padding-top').slice(0, -2)*1;
+				}
+
+				ret.get_div_height = /* int */ function(/* bool */ hole_offset /* = false */) {
+					return axes[0].div.css('height').slice(0, -2)*1 + axes[0].div.css('margin-top').slice(0, -2)*1 +
+					       axes[0].div.css('margin-bottom').slice(0, -2)*1 + this.div.css('padding-top').slice(0, -2)*1 +
+					       this.div.css('padding-bottom').slice(0, -2)*1;
+				}
+
+				ret.get_div_width = /* int */ function(/* bool */ hole_offset /* = false */) {
+					if (typeof hole_offset == 'undefined') {
+						hole_offset = false;
+					}
+					
+					return Math.max((axes[0].div.css('width').slice(0, -2)*1 + axes[0].div.css('margin-left').slice(0, -2)*1 +
+						             axes[0].div.css('margin-right').slice(0, -2)*1),
+						             this.count*(axes[0].div.css('width').slice(0, -2)*1 + axes[0].div.css('margin-left').slice(0, -2)*1 +
+					                 axes[0].div.css('margin-right').slice(0, -2)*1) + this.div.css('padding-left').slice(0, -2)*1 +
+					                 this.div.css('padding-right').slice(0, -2)*1 + (hole_offset ? this.hole_size : 0));
+				}
+
+				ret.count_hole_ind = /* int */ function(/* CAxis */ axis) {
+					var pos = {x: axis.div.css('left').slice(0, -2)*1 + axis.div.css('width').slice(0, -2)/2 - this.get_position().left,
+				               y: axis.div.css('top').slice(0, -2)*1 + axis.div.css('height').slice(0, -2)/2 - this.get_position().top};
+
+					// вычислим положение курсора: попадает ли он в область контейнера
+					if (pos.x < - this.div.css('margin-left').slice(0, -2)*1 ||
+					    pos.x > this.div.css('margin-right').slice(0, -2)*1 + this.div.width() ||
+					    pos.y < - this.div.css('margin-top').slice(0, -2)*1 ||
+					    pos.y > this.div.css('margin-bottom').slice(0, -2)*1 + this.div.height()) {
+						
+						
+						return -1;
+					}
+
+				    var axis_div_width = axes[0].div.css('width').slice(0, -2)*1 + axes[0].div.css('margin-left').slice(0, -2)*1 +
+							             axes[0].div.css('margin-right').slice(0, -2)*1;
+				    // Надо ли учитывать дырку (до неё или после неё мы стоим)
+					if (this.hole_ind == -1 || pos.x < this.get_left_pos(this.hole_ind - 1)*1 + axis_div_width) { // до дырки
+						return Math.floor((pos.x + axis_div_width/2) / axis_div_width);
+					} else if (pos.x <= this.get_left_pos(this.hole_ind, true) + axis_div_width/2) { // в дырке
+						return this.hole_ind;
+					} else { // после дырки
+						return Math.floor((pos.x + axis_div_width/2 - this.get_left_pos(this.hole_ind, true)) /
+						        axis_div_width) + this.hole_ind;
+					}
+				}
+
+				ret.make_hole = /* CAxesContainer */ function(/* int */ index,
+					                                          /* bool */ animate /* = true */) {
+					if (typeof animate == 'undefined') {
+						animate = true;
+					}
+
+					if (this.hole_ind == index) {
+						return this;
+					}
+					var cont = this;
+					if (this.hole_ind == -1) {
+						if (animate) {
+							this.div.animate({'width': this.get_div_width(true)},
+								             {'step': function() {
+								             	check_axes_positions(cont);
+								             	return;
+								             	for (var i = 0; i < containers.length; ++i) {
+								             		if (containers[i].type === cont.type) {
+								             			continue;
+								             		}
+								             		for (var j = 0; j < containers[i].count; ++j) {
+								             			containers[i].move_axis_to_place(j, false, false);
+								             		}
+								             	}
+							                 }
+							});
+						} else {
+							this.div.css('width', this.get_div_width(true));
+						}
+					} else if (index == -1) {
+						if (animate) {
+							this.div.animate({'width': this.get_div_width(false)},
+								             {'step': function() {
+								             	check_axes_positions(cont);
+								             	return;
+								             	for (var i = 0; i < containers.length; ++i) {
+								             		if (containers[i].type === cont.type) {
+								             			continue;
+								             		}
+								             		for (var j = 0; j < containers[i].count; ++j) {
+								             			containers[i].move_axis_to_place(j, false, false);
+								             		}
+								             	}
+							                 }
+							});
+						} else {
+							this.div.css('width', this.get_div_width(false));
+						}
+					}
+
+					for (var i = 0; i < this.count; ++i) {
+						this.move_axis_to_place(i, (index != -1 && i >= index), animate);
+					}
+					this.hole_ind = index;
+					return this;
+				}
+
+				return ret;
+			}
+
+			/*
+			 * Вертикальный контейнер для хранения осей
+			 *
+			 * @extends CAxesContainer
+			 * @var int hole_size размер дыры (по горизнтали, конечно)
+			 * @method int get_left_pos(int index, [bool hole_offset = false])
+			 *     Получение координаты left для оси с индексом index
+			 *     @param int index индекс оси
+			 *     @param bool hole_offset надо ли учитывать дыру
+			 *     @return int координата left
+			 * @method int get_top_pos(int index, [bool hole_offset = false])
+			 *     Получение координаты top для оси с индексом index
+			 *     @param int index индекс оси
+			 *     @param bool hole_offset надо ли учитывать дыру
+			 *     @return int координата top
+			 * @method int get_div_width([bool hole_offset = false])
+			 *     Получение ширины div'а
+			 *     @param bool hole_offset надо ли учитывать дыру
+			 *     @return int ширина, которая должна быть у div'а
+			 * @method int get_div_height([bool hole_offset = false])
+			 *     Получение высоты div'а
+			 *     @param int hole_offset надо ли учитывать дыру
+			 *     @return int высота div'а
+			 * @method int count_hole_ind(CAxis axis)
+			 *     Высчитывает индекс дыры
+			 *     @param CAxis axis ось
+			 *     @return int индекс или -1
+			 * @method CAxesContainer make_hole(int index, bool animate = true)
+			 *     Делает дырку с индексом index
+			 *     @param int index индекс дырки
+			 *     @param bool animate надо ли анимировать
+			 *     @return CAxesContainer объект-хозяин метода
+			 * @method CAxesContainer count_make_hole(CAxis axis, bool animate = true)
+			 *     Делает дырку на нужном месте :)
+			 *     @param CAxis axis ось, под которую надо попытаться выделить дырку
+			 *     @param bool animate надо ли анимировать
+			 *     @return CAxesContainer объект-хозяин метода
+			 */
+			function /* constructor */ CVerticalAxesContainer(/* int */ type,
+				                                              /* jQuery */ div,
+				                                              /* jQuery */ parent_div) {
+				var ret = CAxesContainer(type, div, parent_div);
+
+			 	ret.hole_size = 50;
+
+				ret.get_left_pos = /* int */ function(/* int */ index,
+					                                  /* bool */ hole_offset /* = false */) {
+					return this.get_position().left + this.div.css('padding-left').slice(0, -2)*1 +
+					       axes[0].div.css('margin-left').slice(0, -2)*1;
+				}
+
+				ret.get_top_pos = /* int */ function(/* int */ index,
+					                                 /* bool */ hole_offset /* = false */) {
+					if (typeof hole_offset == 'undefined') {
+						hole_offset = false
+					}
+					return /*this.div.offset().top*/ this.get_position().top + this.div.css('padding-top').slice(0, -2)*1 +
+					       index*(axes[0].div.css('height').slice(0, -2)*1 + axes[0].div.css('margin-top').slice(0, -2)*1 +
+					              axes[0].div.css('margin-bottom').slice(0, -2)*1) + axes[0].div.css('margin-top').slice(0, -2)*1 +
+					       (hole_offset ? this.hole_size : 0);
+				}
+
+				ret.get_div_height = /* int */ function(/* bool */ hole_offset /* = false */) {
+					if (typeof hole_offset == 'undefined') {
+						hole_offset = false;
+					}
+					
+					return Math.max((axes[0].div.css('height').slice(0, -2)*1 + axes[0].div.css('margin-top').slice(0, -2)*1 +
+						             axes[0].div.css('margin-bottom').slice(0, -2)*1),
+						             this.count*(axes[0].div.css('height').slice(0, -2)*1 + axes[0].div.css('margin-top').slice(0, -2)*1 +
+					                 axes[0].div.css('margin-bottom').slice(0, -2)*1) + this.div.css('padding-top').slice(0, -2)*1 +
+					                 this.div.css('padding-bottom').slice(0, -2)*1 + (hole_offset ? this.hole_size : 0));
+				}
+
+				ret.get_div_width = /* int */ function(/* bool */ hole_offset /* = false */) {
+					return (axes[0].div.css('width').slice(0, -2)*1 + axes[0].div.css('margin-left').slice(0, -2)*1 + 
+					       axes[0].div.css('margin-right').slice(0, -2)*1) + this.div.css('padding-left').slice(0, -2)*1 + 
+					       this.div.css('padding-right').slice(0, -2)*1;
+				}
+
+				ret.count_hole_ind = /* int */ function(/* CAxis */ axis) {
+					var pos = {x: axis.div.css('left').slice(0, -2)*1 + axis.div.css('width').slice(0, -2)/2 - this.get_position().left,
+				               y: axis.div.css('top').slice(0, -2)*1 + axis.div.css('height').slice(0, -2)/2 - this.get_position().top};
+
+					// вычислим положение курсора: попадает ли он в область контейнера
+					if (pos.x < - this.div.css('margin-left').slice(0, -2)*1 ||
+					    pos.x > this.div.css('margin-right').slice(0, -2)*1 + this.div.width() ||
+					    pos.y < - this.div.css('margin-top').slice(0, -2)*1 ||
+					    pos.y > this.div.css('margin-bottom').slice(0, -2)*1 + this.div.height()) {
+						
+						return -1;
+					}
+
+				    var axis_div_height = axes[0].div.css('height').slice(0, -2)*1 + axes[0].div.css('margin-top').slice(0, -2)*1 +
+							             axes[0].div.css('margin-bottom').slice(0, -2)*1;
+				    // Надо ли учитывать дырку (до неё или после неё мы стоим)
+					if (this.hole_ind == -1 || pos.y < this.get_top_pos(this.hole_ind - 1)*1 + axis_div_height) { // до дырки
+						return Math.floor((pos.y + axis_div_height/2) / axis_div_height);
+					} else if (pos.y <= this.get_top_pos(this.hole_ind, true) + axis_div_height/2) { // в дырке
+						return this.hole_ind;
+					} else { // после дырки
+						return Math.floor((pos.y + axis_div_height/2 - this.get_top_pos(this.hole_ind, true)) /
+						                   axis_div_height) + this.hole_ind;
+					}
+				}
+
+				ret.make_hole = /* CAxesContainer */ function(/* int */ index,
+					                                          /* bool */ animate /* = true */) {
+					if (typeof animate == 'undefined') {
+						animate = true;
+					}
+
+					if (this.hole_ind == index) {
+						return this;
+					}
+					var cont = this;
+					if (this.hole_ind == -1) {
+						this.div.animate({'height': this.get_div_height(true)},
+							             {'step': function() {
+							             	check_axes_positions(cont);
+										  }
+						});
+					} else if (index == -1) {
+						this.div.animate({'height': this.get_div_height(false)},
+							             {'step': function() {
+							             	check_axes_positions(cont);
+							             }
+
+						});
+					}
+
+					for (var i = 0; i < this.count; ++i) {
+						this.move_axis_to_place(i, (index != -1 && i >= index), animate);
+					}
+					this.hole_ind = index;
+					return this;
+				}
+
+				return ret;
+			}
+
+			function LoadFiles(/* string */ dir) {
+				$('#wait_div').show();
+				$.ajax(
+					'action.php?act=0',
+					{
+						'type': 'POST',
+						'data': {'dir': dir},
+						'success': function(response) {
+							$('#wait_div').hide();
+							var data = JSON.parse(response);
+							if (data.errno == 0) {
+
+								$('#tab_1_next_btn').hide();
+								$('#result_filename').html(dir);
+								$('#files_list').html('');
+
+								$('#tab_1').show();
+								$('#tab_2').hide();
+								$('#tab_3').hide();
+								var text = '';
+								for (var i = 0; i < data.count; ++i) {
+									text += '<div class="filename_div">' + data.files[i] + '</div>';
+								}
+								$('#files_list').html(text);
+								$('.filename_div').click(function() {
+									$('#tab_1_next_btn').show();
+									$('#result_filename').html(dir + '/' + this.innerHTML);
+								});
+							} else {
+								alert(data.errmsg);
+							}
+						},
+						'error': function() {
+							$('#wait_div').hide();
+							alert('Unknown error!');
+						}
+					});
+			}
+
+			/*
+			 * high-level функция для загрузки информации об осях
+			 */
+			function LoadAxes(/* string */ filename) {
+				for (var i = 0; i < axes.length; ++i) {
+					axes[i].div.remove();
+					delete axes[i];
+				}
+				axes.length = 0;
+
+				$('#wait_div').show();
+
+				$.ajax(
+					'action.php?act=1',
+					{
+						'type': 'POST',
+						'data': {'filename': filename},
+						'success': function(response) {
+							$('#wait_div').hide();
+							var data = JSON.parse(response);
+							if (data.errno == 0) {
+								$('#axes_values_div').css('width', 0).hide();
+								$('#tab_1').hide();
+								$('#tab_2').show();
+								$('#tab_3').hide();
+
+								for (var i = 0; i < data.axes.count; ++i) {
+									axes[i] = /* new */ CAxis(data.axes[i], i);
+								}
+							} else {
+								$('wait_div').hide();
+								alert(data.errmsg);
+							}
+						},
+						'error': function() {
+							$('#wait_div').hide();
+							alert('Unknown error!');
+						}
+					}).done(function() {
+						containers[0] = /* new */ CVerticalAxesContainer(0, $('#cont_0'), $('#tab_2_content'));
+						containers[1] = /* new */ CVerticalAxesContainer(1, $('#cont_1'), $('#tab_2_content'));
+						containers[2] = /* new */ CHorizontalAxesContainer(2, $('#cont_2'), $('#tab_2_content'));
+						containers[3] = /* new */ CHorizontalAxesContainer(3, $('#cont_3'), $('#tab_2_content'));
+						for (var i = 0; i < axes.length; ++i) {
+							containers[0].add(axes[i], false);
+						}
+					});
+			}
+
+			function LoadTable(/* string */ filename) {
+				for (var i = 0; i < axes.length; ++i) {
+					if ( ! axes[i].is_happy) {
+						alert('Не должно быть красных осей!\nВне таблицы должны находиться тольео оси с единственным выбранным значением. Также не должно быть пустых осей.');
+						return;
+					}
+				}
+
+				$('#wait_div').show();
+
+				var json_axes = {};
+				for (var i = 0; i < axes.length; ++i) {
+					json_axes[i] = axes[i].to_json_obj();
+				}
+				var x_axes = containers[USE_AS_HORIZONTAL].get_axes_ids_array();
+				var y_axes = containers[USE_AS_VERTICAL].get_axes_ids_array();
+				var header_axes = containers[USE_AS_HEADER].get_axes_ids_array();
+				
+				$.ajax({'url': 'action.php?act=2',
+				       'type': 'POST',
+				       'data': {'filename': filename,
+				                 'axes': JSON.stringify(json_axes),
+				                 'x_axes': JSON.stringify(x_axes),
+				                 'y_axes': JSON.stringify(y_axes),
+				                 'header_axes': JSON.stringify(header_axes)},
+				       'success': function(response) {
+							$('#wait_div').hide();
+				        	var data = JSON.parse(response);
+				        	if (data.errno == 0) {
+								$('#result_table_container').html();
+								$('#tab_1').hide();
+								$('#tab_2').hide();
+								$('#tab_3').show();
+
+				        		var classes = ['header_cell', 'header_cell', 'header_cell', 'regular_cell'];
+				        		var table = '<table id="result_table">';
+				        		for (var i = 0; i < data.table.length; ++i) {
+				        			table += '<tr class="result_table_row">';
+				        			for (var j = 0; j < data.table[i].length; ++j) {
+				        				table += '<td class="' + classes[data.table[i][j]['type']] + '"' +
+				        				              'rowspan="' + data.table[i][j]['rowspan'] + '"' +
+				        				              'colspan="' + data.table[i][j]['colspan'] + '">' +
+				        				              data.table[i][j]['value'] + '</td>';
+				        			}
+				        			table += '</tr>';
+				        		}
+				        		table += '</table>';
+				        		$('#result_table_container').html('<h2>' + data.header + '</h2>' + table);
+				        	} else {
+				        		alert(data.errmsg);
+				        	}
+				       },
+				       'error': function() {
+				       		$('#wait_div').hide();
+				       		alert('Unknown error!');
+				       }
+				});
 			}
 
 			$(document).ready(function() {
-				$("#tab_1_bottom_div").click(function() {
-					open_tab(1);
-				});
-				$("#tab_2_bottom_div").click(function() {
-					open_tab(2);
-				});
-				$("#tab_3_bottom_div").click(function() {
-					open_tab(3);
-				});
+				LoadFiles('sdmx2/files');
 			});
+
 		</script>
 
 		<style>
-			#main_div {
-				border: solid #777;
-				border-width: 5px 0px 0px 0px;
-				padding: 0px;
-				background-color: #fff;
-				margin: 0px 13%;
-				position: relative;
-				height: 90%;
-			}
-			.submain_div {
-				border: solid #777;
-				border-width: 0px 1px 1px 1px;
-				display: none;
-				position: absolute;
-				padding: 0px 5px;
-				margin: 0px;
-				width: 98%;
-				left: 4px;
-				top: 0px;
-			}
-			.bottom_div {
-				height: 3%;
-				width: 95%;
-				position: absolute;
-				bottom: 0px;
-				cursor: pointer;
-			}
-			.ref {
+			a {
 				text-decoration: none;
 				color: #000;
-				background-color: #ccc;
-				padding: 2px 5px;
+				border: #fff 1px solid;
+				background-color: #cfc;
+				padding: 2px;
 			}
-			.submit_ref:hover {
-				color: #555;
-			}
-			.content_div {
-				overflow: auto;
-				width: 95%;
-				height: 80%;
-				position: relative;
-				display: none;
-				left: 2%;
-			}
-			.wait_div {
+			.axis_block {
 				position: absolute;
-				top: 0px;
+				height: 70px;
+				width: 150px;
+				background-color: #ccffcc;
+				border: 1px solid #aaa;
+				font-size: 10pt;
+				display: none;
+				margin: 3px;
 			}
-			#tab_1 {
-				height: 100%;
-				background-color: #f5f5f5;
+			.cont_header {
+				position: absolute;
 			}
-			#tab_1_bottom_div {
+			#cont_0 {
+				top: 70px;
+				border: 1px #ddd solid;
+				position: absolute;
 			}
-			#tab_1_content_div {
+			#cont_0_header {
+				top: 20px;
 			}
-			#tab_1_wait_div {
-				border: none;
+			#cont_1 {
+				background-color: #ccc;
 
-			}
-			.filelist_element:hover {
-				color: #777;
-				cursor: pointer;
-			}
-			#tab_1_content_div {
-				margin: 10px 0px;
 				position: relative;
-				border-width: 0px 0px 0px 2px;
-				border-color: #555;
-				border-style: solid;
-				padding: 0px 0px 0px 5px;
 			}
-			#tab_1_filename_input {
-				background: #fff;
-				border: solid 1px #555;
-				width: 20%;
-				height: 12px;
-				display: inline-table;
+			#cont_2 {
+				background-color: #ccc;
+				position: relative;
+			}
+			#cont_12_header {
+				left: 300px;
+				top: 150px;
+			}
+			#cont_3 {
+				left: 300px;
+				top: 70px;
+				border: 1px #ddd solid;
+				position: absolute;
+			}
+			#cont_3_header {
+				left: 300px;
+				top: 20px;
+			}
+			.container {
+				width: 205px;
+				height: 50px;
+				left: 0px;
+				top: 0px;
+				padding: 3px;
+				font-size: 10pt;
+			}
+			#informer {
+				position:absolute;
+				z-index: 100500;
+			}
+			#tab_3 {
+				display: none;
 			}
 			#tab_2 {
-				height: 96%;
-				background-color: #e9e9e9;
+				display: none;
 			}
-			#tab_2_content_div {
-				margin: 10px 0px;
-			}
-			#tab_2_wait_div {
-				border: none;
-			}
-			#tab_2_filename_input {
-				background: #fff;
-				border: solid 1px #555;
-				width: 20%;
-				height: 12px;
-				display: inline-table;
-			}
-			.tab_2_table_header_td {
-				background-color: #999;
-			}
-			.tab_2_table_axisname_td, .tab_2_table_axisparam_td {
-				background-color: #ccc;
+			#axes_table {
+				left: 300px;
+				top: 200px;
+				position: absolute;
 			}
 
-			.tab_2_table_td {
-				vertical-align: top;
+			.header_cell {
+				background-color: #ccf;
 			}
 
-			#tab_3 {
-				height: 92%;
-				background-color: #dddddd;
+			.result_cell {
+				background-color: #fff;
 			}
 
-			#tab_3_table, #tab_3_table td {
-				border: 1px none;
+			#axes_table td {
+				border: 1px solid black;
 			}
-			.tab_3_table_header_td {
-				background-color: #ccc;
+			#tab_1 {
+				display: block;
 			}
-			.tab_3_table_header_axisname_td {
-				background-color: #aaa;
+			.tab {
+				height: 90%;
 			}
-			#tab_3_fullsize_ref {
+			#axes_table_edge_header {
+				background-color: #eee;
+				border: 1px none black;
+			}
+			#tab_2_content {
 				position: relative;
-				top: 10px;
 			}
-			.time_span {
-				font-size: 9pt;
-				font-style: italic;
+			#axes_values_container {
+				height: 100%;
+				width: 100%;
+				margin: 0px;
 			}
+			#axes_values_div {
+				display: none;
+				right: 0px;
+				position: absolute;
+				height: 100%;
+				padding: 0px;
+				border: 2px #ccc solid;
+			}
+			#tab_2_content {
+				height: 100%;
+				width: 100%;
+			}
+			#result_filename {
+				display: inline-block;
+				width: 600px;
+				border: 1px solid #555;
+				height: 14pt;
 
+			}
+			#wait_div {
+				position: absolute;
+				top: 0px;
+				left: 40%;
+				display: none;
+			}
+			.filename_div {
+				cursor: pointer;
+			}
+			.filename_div:hover {
+				color: #999;
+			}
+			.axis_value_checkbox_container {
+				width: 100%;
+			}
 		</style>
 	</head>
 	<body>
-		<a href="javascript: activate_step(1);">Открыть список файлов</a>
-		<div id="main_div">
-			<div id="tab_1" class="submain_div">
-				<h4>Выберите файл.</h4>
-				<div id="tab_1_control">
-					Имя файла: <div id="tab_1_filename_input">sdmx2\files\.</div>
-					<a id="tab_1_submit_ref" class="submit_ref ref" href="javascript: activate_step(2);">Дальше</a>
+		<div id="tab_1" class="tab">
+			<h1>Выбор файла</h1>
+			Имя файла: <div id="result_filename"></div>
+			<a href="javascript: LoadAxes($('#result_filename').html());" id="tab_1_next_btn">Дальше</a>
+			<div id="files_list"></div>
+		</div>
+		<div id="tab_2" class="tab">
+			<h1>Настройка представления</h1>
+			<a href="javascript:LoadTable($('#result_filename').html());">Фигануть табличку!</a>
+			<div id="tab_2_content">
+				<h2 id="cont_3_header" class="cont_header">Заголовок</h2>
+				<div id="cont_3" class='container'>Оси в заголовке</div>
+
+				<h2 id="cont_0_header" class="cont_header">Не используются</h2>
+				<div id="cont_0" class='container'>Неиспользуемые</div>
+
+				<h2 id="cont_12_header" class="cont_header">Таблица</h2>
+				<table id="axes_table">
+					<tr>
+						<td id="axes_table_edge_header"></td>
+						<td id="axes_table_y_header">
+							<div id="cont_1" class='container'>Горизонтальные оси</div>
+						</td>
+					</tr>
+					<tr>
+						<td id="axes_table_x_header">
+							<div id="cont_2" class='container'>Вертикальные оси</div>
+						</td>
+						<td></td>
+					</tr>
+				</table>
+				<div id="axes_values_div">
+					<input type="hidden" id="values_changed_axis_ind" value="-1" />
+					<div id="axes_values_container"></div>
 				</div>
-				<div id="tab_1_content_div" class="content_div"></div>
-				<div id="tab_1_wait_div" class="wait_div">
-					Загружается список файлов...
-				</div>
-				<div id="tab_1_bottom_div" class="bottom_div">
-					Выбор файла
-				</div>
+				<div id="axes_container"></div>
+				<div id="informer"></div>
 			</div>
-			<div id="tab_2" class="submain_div">
-				<h4>Настройка представления.</h4>
-				<div id="tab_2_control">
-					<a id="tab_2_submit_ref" class="submit_ref ref" href="javascript: activate_step(3);">Дальше</a>
-				</div>
-				<div id="tab_2_content_div" class="content_div"></div>
-				<div id="tab_2_wait_div" class="wait_div">
-					Загружается список осей файла...
-				</div>
-				<div id="tab_2_bottom_div" class="bottom_div">
-					Настройка представления
-				</div>
+		</div>
+		<div id="tab_3" class="tab">
+			<div id="result_table_container">
 			</div>
-			<div id="tab_3" class="submain_div">
-				<div id="tab_3_control_div">
-					<a id="tab_3_fullsize_ref" class="ref" target="_blank">В полном размере</a>
-				</div>
-				<div id="tab_3_content_div" class="content_div"></div>
-				<div id="tab_3_wait_div" class="wait_div">
-					Запрос обрабатывается...
-				</div>
-			</div>
-		</div>	
+		</div>
+		<div id="wait_div">Подождите, пожалуйста, идёт обработка данных</div>
 	</body>
 </html>

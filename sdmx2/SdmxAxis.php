@@ -258,7 +258,7 @@
 			$this->AddPriority($rawValue);
 
 			// Если самый крутой -- выставим в качестве значения по умолчанию
-			if ($this->GetPriority($rawValue) == 0)
+			if ( ! isset($this->defaultRawValue))
 				$this->SetDefaultRawValue($rawValue);
 
 			return $this;

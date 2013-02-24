@@ -37,10 +37,11 @@
 		 * @return bool <var>true</var>, если значение должно содержаться.
 		 */
 		function IsAxisValueSifted($axisId, $value) {
-			if (isset($this->axisFilters[$axisId]))
+			if (isset($this->axisFilters[$axisId])) {
 				return $this->axisFilters[$axisId]->IsSifted($value);
-			else
+			} else {
 				return $this->defaultAxisFilter->IsSifted($value);
+			}
 		}
 
 		/**
@@ -50,9 +51,14 @@
 		 * @return bool <var>true</var>, если точка остаётся в множестве
 		 */
 		function IsSifted(SdmxDataPoint $point) {
+			// var_dump($this);
 			$ret = true;
-			for ($it = $point->GetCoordinatesIterator(); $ret && $it->valid(); $it->next())
+			for ($it = $point->GetCoordinatesIterator(); $ret && $it->valid(); $it->next()) {
+				if ($it->key() == 'Time') {
+					//echo ($this->IsAxisValueSifted($it->key(), $it->current()->GetRawValue()) ? 'true' : 'false') . "\n";
+				}
 				$ret = $this->IsAxisValueSifted($it->key(), $it->current()->GetRawValue());
+			}
 			return $ret;
 		}
 
@@ -76,6 +82,9 @@
 		 */
 		function SetAxisFilter($axisId, ISdmxAxisFilter $filter) {
 			$this->axisFilters[$axisId] = $filter;
+			if ($axisId == 'Time') {
+				// var_dump($this);
+			}
 			return $this;
 		}
 

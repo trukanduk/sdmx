@@ -298,10 +298,14 @@
 		 * @param ISdmxDataSet $dataSet Пустое множество (ISdmxDataSet), которое будет использоваться в качестве множества в файле
 		 * @return SdmxData объект-хозяин метода
 		 */
-		protected function InitDataSet(SimpleXMLElement $xml, ISdmxDataSet $dataSet) {
+		protected function InitDataSet(SimpleXMLElement $xml, ISdmxDataSet $dataSet, $filter) {
 			// для начала перенесём dataSet
 			$this->dataSet = $dataSet;
 			$this->dataSet->Clear();
+
+			// Установим фильтр
+			if (is_a($filter, 'SdmxAxesSystemFilter'))
+				$this->dataSet->SetFilter($filter);
 
 			// заполним оси
 			foreach ($this->GetAxesIterator() as $axis)
@@ -324,7 +328,7 @@
 		 */
 		protected function ParseDataPoint(SimpleXMLElement $rawPoint) {
 			// создадаим точку, сразу заполним значение
-			$point = new SdmxDataPoint($rawPoint->Obs->ObsValue->attributes()->value);
+			$point = new SdmxDataPoint(strval($rawPoint->Obs->ObsValue->attributes()->value));
 
 			// найдём и загоним все оси
 			foreach ($rawPoint->SeriesKey->Value as $dim) {
@@ -341,12 +345,14 @@
 
 			// Теперь те, которые не объявлены в точке (взять значения по умолчанию), например, OKSM
 			foreach ($this->GetAxesIterator() as $axisId => $axis) {
-				if ($point->GetCoordinate($axisId, false) === false)
+				if ($point->GetCoordinate($axisId, false) === false) {
 					$point->AddCoordinate(new SdmxCoordinate($axis, $axis->GetDefaultRawValue()));
+				}
 			}
 
 			// добавим точку в множество
 			$this->dataSet->AddPoint($point);
+
 			return $this;
 		}
 
@@ -357,7 +363,7 @@
 		 * @param string $savedAxesFile Путь к файлу с сохранёнными осями (см. SdmxAxisLoader)
 		 * @param ISdmxDataSet 
 		 */
-		function __construct($filename, $savedAxesFile = '.saved_axes.xml', $dataSetInstance = null) {
+		function __construct($filename, $savedAxesFile = '.saved_axes.xml', $filter = null) {
 			// Обнаружим файл
 			$xml = new SimpleXMLElement($filename, 0, true);
 			
@@ -375,10 +381,7 @@
 			     ->ParseAttributes($xml, $savedAxesFile);
 
 			// Собственно, массив с данными.
-			if (is_a($dataSetInstance, 'ISdmxDataSet'))
-				$this->InitDataSet($xml, $dataSetInstance);
-			else
-				$this->InitDataSet($xml, new SdmxArrayDataSet());
+			$this->InitDataSet($xml, new SdmxArrayDataSet(), $filter);
 		}
 
 		function __DebugPrintAxes() {

@@ -356,7 +356,7 @@
 
 			$this->filter = $filter;
 
-			foreach ($this->axesValuesbyInd as $axisId => &$values) {
+			foreach ($this->axesValuesByInd as $axisId => &$values) {
 				foreach ($values as $ind => &$value) {
 					if ($this->filter->IsAxisValueSifted($axisId, $value)) {
 						unset($this->axesValues[$axisId][$value]);
